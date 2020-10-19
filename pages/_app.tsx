@@ -13,6 +13,8 @@ import {
 import { useWindowSize } from 'react-use';
 import smoothscroll from 'smoothscroll-polyfill';
 
+import Loading from '../components/Loading';
+
 import fetcher from '../lib/fetcher';
 import { getIndex, pageCounter } from '../lib/utils';
 // import { initGA } from '../lib/analytics';
@@ -63,7 +65,8 @@ const App: React.FC<{
 }> = ({ Component, pageProps }) => {
   const router = useRouter();
   const { width: innerWidth, height: innerHeight } = useWindowSize();
-  const [index, setIndex] = React.useState<number>(getIndex() ?? 0);
+  const [index, setIndex] = React.useState<number>(0);
+  const [headerOpen, setHeaderOpen] = React.useState<boolean>(true);
   const withLayout = !isMobile || (isTablet && innerWidth > innerHeight);
 
   React.useEffect(() => {
@@ -71,6 +74,8 @@ const App: React.FC<{
     if (process.env.NODE_ENV === 'production') {
       // initGA();
     }
+    const indexFromStorage = getIndex();
+    setIndex(indexFromStorage ?? 1);
   }, []);
 
   React.useEffect(() => {
@@ -113,35 +118,42 @@ const App: React.FC<{
   return (
     <>
       <GlobalStyle />
-      <AppContext.Provider value={{ index, setIndex, withLayout }}>
-        <ThemeProvider theme={theme}>
-          <Head>
-            <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1.0"
-            />
-            <meta name="theme-color" content="#000000" />
-            {/* <meta property="og:title" content="2020 관악강감찬" />
+      <ThemeProvider theme={theme}>
+        <Head>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+          <meta name="theme-color" content="#000000" />
+          {/* <meta property="og:title" content="2020 관악강감찬" />
             <meta property="og:description" content="온라인 미술공모전" />
-            <meta property="og:image" content="/images/og_image.jpg" /> */}
-            <title>DEFAULT TITLE</title>
-            <link
-              href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap"
-              rel="stylesheet"
-            />
-          </Head>
-          <SWRConfig
+          <meta property="og:image" content="/images/og_image.jpg" /> */}
+          <title>DEFAULT TITLE</title>
+          <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap"
+            rel="stylesheet"
+          />
+        </Head>
+        <SWRConfig
+          value={{
+            fetcher,
+            onError: (err) => {
+              // eslint-disable-next-line no-console
+              console.error(err);
+            },
+          }}>
+          <AppContext.Provider
             value={{
-              fetcher,
-              onError: (err) => {
-                // eslint-disable-next-line no-console
-                console.error(err);
-              },
+              index,
+              setIndex,
+              headerOpen,
+              setHeaderOpen,
+              withLayout,
             }}>
-            <Component {...pageProps} />
-          </SWRConfig>
-        </ThemeProvider>
-      </AppContext.Provider>
+            {index ? <Component {...pageProps} /> : <Loading />}
+          </AppContext.Provider>
+        </SWRConfig>
+      </ThemeProvider>
     </>
   );
 };

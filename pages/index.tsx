@@ -5,6 +5,8 @@ import styled from 'styled-components';
 
 import Button from '@material-ui/core/Button';
 
+import Layout from '../components/Layout';
+
 import { saveIndex, getUserId } from '../lib/utils';
 
 import AppContext from '../AppContext';
@@ -17,10 +19,16 @@ const Root = styled.div`
 `;
 
 const IndexPage: React.FC = () => {
-  const { index, setIndex, withLayout } = React.useContext(AppContext);
+  const {
+    index,
+    setIndex,
+    headerOpen,
+    setHeaderOpen,
+    withLayout,
+  } = React.useContext(AppContext);
 
   return (
-    <>
+    <Layout>
       <Head>
         <title>title</title>
       </Head>
@@ -51,9 +59,16 @@ const IndexPage: React.FC = () => {
           <Link href="/test">
             <a>test page</a>
           </Link>
+          <div>
+            <Button
+              variant="outlined"
+              onClick={() => setHeaderOpen(!headerOpen)}>
+              Toggle Header
+            </Button>
+          </div>
         </div>
       </Root>
-    </>
+    </Layout>
   );
 };
 

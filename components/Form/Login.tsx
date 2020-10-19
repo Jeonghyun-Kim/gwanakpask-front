@@ -41,12 +41,10 @@ interface props {
     data?: unknown,
     shouldRevalidate?: boolean | undefined,
   ) => Promise<unknown>;
-  className?: string | undefined;
   redirectTo?: string;
 }
 const ArtworkForm: React.FC<props> = ({
   mutate,
-  className = '',
   redirectTo = '/admin',
   ...props
 }) => {
@@ -81,7 +79,7 @@ const ArtworkForm: React.FC<props> = ({
   }, [inputs, redirectTo, router, mutate]);
 
   return (
-    <Root className={`${className}`} {...props}>
+    <Root {...props}>
       <TextField
         label="Username"
         name="username"

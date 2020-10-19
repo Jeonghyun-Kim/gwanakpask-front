@@ -18,6 +18,7 @@ const TestPage: React.FC = () => {
         <Link href="/">
           <a>home</a>
         </Link>
+        <div>{window.innerWidth}</div>
       </Root>
     </>
   );
