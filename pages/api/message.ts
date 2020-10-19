@@ -4,6 +4,8 @@ import nextConnect from 'next-connect';
 
 import connectMongoDB from '../../lib/middlewares/mongodb';
 
+import { sendEmail } from '../../lib/sgMailer';
+
 interface RequestWithSession extends NextApiRequest {
   client: MongoClient;
   db: Db;
@@ -27,7 +29,11 @@ handler.post(async (req, res) => {
     const message = await req.db
       .collection('message')
       .insertOne({ templateId, from, to, content });
-
+    await sendEmail(
+      `${from}님의 방명록 작성`,
+      JSON.stringify({ templateId, from, to, content }),
+      'kim.kay@kakao.com',
+    );
     return res.json({ message });
   } catch (err) {
     return res.json({ error: JSON.stringify(err) });
