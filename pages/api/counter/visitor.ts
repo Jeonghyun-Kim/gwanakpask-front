@@ -3,6 +3,7 @@ import { MongoClient, Db } from 'mongodb';
 import nextConnect from 'next-connect';
 
 import connectMongoDB from '../../../lib/middlewares/mongodb';
+import { timestamp } from '../../../lib/utils';
 
 interface RequestWithSession extends NextApiRequest {
   client: MongoClient;
@@ -27,7 +28,7 @@ handler.post(async (req, res) => {
     if (exUser) return res.json({ user: exUser });
     const user = await req.db
       .collection('visitor')
-      .insertOne({ userId, deviceInfo });
+      .insertOne({ userId, deviceInfo, createdAt: timestamp() });
     return res.json({ user });
   } catch (err) {
     return res.json({ error: JSON.stringify(err) });

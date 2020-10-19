@@ -46,6 +46,7 @@ const IndexPage: React.FC = () => {
             </Button>
           </div>
           <div>userId: {getUserId()}</div>
+          <p className="kyobo">폰트 테스트입니다.</p>
         </div>
       </Root>
     </>

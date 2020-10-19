@@ -1,6 +1,7 @@
 import React from 'react';
 import { SWRConfig } from 'swr';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import {
   isMobile,
@@ -13,12 +14,17 @@ import { useWindowSize } from 'react-use';
 import smoothscroll from 'smoothscroll-polyfill';
 
 import fetcher from '../lib/fetcher';
-import { getIndex, getUserId } from '../lib/utils';
+import { getIndex, getUserId, pageCounter } from '../lib/utils';
 // import { initGA } from '../lib/analytics';
 
 import AppContext from '../AppContext';
 
 const GlobalStyle = createGlobalStyle`
+  @font-face {
+    font-family: 'Kyobo';
+    font-weight: 400;
+    src: local('Kyobo'), url('/fonts/Kyobo.woff') format('woff'), url('/fonts/Kyobo.ttf') format('truetype');
+  }
   html, body {
     width: 100%;
     height: 100%;
@@ -38,6 +44,11 @@ const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
   }
+  .kyobo {
+    font-family: 'Kyobo', 'Noto Sans KR', sans-serif, -apple-system, BlinkMacSystemFont,
+      Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+      Helvetica Neue;
+  }
 `;
 
 const theme = {
@@ -50,6 +61,7 @@ const App: React.FC<{
   Component: React.FC;
   pageProps: never;
 }> = ({ Component, pageProps }) => {
+  const router = useRouter();
   const { width: innerWidth, height: innerHeight } = useWindowSize();
   const [index, setIndex] = React.useState<number>(getIndex() ?? 0);
   const withLayout = !isMobile || (isTablet && innerWidth > innerHeight);
@@ -62,6 +74,10 @@ const App: React.FC<{
     // eslint-disable-next-line no-console
     console.log('userId:', getUserId());
   }, []);
+
+  React.useEffect(() => {
+    pageCounter();
+  }, [router.asPath]);
 
   if (isEdge && !isEdgeChromium) {
     return (

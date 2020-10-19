@@ -1,5 +1,11 @@
+import Router from 'next/router';
 import * as uuid from 'uuid';
 import { deviceDetect } from 'react-device-detect';
+import moment from 'moment-timezone';
+
+export const timestamp: () => string = () => {
+  return moment.tz(new Date(), 'Asia/Seoul').format();
+};
 
 /* eslint-disable no-console */
 export const saveIndex: (index: number) => void = (index) => {
@@ -39,4 +45,17 @@ export const getUserId: () => string = () => {
   return '';
 };
 
-export default { saveIndex, getIndex, getUserId };
+export const pageCounter: () => void = () => {
+  const asPath = sessionStorage.getItem('@path');
+  if (asPath && asPath === Router.asPath) return;
+  const userId = getUserId();
+  fetch('/api/counter/page', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json ',
+    },
+    body: JSON.stringify({ userId, asPath: Router.asPath }),
+  }).then(() => sessionStorage.setItem('@path', Router.asPath));
+};
+
+export default { timestamp, saveIndex, getIndex, getUserId, pageCounter };
