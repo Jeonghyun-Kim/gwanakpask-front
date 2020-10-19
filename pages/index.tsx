@@ -1,5 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import styled from 'styled-components';
 
 import Button from '@material-ui/core/Button';
@@ -47,6 +48,9 @@ const IndexPage: React.FC = () => {
           </div>
           <div>userId: {getUserId()}</div>
           <p className="kyobo">폰트 테스트입니다.</p>
+          <Link href="/test">
+            <a>test page</a>
+          </Link>
         </div>
       </Root>
     </>

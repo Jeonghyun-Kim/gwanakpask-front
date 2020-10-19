@@ -2,8 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { MongoClient, Db } from 'mongodb';
 import nextConnect from 'next-connect';
 
-import connectMongoDB from '../../../lib/middlewares/mongodb';
-import { timestamp } from '../../../lib/utils';
+import connectMongoDB from '../../lib/middlewares/mongodb';
 
 interface RequestWithSession extends NextApiRequest {
   client: MongoClient;
@@ -14,19 +13,22 @@ interface RequestWithSession extends NextApiRequest {
   };
 }
 
-// Request handler using next-connect.js
 const handler = nextConnect<RequestWithSession, NextApiResponse>();
 
-// Connect mongodb by using a middleware.
 handler.use(connectMongoDB);
 
 handler.post(async (req, res) => {
-  const { userId, asPath } = req.body;
+  const { templateId = 1, from, to, content } = req.body;
+  if (!from || !content)
+    return res
+      .status(400)
+      .json({ code: 4, message: 'from and content are required' });
   try {
-    const user = await req.db
-      .collection('pageView')
-      .insertOne({ userId, asPath, createdAt: timestamp() });
-    return res.json({ user });
+    const message = await req.db
+      .collection('message')
+      .insertOne({ templateId, from, to, content });
+
+    return res.json({ message });
   } catch (err) {
     return res.json({ error: JSON.stringify(err) });
   }

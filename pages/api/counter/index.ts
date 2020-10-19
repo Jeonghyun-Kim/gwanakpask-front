@@ -3,7 +3,6 @@ import { MongoClient, Db } from 'mongodb';
 import nextConnect from 'next-connect';
 
 import connectMongoDB from '../../../lib/middlewares/mongodb';
-import { timestamp } from '../../../lib/utils';
 
 interface RequestWithSession extends NextApiRequest {
   client: MongoClient;
@@ -20,13 +19,13 @@ const handler = nextConnect<RequestWithSession, NextApiResponse>();
 // Connect mongodb by using a middleware.
 handler.use(connectMongoDB);
 
-handler.post(async (req, res) => {
-  const { userId, asPath } = req.body;
+handler.get(async (req, res) => {
   try {
-    const user = await req.db
-      .collection('pageView')
-      .insertOne({ userId, asPath, createdAt: timestamp() });
-    return res.json({ user });
+    const visitorCount = await req.db.collection('visitor').find({}).count();
+    const messageCount = await req.db.collection('message').find({}).count();
+    return res.json({
+      counts: { visitor: visitorCount, message: messageCount },
+    });
   } catch (err) {
     return res.json({ error: JSON.stringify(err) });
   }

@@ -23,7 +23,6 @@ handler.use(connectMongoDB);
 handler.use(session());
 handler.use(verifyToken);
 
-// Handling HTTP Request GET /api/artwork
 handler.get(async (req, res) => {
   try {
     // Wait until recieving finish

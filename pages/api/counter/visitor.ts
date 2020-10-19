@@ -20,7 +20,6 @@ const handler = nextConnect<RequestWithSession, NextApiResponse>();
 // Connect mongodb by using a middleware.
 handler.use(connectMongoDB);
 
-// Handling HTTP Request GET /api/artwork
 handler.post(async (req, res) => {
   const { userId, deviceInfo } = req.body;
   try {

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Router from 'next/router';
 import * as uuid from 'uuid';
 import { deviceDetect } from 'react-device-detect';
@@ -7,7 +8,10 @@ export const timestamp: () => string = () => {
   return moment.tz(new Date(), 'Asia/Seoul').format();
 };
 
-/* eslint-disable no-console */
+export const timeFormat: (date: Date) => string = (date) => {
+  return moment.tz(String(date), 'Asia/Seoul').format('YYYY/MM/DD hh:mm A');
+};
+
 export const saveIndex: (index: number) => void = (index) => {
   if (typeof window !== 'undefined') {
     window.sessionStorage.setItem('@index', `${index}`);
@@ -58,4 +62,11 @@ export const pageCounter: () => void = () => {
   }).then(() => sessionStorage.setItem('@path', Router.asPath));
 };
 
-export default { timestamp, saveIndex, getIndex, getUserId, pageCounter };
+export default {
+  timestamp,
+  timeFormat,
+  saveIndex,
+  getIndex,
+  getUserId,
+  pageCounter,
+};

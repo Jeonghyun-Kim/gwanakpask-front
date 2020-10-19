@@ -14,7 +14,7 @@ import { useWindowSize } from 'react-use';
 import smoothscroll from 'smoothscroll-polyfill';
 
 import fetcher from '../lib/fetcher';
-import { getIndex, getUserId, pageCounter } from '../lib/utils';
+import { getIndex, pageCounter } from '../lib/utils';
 // import { initGA } from '../lib/analytics';
 
 import AppContext from '../AppContext';
@@ -71,8 +71,6 @@ const App: React.FC<{
     if (process.env.NODE_ENV === 'production') {
       // initGA();
     }
-    // eslint-disable-next-line no-console
-    console.log('userId:', getUserId());
   }, []);
 
   React.useEffect(() => {
