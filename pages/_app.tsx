@@ -13,7 +13,7 @@ import { useWindowSize } from 'react-use';
 import smoothscroll from 'smoothscroll-polyfill';
 
 import fetcher from '../lib/fetcher';
-import { getIndex } from '../lib/utils';
+import { getIndex, getUserId } from '../lib/utils';
 // import { initGA } from '../lib/analytics';
 
 import AppContext from '../AppContext';
@@ -30,15 +30,11 @@ const GlobalStyle = createGlobalStyle`
       Helvetica Neue;
     line-height: 1.6;
     font-size: 16px;
-
-    /* background: #191b21; */
   }
-
   #__next {
     width: 100%;
     height: 100%;
   }
-
   * {
     box-sizing: border-box;
   }
@@ -63,6 +59,8 @@ const App: React.FC<{
     if (process.env.NODE_ENV === 'production') {
       // initGA();
     }
+    // eslint-disable-next-line no-console
+    console.log('userId:', getUserId());
   }, []);
 
   if (isEdge && !isEdgeChromium) {

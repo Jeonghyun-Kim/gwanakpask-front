@@ -1,3 +1,6 @@
+import * as uuid from 'uuid';
+import { deviceDetect } from 'react-device-detect';
+
 /* eslint-disable no-console */
 export const saveIndex: (index: number) => void = (index) => {
   if (typeof window !== 'undefined') {
@@ -17,4 +20,23 @@ export const getIndex: () => number | null = () => {
   return null;
 };
 
-export default { saveIndex, getIndex };
+export const getUserId: () => string = () => {
+  if (typeof window !== 'undefined') {
+    const value = window.localStorage.getItem('@userId');
+    if (value) return value;
+    const userId = uuid.v4();
+    fetch('/api/counter/visitor', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userId, deviceInfo: deviceDetect() }),
+    });
+    window.localStorage.setItem('@userId', userId);
+    return userId;
+  }
+  console.error('window not defined!');
+  return '';
+};
+
+export default { saveIndex, getIndex, getUserId };

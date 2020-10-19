@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import Button from '@material-ui/core/Button';
 
-import { saveIndex } from '../lib/utils';
+import { saveIndex, getUserId } from '../lib/utils';
 
 import AppContext from '../AppContext';
 
@@ -27,20 +27,25 @@ const IndexPage: React.FC = () => {
         <div>
           <div>withLayout: {String(withLayout)}</div>
           <div>index: {index}</div>
-          <Button
-            onClick={() => {
-              setIndex(index + 1);
-              saveIndex(index + 1);
-            }}>
-            setIndex ++
-          </Button>
-          <Button
-            onClick={() => {
-              setIndex(index - 1);
-              saveIndex(index - 1);
-            }}>
-            setIndex --
-          </Button>
+          <div>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                setIndex(index + 1);
+                saveIndex(index + 1);
+              }}>
+              setIndex ++
+            </Button>{' '}
+            <Button
+              variant="outlined"
+              onClick={() => {
+                setIndex(index - 1);
+                saveIndex(index - 1);
+              }}>
+              setIndex --
+            </Button>
+          </div>
+          <div>userId: {getUserId()}</div>
         </div>
       </Root>
     </>
