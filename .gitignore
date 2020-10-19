@@ -46,6 +46,10 @@ yarn-error.log*
 # template tsx
 TEMPLATE.tsx
 
+# photo and profile
+public/images/photo/*
+public/images/profile/*
+
 # trash bin
 trashBin
 zIndexDictionary.csv

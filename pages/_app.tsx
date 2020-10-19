@@ -1,11 +1,22 @@
 import React from 'react';
 import { SWRConfig } from 'swr';
-import App from 'next/app';
 import Head from 'next/head';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
+import {
+  isMobile,
+  isTablet,
+  isIE,
+  isEdge,
+  isEdgeChromium,
+} from 'react-device-detect';
+import { useWindowSize } from 'react-use';
+import smoothscroll from 'smoothscroll-polyfill';
 
 import fetcher from '../lib/fetcher';
+import { getIndex } from '../lib/utils';
 // import { initGA } from '../lib/analytics';
+
+import AppContext from '../AppContext';
 
 const GlobalStyle = createGlobalStyle`
   html, body {
@@ -39,18 +50,58 @@ const theme = {
   },
 };
 
-export default class MyApp extends App {
-  componentDidMount(): void {
+const App: React.FC<{
+  Component: React.FC;
+  pageProps: never;
+}> = ({ Component, pageProps }) => {
+  const { width: innerWidth, height: innerHeight } = useWindowSize();
+  const [index, setIndex] = React.useState<number>(getIndex() ?? 0);
+  const withLayout = !isMobile || (isTablet && innerWidth > innerHeight);
+
+  React.useEffect(() => {
+    smoothscroll.polyfill();
     if (process.env.NODE_ENV === 'production') {
       // initGA();
     }
+  }, []);
+
+  if (isEdge && !isEdgeChromium) {
+    return (
+      <div>
+        <h2>예전 엣지 브라우저에서는 전시를 감상할 수 없어요ㅜ.ㅜ</h2>
+        <h2>
+          보다 원활한 전시 감상을 위해 엣지를 업데이트 하시거나 크롬 브라우저
+          사용을 권장합니다.
+        </h2>
+        <a
+          href="https://www.google.com/chrome/"
+          target="_blank"
+          rel="noreferrer">
+          <h4>크롬 다운받기</h4>
+        </a>
+      </div>
+    );
   }
 
-  render(): JSX.Element {
-    const { Component, pageProps } = this.props;
+  if (isIE) {
     return (
-      <>
-        <GlobalStyle />
+      <div>
+        <h2>인터넷 익스플로러에서는 전시를 감상할 수 없어요ㅜ.ㅜ</h2>
+        <h2>보다 원활한 전시 감상을 위해 크롬 브라우저 사용을 권장합니다.</h2>
+        <a
+          href="https://www.google.com/chrome/"
+          target="_blank"
+          rel="noreferrer">
+          <h4>크롬 다운받기</h4>
+        </a>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <GlobalStyle />
+      <AppContext.Provider value={{ index, setIndex, withLayout }}>
         <ThemeProvider theme={theme}>
           <Head>
             <meta
@@ -78,7 +129,9 @@ export default class MyApp extends App {
             <Component {...pageProps} />
           </SWRConfig>
         </ThemeProvider>
-      </>
-    );
-  }
-}
+      </AppContext.Provider>
+    </>
+  );
+};
+
+export default App;
