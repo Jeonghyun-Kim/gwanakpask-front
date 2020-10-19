@@ -53,3 +53,7 @@ public/images/profile/*
 # trash bin
 trashBin
 zIndexDictionary.csv
+
+# test
+data/*
+pages/api/test.ts

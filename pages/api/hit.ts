@@ -1,10 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { MongoClient, Db } from 'mongodb';
 import nextConnect from 'next-connect';
-import { session } from 'next-session';
 
-import connectMongoDB from '../../../lib/middlewares/mongodb';
-import verifyToken from '../../../lib/middlewares/verifyToken';
+import connectMongoDB from '../../lib/middlewares/mongodb';
 
 interface RequestWithSession extends NextApiRequest {
   client: MongoClient;
@@ -15,18 +13,22 @@ interface RequestWithSession extends NextApiRequest {
   };
 }
 
-// Request handler using next-connect.js
 const handler = nextConnect<RequestWithSession, NextApiResponse>();
 
-// Connect mongodb by using a middleware.
 handler.use(connectMongoDB);
-handler.use(session());
-handler.use(verifyToken);
 
-handler.get(async (req, res) => {
+handler.post(async (req, res) => {
+  const { photoId } = req.body;
+  if (!photoId)
+    return res.status(400).json({ code: 4, message: 'photoId is required' });
   try {
-    const data = await req.db.collection('message').find({}).toArray();
-    return res.json({ messages: data });
+    const photo = await req.db
+      .collection('photo')
+      .findOneAndUpdate({ photoId }, { $inc: { hitCount: 1 } });
+
+    if (!photo.value)
+      return res.status(400).json({ code: 11, message: 'check photoId' });
+    return res.json({ photo });
   } catch (err) {
     return res.json({ error: JSON.stringify(err) });
   }

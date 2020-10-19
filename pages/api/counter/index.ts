@@ -23,8 +23,14 @@ handler.get(async (req, res) => {
   try {
     const visitorCount = await req.db.collection('visitor').find({}).count();
     const messageCount = await req.db.collection('message').find({}).count();
+    let totalHitCount = 0;
+    (await req.db.collection('photo').find({}).toArray()).forEach(
+      (photo: Photo) => {
+        totalHitCount += photo.hitCount;
+      },
+    );
     return res.json({
-      counts: { visitor: visitorCount, message: messageCount },
+      counts: { visitor: visitorCount, message: messageCount, totalHitCount },
     });
   } catch (err) {
     return res.json({ error: JSON.stringify(err) });
