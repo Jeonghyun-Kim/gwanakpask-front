@@ -4,6 +4,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 
 import Layout from '../components/Layout';
+import ManualModal from '../components/Modal/Manual';
 
 const Root = styled.div`
   width: 100%;
@@ -11,16 +12,21 @@ const Root = styled.div`
 `;
 
 const TestPage: React.FC = () => {
+  const [open, setOpen] = React.useState<boolean>(true);
+
   return (
     <Layout>
       <Head>
         <title>test</title>
       </Head>
+      <ManualModal open={open} close={() => setOpen(false)} />
       <Root>
         <Link href="/">
           <a>home</a>
         </Link>
-        <div>{window.innerWidth}</div>
+        <button type="button" onClick={() => setOpen(true)}>
+          open
+        </button>
       </Root>
     </Layout>
   );
