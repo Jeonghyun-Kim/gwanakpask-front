@@ -54,7 +54,7 @@ const IndexPage: React.FC = () => {
               setIndex --
             </Button>
           </div>
-          <div>userId: {getUserId()}</div>
+          <div>userId: {index && getUserId()}</div>
           <p className="kyobo">폰트 테스트입니다.</p>
           <Link href="/test">
             <a>test page</a>

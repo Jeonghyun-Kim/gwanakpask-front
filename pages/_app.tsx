@@ -3,20 +3,12 @@ import { SWRConfig } from 'swr';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
-import {
-  isMobile,
-  isTablet,
-  isIE,
-  isEdge,
-  isEdgeChromium,
-} from 'react-device-detect';
-import { useWindowSize } from 'react-use';
+import { isMobile, isIE, isEdge, isEdgeChromium } from 'react-device-detect';
 import smoothscroll from 'smoothscroll-polyfill';
-
-import Loading from '../components/Loading';
 
 import fetcher from '../lib/fetcher';
 import { getIndex, pageCounter } from '../lib/utils';
+import useLayout from '../lib/useLayout';
 // import { initGA } from '../lib/analytics';
 
 import AppContext from '../AppContext';
@@ -66,10 +58,9 @@ const App: React.FC<{
   pageProps: never;
 }> = ({ Component, pageProps }) => {
   const router = useRouter();
-  const { width: innerWidth, height: innerHeight } = useWindowSize();
   const [index, setIndex] = React.useState<number>(0);
   const [headerOpen, setHeaderOpen] = React.useState<boolean>(true);
-  const withLayout = !isMobile || (isTablet && innerWidth > innerHeight);
+  const { withLayout } = useLayout();
 
   React.useEffect(() => {
     smoothscroll.polyfill();
@@ -162,7 +153,7 @@ const App: React.FC<{
               setHeaderOpen,
               withLayout,
             }}>
-            {index ? <Component {...pageProps} /> : <Loading />}
+            <Component {...pageProps} />
           </AppContext.Provider>
         </SWRConfig>
       </ThemeProvider>
