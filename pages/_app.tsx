@@ -84,6 +84,16 @@ const App: React.FC<{
     pageCounter();
   }, [router.asPath]);
 
+  React.useEffect(() => {
+    const refreshHandler = () => {
+      if (isMobile) router.reload();
+    };
+    window.addEventListener('orientationchange', refreshHandler);
+
+    return () =>
+      window.removeEventListener('orientationchange', refreshHandler);
+  }, [router]);
+
   if (isEdge && !isEdgeChromium) {
     return (
       <div>

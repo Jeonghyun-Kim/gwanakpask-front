@@ -12,11 +12,11 @@ const Main = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
+`;
 
-  &.desktop {
-    width: calc(100% - ${NAVBAR_WIDTH}px);
-    margin-left: ${NAVBAR_WIDTH}px;
-  }
+const DesktopMain = styled(Main)`
+  width: calc(100% - ${NAVBAR_WIDTH}px);
+  margin-left: ${NAVBAR_WIDTH}px;
 `;
 
 interface props {
@@ -25,12 +25,18 @@ interface props {
 const Layout: React.FC<props> = ({ children, ...props }) => {
   const { withLayout } = React.useContext(AppContext);
 
+  if (!withLayout)
+    return (
+      <>
+        <Header />
+        <Main {...props}>{children}</Main>
+      </>
+    );
+
   return (
     <>
-      {withLayout ? <NavBar /> : <Header />}
-      <Main className={`${withLayout ? 'desktop' : ''}`} {...props}>
-        {children}
-      </Main>
+      <NavBar />
+      <DesktopMain {...props}>{children}</DesktopMain>
     </>
   );
 };
