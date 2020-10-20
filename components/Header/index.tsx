@@ -25,7 +25,7 @@ const Root = styled.div`
     display: flex;
     align-items: center;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 10px;
     max-width: 2000px;
   }
 
@@ -45,11 +45,9 @@ const Root = styled.div`
   }
 `;
 
-interface props {}
-const Header: React.FC<props> = ({ ...props }) => {
-  const { withLayout, headerOpen } = React.useContext(AppContext);
+const Header: React.FC = ({ ...props }) => {
+  const { headerOpen } = React.useContext(AppContext);
 
-  if (withLayout) return <></>;
   return (
     <CSSTransition
       in={headerOpen}

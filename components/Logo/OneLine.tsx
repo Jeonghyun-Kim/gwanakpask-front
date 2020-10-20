@@ -5,7 +5,14 @@ import styled from 'styled-components';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import LogoIcon from '../../public/images/logo/logo-one-line.svg';
 
-const Root = styled.div``;
+const Root = styled.div`
+  width: calc(100% - 10px);
+  margin: 0 auto;
+  svg {
+    width: 100%;
+    height: auto;
+  }
+`;
 
 const Logo: React.FC = ({ ...props }) => (
   <SvgIcon

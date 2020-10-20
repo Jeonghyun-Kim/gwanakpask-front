@@ -6,8 +6,10 @@ import SvgIcon from '@material-ui/core/SvgIcon';
 import LogoIcon from '../../public/images/logo/logo-squared-with-dot.svg';
 
 const Root = styled.div`
+  height: calc(100% - 16px);
   .logo-squared {
-    font-size: 20rem;
+    height: 100%;
+    width: auto;
   }
 `;
 
@@ -15,7 +17,7 @@ const Logo: React.FC = ({ ...props }) => (
   <SvgIcon
     className="logo-squared"
     component={LogoIcon}
-    viewBox="0 0 20000 2000"
+    viewBox="0 0 2000 2000"
     {...props}
   />
 );
