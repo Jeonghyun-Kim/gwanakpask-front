@@ -11,6 +11,12 @@ const Root = styled.div`
     height: 100%;
     width: auto;
   }
+
+  &.clickable {
+    .logo-squared {
+      cursor: pointer;
+    }
+  }
 `;
 
 const Logo: React.FC = ({ ...props }) => (
@@ -30,8 +36,7 @@ const SquaredLogo: React.FC<props> = ({ href, ...props }) => {
 
   return (
     <Root
-      suppressHydrationWarning
-      className={`${href ? '' : 'disabled'}`}
+      className={`${href ? 'clickable' : ''}`}
       onClick={() => {
         if (href) router.push(href);
       }}

@@ -8,9 +8,15 @@ import LogoIcon from '../../public/images/logo/logo-one-line.svg';
 const Root = styled.div`
   width: calc(100% - 10px);
   margin: 0 auto;
-  svg {
+  .logo-one-line {
     width: 100%;
     height: auto;
+  }
+
+  &.clickable {
+    .logo-one-line {
+      cursor: pointer;
+    }
   }
 `;
 
@@ -31,8 +37,7 @@ const OneLineLogo: React.FC<props> = ({ href, ...props }) => {
 
   return (
     <Root
-      suppressHydrationWarning
-      className={`${href ? '' : 'disabled'}`}
+      className={`${href ? 'clickable' : ''}`}
       onClick={() => {
         if (href) router.push(href);
       }}
