@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
-import ScrollLock from 'react-scrolllock';
 
 const TRANSITION = 300;
 
@@ -42,7 +41,6 @@ interface props {
 const ManualModal: React.FC<props> = ({ open, close, ...props }) => {
   return (
     <>
-      <ScrollLock isActive={open} />
       <CSSTransition
         in={open}
         timeout={TRANSITION}

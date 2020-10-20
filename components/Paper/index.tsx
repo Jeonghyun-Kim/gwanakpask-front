@@ -7,8 +7,8 @@ import { styles } from './style';
 
 const Root = styled.div`
   display: inline-block;
-  width: 343px;
-  height: 359px;
+  width: 300px;
+  height: 320px;
   box-shadow: rgba(0, 0, 0, 0.15) 6px 6px 16px;
   border-radius: 5px;
   padding: 16px;
@@ -21,7 +21,7 @@ const Root = styled.div`
     flex-direction: column;
     justify-content: center;
     .content {
-      font-size: 1.25rem;
+      font-size: 1.125rem;
     }
   }
   &.big {
