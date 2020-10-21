@@ -11,15 +11,12 @@ import PaperPreview from '../components/Paper';
 
 import AppContext from '../AppContext';
 
-import { NAVBAR_WIDTH } from '../defines';
-
 const Root = styled.div`
   width: 100%;
   height: 100%;
-  min-width: calc(700px - ${NAVBAR_WIDTH});
+  padding: 50px 0;
   .container {
     max-width: 850px;
-    min-width: calc(700px - ${NAVBAR_WIDTH});
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -27,21 +24,25 @@ const Root = styled.div`
   }
   .content-block {
     width: 100%;
+    margin: 30px auto 50px auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    @media screen and (min-width: 1200px) {
-      flex-direction: row;
-      justify-content: space-between;
-    }
   }
   .form-block {
-    height: 425px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    &.withLayout {
-      height: 320px;
+    margin-bottom: 30px;
+  }
+  @media screen and (min-width: 1201px) {
+    .content-block {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+    .form-block {
+      height: 425px;
+      margin-bottom: 0;
     }
   }
 `;

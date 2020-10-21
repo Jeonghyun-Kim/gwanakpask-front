@@ -15,20 +15,18 @@ const IconBlock: React.FC<props> = ({
   templateId,
   setTemplateId,
   ...props
-}) => {
-  return (
-    <Root {...props}>
-      {Array.from({ length: 8 }, () => 0).map((_, index) => (
-        <TemplateIcon
-          // eslint-disable-next-line react/no-array-index-key
-          key={index}
-          templateId={index}
-          setTemplateId={setTemplateId}
-          selected={index === templateId}
-        />
-      ))}
-    </Root>
-  );
-};
+}) => (
+  <Root {...props}>
+    {Array.from({ length: 8 }, () => 0).map((_, index) => (
+      <TemplateIcon
+        // eslint-disable-next-line react/no-array-index-key
+        key={index}
+        templateId={index}
+        setTemplateId={setTemplateId}
+        selected={index === templateId}
+      />
+    ))}
+  </Root>
+);
 
 export default IconBlock;

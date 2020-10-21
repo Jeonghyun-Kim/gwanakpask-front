@@ -45,26 +45,24 @@ const TemplateIcon: React.FC<props> = ({
   setTemplateId,
   selected,
   ...props
-}) => {
-  return (
-    <Root
-      style={styles[templateId]}
-      tabIndex={0}
-      role="button"
-      onClick={(e) => {
+}) => (
+  <Root
+    style={styles[templateId]}
+    tabIndex={0}
+    role="button"
+    onClick={(e) => {
+      setTemplateId(templateId);
+      e.currentTarget.blur();
+    }}
+    onKeyDown={(e) => {
+      if (e.key === 'Enter') {
         setTemplateId(templateId);
         e.currentTarget.blur();
-      }}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter') {
-          setTemplateId(templateId);
-          e.currentTarget.blur();
-        }
-      }}
-      {...props}>
-      <div className={`circle ${selected ? 'selected' : ''}`} />
-    </Root>
-  );
-};
+      }
+    }}
+    {...props}>
+    <div className={`circle ${selected ? 'selected' : ''}`} />
+  </Root>
+);
 
 export default TemplateIcon;

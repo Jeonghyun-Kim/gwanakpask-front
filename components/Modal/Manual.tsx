@@ -38,31 +38,29 @@ interface props {
   open: boolean;
   close: () => void;
 }
-const ManualModal: React.FC<props> = ({ open, close, ...props }) => {
-  return (
-    <>
-      <CSSTransition
-        in={open}
-        timeout={TRANSITION}
-        unmountOnExit
-        classNames="manual-modal">
-        <Root
-          onTouchStart={() => {
-            close();
-          }}
-          onClick={() => {
-            close();
-          }}
-          {...props}>
-          <img
-            id="manual-image"
-            alt="스와이프! 넘겨보는 전시장"
-            src="/images/manual.png"
-          />
-        </Root>
-      </CSSTransition>
-    </>
-  );
-};
+const ManualModal: React.FC<props> = ({ open, close, ...props }) => (
+  <>
+    <CSSTransition
+      in={open}
+      timeout={TRANSITION}
+      unmountOnExit
+      classNames="manual-modal">
+      <Root
+        onTouchStart={() => {
+          close();
+        }}
+        onClick={() => {
+          close();
+        }}
+        {...props}>
+        <img
+          id="manual-image"
+          alt="스와이프! 넘겨보는 전시장"
+          src="/images/manual.png"
+        />
+      </Root>
+    </CSSTransition>
+  </>
+);
 
 export default ManualModal;
