@@ -20,7 +20,7 @@ const handler = nextConnect<RequestWithSession, NextApiResponse>();
 handler.use(connectMongoDB);
 
 handler.post(async (req, res) => {
-  const { templateId = 1, from, to, content } = req.body;
+  const { templateId = 0, from, content } = req.body;
   if (!from || !content)
     return res
       .status(400)
@@ -28,10 +28,10 @@ handler.post(async (req, res) => {
   try {
     const message = await req.db
       .collection('message')
-      .insertOne({ templateId, from, to, content });
+      .insertOne({ templateId, from, content });
     await sendEmail(
       `${from}님의 방명록 작성`,
-      JSON.stringify({ templateId, from, to, content }),
+      JSON.stringify({ templateId, from, content }),
       'kim.kay@kakao.com',
     );
     return res.json({ message });

@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import KyoboFont from '../KyoboFont';
+
 import AppContext from '../../AppContext';
 
 import { styles } from './style';
@@ -12,16 +14,19 @@ const Root = styled.div`
   box-shadow: rgba(0, 0, 0, 0.15) 6px 6px 16px;
   border-radius: 5px;
   padding: 16px;
+  overflow: hidden;
   .from {
     font-size: 1rem;
-    margin: 20px 0;
+    margin: 10px 0;
   }
   .content-box {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    max-height: 290px;
     .content {
       font-size: 1.125rem;
+      margin: 5px 0;
     }
   }
   &.big {
@@ -29,10 +34,14 @@ const Root = styled.div`
     height: 425px;
     border-radius: 8px;
     padding: 20px;
+    .content-box {
+      max-height: 395px;
+    }
     .content {
       font-size: 1.56rem;
     }
   }
+  ${KyoboFont}
 `;
 
 interface props {

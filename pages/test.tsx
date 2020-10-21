@@ -7,14 +7,11 @@ import ManualModal from '../components/Modal/Manual';
 import Paper from '../components/Paper';
 import IconBlock from '../components/Paper/IconBlock';
 
-import KyoboFont from '../components/KyoboFont';
-
 const Root = styled.div`
   width: 100%;
   height: 100%;
   display: grid;
   place-items: center;
-  ${KyoboFont}
 
   .container {
     width: 100%;

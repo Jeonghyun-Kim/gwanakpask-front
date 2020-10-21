@@ -7,7 +7,8 @@ const useLayout: () => { withLayout: boolean } = () => {
   useEffect(() => {
     const handler = () => {
       setLayout(
-        !isMobile || (isTablet && window.innerWidth > window.innerHeight),
+        window.innerWidth > 751 &&
+          (!isMobile || (isTablet && window.innerWidth > window.innerHeight)),
       );
     };
     window.addEventListener('resize', handler, {
