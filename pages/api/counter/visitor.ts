@@ -25,8 +25,10 @@ handler.post(async (req, res) => {
   try {
     const exUser = await req.db.collection('visitor').findOne({ userId });
     if (exUser) return res.json({ user: exUser });
-    const ipAddr =
-      req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    const ipAddr = {
+      remote: req.connection.remoteAddress,
+      local: req.connection.localAddress,
+    };
     const user = await req.db
       .collection('visitor')
       .insertOne({ userId, ipAddr, deviceInfo, createdAt: timestamp() });
