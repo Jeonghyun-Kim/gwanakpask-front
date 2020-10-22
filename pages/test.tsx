@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import Layout from '../components/Layout';
 import Slider from '../components/Slider';
+import Loading from '../components/Loading';
 
 // import useLayout from '../lib/useLayout';
 
@@ -42,7 +43,7 @@ const TestPage: React.FC = () => {
         <title>test</title>
       </Head>
       <Root>
-        {index && (
+        {index ? (
           <Slider
             photos={photos}
             pageIndex={index - 1}
@@ -50,6 +51,8 @@ const TestPage: React.FC = () => {
               withLayout ? window.innerWidth - NAVBAR_WIDTH : window.innerWidth
             }
           />
+        ) : (
+          <Loading />
         )}
       </Root>
     </Layout>

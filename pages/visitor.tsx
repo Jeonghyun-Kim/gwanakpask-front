@@ -51,7 +51,8 @@ const VisitorPage: React.FC = () => {
   const { withLayout } = React.useContext(AppContext);
   const [from, setFrom] = React.useState<string>('');
   const [content, setContent] = React.useState<string>('');
-  const [templateId, setTemplateId] = React.useState<number>(0);
+  const [templateId, setTemplateId] = React.useState<number>(6);
+  const [previewId, setPreviewId] = React.useState<number | null>(null);
   const { data } = useSWR('/api/counter');
   const { countUp: visitorCount, update: updateCounter } = useCountUp({
     start: 0,
@@ -88,10 +89,11 @@ const VisitorPage: React.FC = () => {
               <TemplateIconBlock
                 templateId={templateId}
                 setTemplateId={setTemplateId}
+                setPreviewId={setPreviewId}
               />
             </div>
             <PaperPreview
-              templateId={templateId}
+              templateId={previewId ?? templateId}
               from={from}
               content={content}
             />

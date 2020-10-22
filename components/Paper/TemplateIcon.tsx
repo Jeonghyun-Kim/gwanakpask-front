@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useHover } from 'react-use-gesture';
 
 import { styles } from './style';
 
@@ -38,31 +39,41 @@ const Root = styled.div`
 interface props {
   templateId: number;
   setTemplateId: (id: number) => void;
-  selected: boolean;
+  current: number;
+  setPreviewId: (id: number | null) => void;
 }
 const TemplateIcon: React.FC<props> = ({
   templateId,
   setTemplateId,
-  selected,
+  current,
+  setPreviewId,
   ...props
-}) => (
-  <Root
-    style={styles[templateId]}
-    tabIndex={0}
-    role="button"
-    onClick={(e) => {
-      setTemplateId(templateId);
-      e.currentTarget.blur();
-    }}
-    onKeyDown={(e) => {
-      if (e.key === 'Enter') {
+}) => {
+  const bind = useHover(({ active }) => {
+    if (active) setPreviewId(templateId);
+    else setPreviewId(null);
+  });
+
+  return (
+    <Root
+      style={styles[templateId]}
+      tabIndex={0}
+      role="button"
+      onClick={(e) => {
         setTemplateId(templateId);
         e.currentTarget.blur();
-      }
-    }}
-    {...props}>
-    <div className={`circle ${selected ? 'selected' : ''}`} />
-  </Root>
-);
+      }}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          setTemplateId(templateId);
+          e.currentTarget.blur();
+        }
+      }}
+      {...bind()}
+      {...props}>
+      <div className={`circle ${templateId === current ? 'selected' : ''}`} />
+    </Root>
+  );
+};
 
 export default TemplateIcon;

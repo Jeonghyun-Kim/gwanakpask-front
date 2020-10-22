@@ -10,10 +10,12 @@ const Root = styled.div`
 interface props {
   templateId: number;
   setTemplateId: (id: number) => void;
+  setPreviewId: (id: number | null) => void;
 }
 const IconBlock: React.FC<props> = ({
   templateId,
   setTemplateId,
+  setPreviewId,
   ...props
 }) => (
   <Root {...props}>
@@ -23,7 +25,8 @@ const IconBlock: React.FC<props> = ({
         key={index}
         templateId={index}
         setTemplateId={setTemplateId}
-        selected={index === templateId}
+        current={templateId}
+        setPreviewId={setPreviewId}
       />
     ))}
   </Root>
