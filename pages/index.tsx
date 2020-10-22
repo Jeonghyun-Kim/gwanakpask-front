@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 
 import Layout from '../components/Layout';
 
-import { saveIndex, getUserId } from '../lib/utils';
+import { getUserId } from '../lib/utils';
 
 import AppContext from '../AppContext';
 
@@ -41,7 +41,6 @@ const IndexPage: React.FC = () => {
               variant="outlined"
               onClick={() => {
                 setIndex(index + 1);
-                saveIndex(index + 1);
               }}>
               setIndex ++
             </Button>{' '}
@@ -49,7 +48,6 @@ const IndexPage: React.FC = () => {
               variant="outlined"
               onClick={() => {
                 setIndex(index - 1);
-                saveIndex(index - 1);
               }}>
               setIndex --
             </Button>
