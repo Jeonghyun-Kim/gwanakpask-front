@@ -56,9 +56,16 @@ const IndexPage: React.FC = () => {
           </div>
           <div>userId: {index && getUserId()}</div>
           <p className="kyobo">폰트 테스트입니다.</p>
-          <Link href="/test">
-            <a>test page</a>
-          </Link>
+          <div>
+            <Link href="/test">
+              <a>test page</a>
+            </Link>
+          </div>
+          <div>
+            <Link href="/visitor">
+              <a>visitor page</a>
+            </Link>
+          </div>
           <div>
             <Button
               variant="outlined"
