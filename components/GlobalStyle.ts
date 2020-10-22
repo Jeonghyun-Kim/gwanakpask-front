@@ -22,6 +22,9 @@ const GlobalStyle = css`
   * {
     box-sizing: border-box;
   }
+  .grow {
+    flex-grow: 1;
+  }
   .unselectable {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
