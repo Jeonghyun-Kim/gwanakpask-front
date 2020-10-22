@@ -45,6 +45,7 @@ const Slider = ({ photos, pageIndex, innerWidth, ...props }) => {
   const [springs, setSprings] = useSprings(photos.length, (i) => ({
     x: (i - index.current) * innerWidth,
     scale: 1,
+    zIndex: i === pageIndex ? 1 : 'initial',
     display: 'block',
   }));
 
@@ -66,7 +67,9 @@ const Slider = ({ photos, pageIndex, innerWidth, ...props }) => {
           return { display: 'none' };
         const xT = (i - index.current) * innerWidth + (down ? deltaX : 0);
         const scaleT = down ? 1 - Math.abs(deltaX) / innerWidth / 4 : 1;
-        return { x: xT, scale: scaleT, display: 'block' };
+        if (i === index.current)
+          return { x: xT, scale: scaleT, zIndex: 1, display: 'block' };
+        return { x: xT, scale: scaleT, zIndex: 'initial', display: 'block' };
       });
     },
   );
@@ -76,7 +79,8 @@ const Slider = ({ photos, pageIndex, innerWidth, ...props }) => {
       if (i < index.current - 1 || i > index.current + 1)
         return { display: 'none' };
       const xT = (i - index.current) * innerWidth;
-      return { x: xT, display: 'block' };
+      if (i === index.current) return { x: xT, zIndex: 1, display: 'block' };
+      return { x: xT, zIndex: 'initial', display: 'block' };
     });
   }, [innerWidth, setSprings]);
   const handleRight = React.useCallback(() => {
@@ -105,13 +109,14 @@ const Slider = ({ photos, pageIndex, innerWidth, ...props }) => {
 
   return (
     <Root className={`unselectable ${withLayout ? 'desktop' : ''}`} {...props}>
-      {springs.map(({ x, display, scale }, i) => (
+      {springs.map(({ x, display, scale, zIndex }, i) => (
         <animated.div
           {...bind()}
           // eslint-disable-next-line react/no-array-index-key
           key={i}
           style={{
             display,
+            zIndex,
             transform: x.interpolate((xT) => `translate3d(${xT}px,0,0)`),
           }}>
           <animated.div
