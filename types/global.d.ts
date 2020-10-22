@@ -17,7 +17,7 @@ declare interface Photo {
   photoId: number;
   artistId: number;
   title: string;
-  hitCount: number;
+  hitCount?: number;
   url?: string;
 }
 

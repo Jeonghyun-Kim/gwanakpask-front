@@ -1,0 +1,157 @@
+[
+  {
+    "artistId": 1,
+    "position": "자문위원",
+    "name": "강순이"
+  },
+  {
+    "artistId": 2,
+    "position": "지부장",
+    "name": "박태재"
+  },
+  {
+    "artistId": 3,
+    "position": "부지부장",
+    "name": "임남석"
+  },
+  {
+    "artistId": 4,
+    "position": "감사",
+    "name": "이경화"
+  },
+  {
+    "artistId": 5,
+    "position": "감사",
+    "name": "류인택"
+  },
+  {
+    "artistId": 6,
+    "position": "사무국장",
+    "name": "안승갑"
+  },
+  {
+    "artistId": 7,
+    "position": "총무간사",
+    "name": "정진해"
+  },
+  {
+    "artistId": 8,
+    "position": "재무간사",
+    "name": "정동칠"
+  },
+  {
+    "artistId": 9,
+    "position": "홍보간사",
+    "name": "서은영"
+  },
+  {
+    "artistId": 10,
+    "position": "기획간사",
+    "name": "김영재"
+  },
+  {
+    "artistId": 11,
+    "position": "사업간사",
+    "name": "정영섭"
+  },
+  {
+    "artistId": 12,
+    "position": "정보간사",
+    "name": "최종림"
+  },
+  {
+    "artistId": 13,
+    "position": "행사간사",
+    "name": "이동진"
+  },
+  {
+    "artistId": 14,
+    "position": "회원",
+    "name": "이금자"
+  },
+  {
+    "artistId": 15,
+    "position": "회원",
+    "name": "김선아"
+  },
+  {
+    "artistId": 16,
+    "position": "회원",
+    "name": "도회덕"
+  },
+  {
+    "artistId": 17,
+    "position": "회원",
+    "name": "박봉수"
+  },
+  {
+    "artistId": 18,
+    "position": "회원",
+    "name": "박상현"
+  },
+  {
+    "artistId": 19,
+    "position": "회원",
+    "name": "유승배"
+  },
+  {
+    "artistId": 20,
+    "position": "회원",
+    "name": "유채완"
+  },
+  {
+    "artistId": 21,
+    "position": "회원",
+    "name": "이규천"
+  },
+  {
+    "artistId": 22,
+    "position": "회원",
+    "name": "이남숙"
+  },
+  {
+    "artistId": 23,
+    "position": "회원",
+    "name": "이영규"
+  },
+  {
+    "artistId": 24,
+    "position": "회원",
+    "name": "정인식"
+  },
+  {
+    "artistId": 25,
+    "position": "회원",
+    "name": "조인환"
+  },
+  {
+    "artistId": 26,
+    "position": "회계간사",
+    "name": "최영자"
+  },
+  {
+    "artistId": 27,
+    "position": "회원",
+    "name": "손복임"
+  },
+  {
+    "artistId": 28,
+    "position": "회원",
+    "name": "오정숙"
+  },
+  {
+    "artistId": 29,
+    "position": "회원",
+    "name": "정병준"
+  },
+  {
+    "artistId": 30,
+    "position": "회원",
+    "name": "정종삼"
+  },
+  {
+    "artistId": 31,
+    "position": "회원",
+    "name": "최용갑"
+  }
+]
