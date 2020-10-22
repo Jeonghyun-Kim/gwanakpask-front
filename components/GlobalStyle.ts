@@ -22,6 +22,14 @@ const GlobalStyle = css`
   * {
     box-sizing: border-box;
   }
+  .unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
 `;
 
 export default GlobalStyle;

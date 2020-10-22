@@ -1,15 +1,26 @@
 import { useState, useEffect } from 'react';
 import { isMobile, isTablet } from 'react-device-detect';
 
-const useLayout: () => { withLayout: boolean } = () => {
+interface WindowSize {
+  innerWidth: number;
+  innerHeight: number;
+}
+
+const useLayout: () => { withLayout: boolean; size: WindowSize } = () => {
   const [withLayout, setLayout] = useState<boolean>(false);
+  const [size, setSize] = useState<WindowSize>({
+    innerWidth: 0,
+    innerHeight: 0,
+  });
 
   useEffect(() => {
     const handler = () => {
+      const { innerWidth, innerHeight } = window;
       setLayout(
-        window.innerWidth > 751 &&
-          (!isMobile || (isTablet && window.innerWidth > window.innerHeight)),
+        innerWidth > 751 &&
+          (!isMobile || (isTablet && innerWidth > innerHeight)),
       );
+      setSize({ innerWidth, innerHeight });
     };
     window.addEventListener('resize', handler, {
       capture: false,
@@ -19,7 +30,7 @@ const useLayout: () => { withLayout: boolean } = () => {
     return () => window.removeEventListener('resize', handler);
   }, []);
 
-  return { withLayout };
+  return { withLayout, size };
 };
 
 export default useLayout;

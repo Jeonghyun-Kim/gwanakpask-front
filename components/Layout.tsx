@@ -25,14 +25,15 @@ const DesktopMain = styled(Main)`
 
 interface props {
   children: React.ReactNode;
+  noHeader?: boolean;
 }
-const Layout: React.FC<props> = ({ children, ...props }) => {
+const Layout: React.FC<props> = ({ children, noHeader, ...props }) => {
   const { withLayout } = React.useContext(AppContext);
 
   if (!withLayout)
     return (
       <>
-        <Header />
+        {!noHeader && <Header />}
         <Main {...props}>{children}</Main>
       </>
     );

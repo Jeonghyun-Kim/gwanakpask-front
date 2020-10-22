@@ -22,5 +22,5 @@
     "typeRoots": ["types"]
   },
   "exclude": ["node_modules"],
-  "include": ["**/*.ts", "**/*.tsx", ".eslintrc.js"]
+  "include": ["**/*.ts", "**/*.tsx", "**/*.jsx", ".eslintrc.js"]
 }

@@ -3,11 +3,13 @@ import Head from 'next/head';
 import styled from 'styled-components';
 
 import Layout from '../components/Layout';
-import ManualModal from '../components/Modal/Manual';
-import Paper from '../components/Paper';
-import IconBlock from '../components/Paper/IconBlock';
+import Slider from '../components/Slider';
+
+// import useLayout from '../lib/useLayout';
 
 import AppContext from '../AppContext';
+
+import { NAVBAR_WIDTH } from '../defines';
 
 const Root = styled.div`
   width: 100%;
@@ -23,27 +25,32 @@ const Root = styled.div`
   }
 `;
 
+const photos = [
+  '/images/1.jpeg',
+  '/images/2.jpeg',
+  '/images/3.jpeg',
+  '/images/4.jpeg',
+];
+
 const TestPage: React.FC = () => {
-  const { index } = React.useContext(AppContext);
-  const [open, setOpen] = React.useState<boolean>(true);
-  const [templateId, setTemplateId] = React.useState<number>(0);
+  const { index, withLayout } = React.useContext(AppContext);
+  // const { withLayout, size } = useLayout();
 
   return (
-    <Layout>
+    <Layout noHeader>
       <Head>
         <title>test</title>
       </Head>
-      <ManualModal open={open} close={() => setOpen(false)} />
       <Root>
-        <div className="container">
-          <IconBlock templateId={templateId} setTemplateId={setTemplateId} />
-          <Paper
-            templateId={templateId}
-            from="김정현"
-            content="작가님의 좋은 작품 잘 보고 갑니다. 사진이 정말 이쁘네요. 작가님의 좋은 작품 앞으로도 많은 기대가 됩니다. 게다가 온라인 전시가 매우 멋있었네요. 다들 전시 준비하시느라 고생 많으셨습니다."
+        {index && (
+          <Slider
+            photos={photos}
+            pageIndex={index - 1}
+            innerWidth={
+              withLayout ? window.innerWidth - NAVBAR_WIDTH : window.innerWidth
+            }
           />
-          <div>index: {index}</div>
-        </div>
+        )}
       </Root>
     </Layout>
   );

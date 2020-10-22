@@ -22,6 +22,7 @@ module.exports = {
     '@typescript-eslint/no-empty-function': 0,
     'react-hooks/exhaustive-deps': 1,
     'no-underscore-dangle': 0,
+    'react/jsx-filename-extension': [1, { extensions: ['.tsx', '.jsx'] }],
   },
   settings: {
     'import/resolver': {
