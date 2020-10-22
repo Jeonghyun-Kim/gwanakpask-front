@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { useSprings, animated } from 'react-spring';
 import { useDrag } from 'react-use-gesture';
 
-import { saveIndex } from '../../lib/utils';
-
 import AppContext from '../../AppContext';
 
 import { NAVBAR_WIDTH } from '../../defines';
@@ -42,13 +40,14 @@ const Root = styled.div`
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const Slider = ({ photos, pageIndex, innerWidth, ...props }) => {
-  const { withLayout } = React.useContext(AppContext);
+  const { withLayout, setIndex } = React.useContext(AppContext);
   const index = React.useRef(pageIndex);
   const [springs, setSprings] = useSprings(photos.length, (i) => ({
     x: (i - index.current) * innerWidth,
     scale: 1,
     display: 'block',
   }));
+
   const bind = useDrag(
     ({ touches, down, offset: [x], lastOffset: [lastX], cancel }) => {
       const deltaX = x - lastX;
@@ -59,7 +58,7 @@ const Slider = ({ photos, pageIndex, innerWidth, ...props }) => {
         } else if (deltaX > 0 && index.current > 0) {
           index.current -= 1;
         }
-        saveIndex(index.current + 1);
+        setIndex(index.current + 1);
         cancel();
       }
       setSprings((i) => {
@@ -83,25 +82,17 @@ const Slider = ({ photos, pageIndex, innerWidth, ...props }) => {
   const handleRight = React.useCallback(() => {
     if (index.current < photos.length - 1) {
       index.current += 1;
-      saveIndex(index.current + 1);
+      setIndex(index.current + 1);
       moveSprings();
     }
-  }, [moveSprings, photos.length]);
+  }, [moveSprings, setIndex, photos.length]);
   const handleLeft = React.useCallback(() => {
     if (index.current > 0) {
       index.current -= 1;
-      saveIndex(index.current + 1);
+      setIndex(index.current + 1);
       moveSprings();
     }
-  }, [moveSprings]);
-
-  // const handleGoTo = React.useCallback(
-  //   (i) => {
-  //     index.current = i;
-  //     moveSprings();
-  //   },
-  //   [moveSprings],
-  // );
+  }, [moveSprings, setIndex]);
 
   React.useEffect(() => {
     const handler = (e) => {

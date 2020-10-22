@@ -9,7 +9,7 @@ import smoothscroll from 'smoothscroll-polyfill';
 import GlobalCSS from '../components/GlobalStyle';
 
 import fetcher from '../lib/fetcher';
-import { getIndex, pageCounter } from '../lib/utils';
+import { getIndex, saveIndex, pageCounter } from '../lib/utils';
 import useLayout from '../lib/useLayout';
 // import { initGA } from '../lib/analytics';
 
@@ -35,9 +35,10 @@ const App: React.FC<{
   const [headerOpen, setHeaderOpen] = React.useState<boolean>(true);
   const { withLayout } = useLayout();
 
-  // const setIndex = React.useCallback((newIndex: number) => {
-  //   index.current = newIndex;
-  // }, []);
+  const saveAndSetIndex = React.useCallback((newIndex: number) => {
+    setIndex(newIndex);
+    saveIndex(newIndex);
+  }, []);
 
   React.useEffect(() => {
     smoothscroll.polyfill();
@@ -128,7 +129,7 @@ const App: React.FC<{
           <AppContext.Provider
             value={{
               index,
-              setIndex,
+              setIndex: saveAndSetIndex,
               headerOpen,
               setHeaderOpen,
               withLayout,

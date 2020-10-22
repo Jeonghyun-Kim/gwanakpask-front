@@ -27,6 +27,7 @@ const useLayout: () => { withLayout: boolean; size: WindowSize } = () => {
       passive: true,
     });
     handler();
+
     return () => window.removeEventListener('resize', handler);
   }, []);
 
