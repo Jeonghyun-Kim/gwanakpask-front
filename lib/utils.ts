@@ -50,6 +50,16 @@ export const pageCounter: () => void = () => {
   }).then(() => sessionStorage.setItem('@path', Router.asPath));
 };
 
+export const photoCounter: (photoId: number) => void = (photoId) => {
+  fetch('/api/counter/photo', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json ',
+    },
+    body: JSON.stringify({ photoId }),
+  });
+};
+
 export default {
   timestamp,
   timeFormat,
@@ -57,4 +67,5 @@ export default {
   getIndex,
   getUserId,
   pageCounter,
+  photoCounter,
 };

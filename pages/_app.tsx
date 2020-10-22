@@ -9,7 +9,7 @@ import smoothscroll from 'smoothscroll-polyfill';
 import GlobalCSS from '../components/GlobalStyle';
 
 import fetcher from '../lib/fetcher';
-import { getIndex, saveIndex, pageCounter } from '../lib/utils';
+import { getIndex, saveIndex, pageCounter, photoCounter } from '../lib/utils';
 import useLayout from '../lib/useLayout';
 // import { initGA } from '../lib/analytics';
 
@@ -36,6 +36,7 @@ const App: React.FC<{
   const { withLayout } = useLayout();
 
   const saveAndSetIndex = React.useCallback((newIndex: number) => {
+    photoCounter(newIndex);
     setIndex(newIndex);
     saveIndex(newIndex);
   }, []);
