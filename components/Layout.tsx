@@ -16,6 +16,7 @@ const Main = styled.div`
 `;
 
 const DesktopMain = styled(Main)`
+  position: relative;
   width: calc(100% - ${NAVBAR_WIDTH}px);
   margin-left: ${NAVBAR_WIDTH}px;
   padding-top: 0;

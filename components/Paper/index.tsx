@@ -11,6 +11,8 @@ const Root = styled.div`
   display: inline-block;
   width: 300px;
   height: 320px;
+  display: flex;
+  flex-direction: column;
   box-shadow: rgba(0, 0, 0, 0.15) 6px 6px 16px;
   border-radius: 5px;
   padding: 16px;
@@ -36,9 +38,9 @@ const Root = styled.div`
     padding: 20px;
     .content-box {
       max-height: 395px;
-    }
-    .content {
-      font-size: 1.56rem;
+      .content {
+        font-size: 1.56rem;
+      }
     }
   }
   ${KyoboFont}
@@ -54,7 +56,7 @@ const Paper: React.FC<props> = ({ templateId, from, content, ...props }) => {
 
   return (
     <Root
-      className={`${withLayout ? 'big' : ''}`}
+      className={`paper ${withLayout ? 'big' : ''}`}
       style={styles[templateId]}
       {...props}>
       <p className="from kyobo">From. {from}</p>

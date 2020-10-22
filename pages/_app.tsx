@@ -31,17 +31,25 @@ const App: React.FC<{
 }> = ({ Component, pageProps }) => {
   const router = useRouter();
   const [index, setIndex] = React.useState<number>(0);
+  // const index = React.useRef(0);
   const [headerOpen, setHeaderOpen] = React.useState<boolean>(true);
   const { withLayout } = useLayout();
+
+  // const setIndex = React.useCallback((newIndex: number) => {
+  //   index.current = newIndex;
+  // }, []);
 
   React.useEffect(() => {
     smoothscroll.polyfill();
     if (process.env.NODE_ENV === 'production') {
       // initGA();
     }
+  }, []);
+
+  React.useEffect(() => {
     const indexFromStorage = getIndex();
     setIndex(indexFromStorage ?? 1);
-  }, []);
+  }, [setIndex]);
 
   React.useEffect(() => {
     pageCounter();
