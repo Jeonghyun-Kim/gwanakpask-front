@@ -6,7 +6,7 @@ import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { isMobile, isIE, isEdge, isEdgeChromium } from 'react-device-detect';
 import smoothscroll from 'smoothscroll-polyfill';
 
-import GlobalCSS from '../components/GlobalStyle';
+import { GlobalCSS } from '../components/GlobalStyle';
 
 import fetcher from '../lib/fetcher';
 import { getIndex, saveIndex, pageCounter, photoCounter } from '../lib/utils';

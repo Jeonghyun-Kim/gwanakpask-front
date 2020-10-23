@@ -21,6 +21,12 @@ declare interface Photo {
   url?: string;
 }
 
+declare interface PhotoWithArtist {
+  photoId: number;
+  title: string;
+  artist?: Artist;
+}
+
 declare module '*.svg' {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const content: any;
