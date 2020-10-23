@@ -56,8 +56,8 @@ const IndexPage: React.FC = () => {
             </Link>
           </div>
           <div>
-            <Link href="/visitor">
-              <a>visitor page</a>
+            <Link href="/covid">
+              <a>covid page</a>
             </Link>
           </div>
         </div>

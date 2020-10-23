@@ -1,8 +1,8 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { useSprings, animated } from 'react-spring';
-import { useDrag } from 'react-use-gesture';
+import { useSpring, useSprings, animated } from 'react-spring';
+import { useGesture } from 'react-use-gesture';
 
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
@@ -47,9 +47,11 @@ const Root = styled.div`
       }
       .photo {
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, calc(-50% - 50px));
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: 40% auto;
         max-width: min(500px, 100% - 40px);
         max-height: 60%;
         width: auto;
@@ -105,22 +107,43 @@ const Root = styled.div`
   }
 `;
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const Slider = ({ photos, pageIndex, innerWidth, ...props }) => {
+interface props {
+  photos: PhotoWithArtist[];
+  pageIndex: number;
+  innerWidth: number;
+}
+const Slider: React.FC<props> = ({
+  photos,
+  pageIndex,
+  innerWidth,
+  ...props
+}) => {
   const router = useRouter();
   const { withLayout, setIndex } = React.useContext(AppContext);
   const index = React.useRef(pageIndex);
+  const [zoomIn, setZoomIn] = React.useState(false);
   const [springs, setSprings] = useSprings(photos.length, (i) => ({
     x: (i - index.current) * innerWidth,
     scale: 1,
     zIndex: i === pageIndex ? 1 : 'initial',
     display: 'block',
   }));
+  const [{ x, y, zoom }, setSpring] = useSpring(() => ({
+    x: 0,
+    y: 0,
+    zoom: 1,
+    config: { tension: 250 },
+  }));
 
-  const bind = useDrag(
-    ({ touches, down, offset: [x], lastOffset: [lastX], cancel }) => {
-      const deltaX = x - lastX;
-      if (touches > 1) cancel();
+  const bind = useGesture({
+    onDrag: ({
+      touches,
+      down,
+      offset: [xOffset],
+      lastOffset: [lastX],
+      cancel,
+    }) => {
+      const deltaX = xOffset - lastX;
       if (down && Math.abs(deltaX) > innerWidth / 3) {
         if (deltaX < 0 && index.current < photos.length - 1) {
           index.current += 1;
@@ -128,19 +151,43 @@ const Slider = ({ photos, pageIndex, innerWidth, ...props }) => {
           index.current -= 1;
         }
         setIndex(index.current + 1);
-        cancel();
+        if (cancel) cancel();
       }
-      setSprings((i) => {
-        if (i < index.current - 1 || i > index.current + 1)
-          return { display: 'none' };
-        const xT = (i - index.current) * innerWidth + (down ? deltaX : 0);
-        const scaleT = down ? 1 - Math.abs(deltaX) / innerWidth / 4 : 1;
-        if (i === index.current)
-          return { x: xT, scale: scaleT, zIndex: 1, display: 'block' };
-        return { x: xT, scale: scaleT, zIndex: 'initial', display: 'block' };
-      });
+      if (touches > 1 || zoomIn) {
+        if (cancel) cancel();
+      } else {
+        setSprings((i) => {
+          if (i < index.current - 1 || i > index.current + 1)
+            return { display: 'none' };
+          const xT = (i - index.current) * innerWidth + (down ? deltaX : 0);
+          const scaleT = down ? 1 - Math.abs(deltaX) / innerWidth / 4 : 1;
+          if (i === index.current)
+            return { x: xT, scale: scaleT, zIndex: 1, display: 'block' };
+          return { x: xT, scale: scaleT, zIndex: 'initial', display: 'block' };
+        });
+      }
     },
-  );
+  });
+
+  const imgBind = useGesture({
+    onDrag: ({
+      down,
+      offset: [xOffset, yOffset],
+      lastOffset: [lastX, lastY],
+      cancel,
+      canceled,
+    }) => {
+      if (!zoomIn) {
+        if (cancel) cancel();
+      } else {
+        setSpring({
+          x: down ? xOffset - lastX : 0,
+          y: down ? yOffset - lastY : 0,
+        });
+      }
+      if (canceled) setSpring({ x: 0, y: 0 });
+    },
+  });
 
   const moveSprings = React.useCallback(() => {
     setSprings((i) => {
@@ -167,8 +214,18 @@ const Slider = ({ photos, pageIndex, innerWidth, ...props }) => {
     }
   }, [moveSprings, setIndex]);
 
+  React.useLayoutEffect(() => {
+    const handler = (e: TouchEvent) => {
+      if (e.touches && e.touches.length > 1) {
+        e.preventDefault();
+      }
+    };
+    document.addEventListener('touchstart', handler, { passive: false });
+    return () => document.removeEventListener('touchstart', handler);
+  }, []);
+
   React.useEffect(() => {
-    const handler = (e) => {
+    const handler = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight') handleRight();
       if (e.key === 'ArrowLeft') handleLeft();
     };
@@ -176,22 +233,23 @@ const Slider = ({ photos, pageIndex, innerWidth, ...props }) => {
     return () => window.removeEventListener('keydown', handler);
   }, [handleLeft, handleRight]);
 
+  React.useEffect(() => {
+    setSpring({ zoom: zoomIn ? 2 : 1 });
+  }, [zoomIn, setSpring]);
+
   return (
     <Root className={`unselectable ${withLayout ? 'desktop' : ''}`} {...props}>
-      {springs.map(({ x, display, scale, zIndex }, i) => (
+      {springs.map(({ x: xBackground, display, scale, zIndex }, i) => (
         <animated.div
           {...bind()}
           // eslint-disable-next-line react/no-array-index-key
           key={i}
           style={{
-            display,
-            zIndex,
-            transform: x.interpolate((xT) => `translate3d(${xT}px,0,0)`),
+            display: display as never,
+            zIndex: zIndex as never,
+            x: xBackground,
           }}>
-          <animated.div
-            style={{
-              transform: scale.interpolate((s) => `scale(${s})`),
-            }}>
+          <animated.div style={{ scale }}>
             {!withLayout ? (
               <Gradient
                 size={{ width: '100%', height: '70px' }}
@@ -213,7 +271,13 @@ const Slider = ({ photos, pageIndex, innerWidth, ...props }) => {
             ) : (
               <></>
             )}
-            <img
+            <animated.img
+              {...imgBind()}
+              style={{
+                x,
+                y,
+                scale: zoom,
+              }}
               className="photo"
               alt={photos[i].title}
               src={photos[i].url ?? `/images/photo/full/${i + 1}.jpg`}
@@ -235,7 +299,20 @@ const Slider = ({ photos, pageIndex, innerWidth, ...props }) => {
                     <p className="artist-name">{photos[i].artist.name}</p>
                   </div>
                 </div>
-                <div className="icon-block">
+                <div
+                  className="icon-block"
+                  role="button"
+                  tabIndex={0}
+                  onClick={(e) => {
+                    setZoomIn(!zoomIn);
+                    e.currentTarget.blur();
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      setZoomIn(!zoomIn);
+                      e.currentTarget.blur();
+                    }
+                  }}>
                   <ZoomInIcon />
                   <span className="icon-name">확대</span>
                 </div>

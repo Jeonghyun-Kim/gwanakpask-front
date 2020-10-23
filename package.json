@@ -23,7 +23,7 @@
     "react-is": "^16.8.0",
     "react-scrolllock": "^5.0.1",
     "react-slick": "^0.27.12",
-    "react-spring": "^8.0.27",
+    "react-spring": "9.0.0-beta.34",
     "react-transition-group": "^4.4.1",
     "react-use-gesture": "^7.0.16",
     "sha256": "^0.2.0",

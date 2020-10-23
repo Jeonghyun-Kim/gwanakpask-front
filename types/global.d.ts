@@ -24,7 +24,7 @@ declare interface Photo {
 declare interface PhotoWithArtist {
   photoId: number;
   title: string;
-  artist?: Artist;
+  artist: Artist;
   url?: string;
 }
 
