@@ -79,8 +79,9 @@ const Slider = ({ photos, pageIndex, innerWidth, ...props }) => {
       if (i < index.current - 1 || i > index.current + 1)
         return { display: 'none' };
       const xT = (i - index.current) * innerWidth;
-      if (i === index.current) return { x: xT, zIndex: 1, display: 'block' };
-      return { x: xT, zIndex: 'initial', display: 'block' };
+      if (i === index.current)
+        return { x: xT, scale: 1, zIndex: 1, display: 'block' };
+      return { x: xT, scale: 1, zIndex: 'initial', display: 'block' };
     });
   }, [innerWidth, setSprings]);
   const handleRight = React.useCallback(() => {
