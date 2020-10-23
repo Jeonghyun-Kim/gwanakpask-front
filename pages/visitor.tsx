@@ -164,9 +164,11 @@ const VisitorPage: React.FC = () => {
       <ResModal
         open={resModalFlags.open}
         close={() => {
-          setFrom('');
-          setContent('');
-          setResModalFlags({ open: false, success: true });
+          if (resModalFlags.success) {
+            setFrom('');
+            setContent('');
+          }
+          setResModalFlags({ ...resModalFlags, open: false });
         }}
         success={resModalFlags.success}
       />
@@ -180,16 +182,14 @@ const VisitorPage: React.FC = () => {
           </p>
           <p className="counter">
             지금까지{' '}
-            {countsData && countsData.counts ? (
-              <Countup
-                start={0}
-                end={countsData.counts.message}
-                duration={1.5}
-                separator=","
-              />
-            ) : (
-              '0'
-            )}
+            <Countup
+              start={0}
+              end={
+                countsData && countsData.counts ? countsData.counts.message : 0
+              }
+              duration={1.5}
+              separator=","
+            />
             명 참여
           </p>
           <div className="content-block">

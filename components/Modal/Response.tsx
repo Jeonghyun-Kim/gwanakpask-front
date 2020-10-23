@@ -7,6 +7,7 @@ import { CSSTransition } from 'react-transition-group';
 import Button from '@material-ui/core/Button';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import Curator from '../../public/icons/curator.svg';
+import CuratorSad from '../../public/icons/curator_sad.svg';
 
 import AppContext from '../../AppContext';
 
@@ -45,9 +46,9 @@ const Root = styled.div`
       border-radius: 10px 10px 0 0;
       svg {
         position: absolute;
-        width: 95px;
-        height: 95px;
-        bottom: -3px;
+        width: 110px;
+        height: 110px;
+        bottom: 0;
         left: 50%;
         transform: translate(-50%, 0);
       }
@@ -79,6 +80,17 @@ const Root = styled.div`
         .MuiButton-label {
           text-decoration: underline;
           color: #7d7d7d;
+        }
+      }
+      .ok-button {
+        background-color: #757575;
+        width: 120px;
+        height: 30px;
+        margin-bottom: 20px;
+        .MuiButton-label {
+          font-size: 0.875rem;
+          font-weight: 500;
+          color: white;
         }
       }
     }
@@ -116,7 +128,10 @@ const ResponseModal: React.FC<Props> = ({ open, close, success, ...props }) => {
         <div className="blurBackground" />
         <div className="modalBox">
           <div className="top">
-            <SvgIcon component={Curator} viewBox="0 0 300 300" />
+            <SvgIcon
+              component={success ? Curator : CuratorSad}
+              viewBox="0 0 400 400"
+            />
           </div>
           <div className="bottom">
             <p className="alert-title">
@@ -134,12 +149,23 @@ const ResponseModal: React.FC<Props> = ({ open, close, success, ...props }) => {
               )}
             </p>
             <div className="grow" />
-            <Link href="/">
-              <Button className="exit-button">홈으로 돌아가기</Button>
-            </Link>
-            <Button className="stay-button" onClick={() => close()}>
-              다른 방명록 남기기
-            </Button>
+            {success ? (
+              <>
+                <Link href="/">
+                  <Button className="exit-button">홈으로 돌아가기</Button>
+                </Link>
+                <Button className="stay-button" onClick={() => close()}>
+                  다른 방명록 남기기
+                </Button>
+              </>
+            ) : (
+              <Button
+                className="ok-button"
+                variant="contained"
+                onClick={() => close()}>
+                확인
+              </Button>
+            )}
           </div>
         </div>
       </Root>
