@@ -6,6 +6,8 @@ import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
 
 import { HeaderRoot } from './styles';
 
+import AppContext from '../../AppContext';
+
 const Root = styled(HeaderRoot)`
   .back-block,
   .header-title,
@@ -55,6 +57,10 @@ const Header: React.FC<props> = ({
   actionComponent,
   ...props
 }) => {
+  const { withLayout } = React.useContext(AppContext);
+
+  if (withLayout) return <></>;
+
   return (
     <Root {...props}>
       <div className="header-content">

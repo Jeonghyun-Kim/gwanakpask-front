@@ -5,23 +5,27 @@ import Logo from '../Logo/Squared';
 
 import { HeaderRoot, MenuItemRoot } from './styles';
 
+import AppContext from '../../AppContext';
+
 interface MenuItemProps {
   href: string;
   title: string;
 }
-const MenuItem: React.FC<MenuItemProps> = ({ href, title, ...props }) => {
-  return (
-    <MenuItemRoot {...props}>
-      <Link href={href}>
-        <a>
-          <span className="menu-item-title">{title}</span>
-        </a>
-      </Link>
-    </MenuItemRoot>
-  );
-};
+const MenuItem: React.FC<MenuItemProps> = ({ href, title, ...props }) => (
+  <MenuItemRoot {...props}>
+    <Link href={href}>
+      <a>
+        <span className="menu-item-title">{title}</span>
+      </a>
+    </Link>
+  </MenuItemRoot>
+);
 
 const Header: React.FC = ({ ...props }) => {
+  const { withLayout } = React.useContext(AppContext);
+
+  if (withLayout) return <></>;
+
   return (
     <HeaderRoot {...props}>
       <div className="header-content">

@@ -47,7 +47,7 @@ yarn-error.log*
 TEMPLATE.tsx
 
 # photo and profile
-public/images/photo/*
+public/images/photo/medium
 public/images/profile/*
 
 # trash bin

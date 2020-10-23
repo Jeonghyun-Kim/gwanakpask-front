@@ -201,11 +201,11 @@ const Slider = ({ photos, pageIndex, innerWidth, ...props }) => {
                 <IconButton
                   className="close-button"
                   onClick={() => {
-                    if (window.history.length < 2) {
-                      router.push('/ovr/list');
-                    } else {
-                      router.back();
-                    }
+                    // if (window.history.length < 2) {
+                    router.push('/ovr/list');
+                    // } else {
+                    //   router.back();
+                    // }
                   }}>
                   <CloseIcon />
                 </IconButton>

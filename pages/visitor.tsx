@@ -90,7 +90,10 @@ const VisitorPage: React.FC = () => {
   const [from, setFrom] = React.useState<string>('');
   const [content, setContent] = React.useState<string>('');
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [resModalFlag, setResModalFlag] = React.useState<boolean>(true);
+  const [resModalFlags, setResModalFlags] = React.useState<{
+    open: boolean;
+    success: boolean;
+  }>({ open: false, success: true });
   const [valid, setValid] = React.useState<boolean>(false);
   const [templateId, setTemplateId] = React.useState<number>(6);
   const [previewId, setPreviewId] = React.useState<number | null>(null);
@@ -115,7 +118,6 @@ const VisitorPage: React.FC = () => {
   }, [content, from]);
 
   const handleSubmit = React.useCallback(async () => {
-    if (!valid) return setResModalFlag(false);
     try {
       setLoading(true);
       await fetcher('/api/message', {
@@ -132,12 +134,12 @@ const VisitorPage: React.FC = () => {
       });
       mutateCounter('/api/counter');
       setLoading(false);
-      return setResModalFlag(true);
+      return setResModalFlags({ open: true, success: true });
     } catch (err) {
       setLoading(false);
-      return setResModalFlag(true);
+      return setResModalFlags({ open: true, success: false });
     }
-  }, [valid, from, content, templateId, mutateCounter]);
+  }, [from, content, templateId, mutateCounter]);
 
   const SendButton = (
     <Button
@@ -146,7 +148,12 @@ const VisitorPage: React.FC = () => {
       onClick={() => handleSubmit()}
       disabled={loading || !valid}>
       {loading ? (
-        <img className="spinner" alt="sipnner" src="/images/spinner.gif" />
+        <img
+          className="spinner"
+          style={{ width: 16, height: 16 }}
+          alt="sipnner"
+          src="/images/spinner.gif"
+        />
       ) : (
         <>보내기</>
       )}
@@ -164,9 +171,13 @@ const VisitorPage: React.FC = () => {
         actionComponent={SendButton}
       />
       <ResModal
-        open={resModalFlag}
-        close={() => setResModalFlag(false)}
-        success
+        open={resModalFlags.open}
+        close={() => {
+          setFrom('');
+          setContent('');
+          setResModalFlags({ open: false, success: true });
+        }}
+        success={resModalFlags.success}
       />
       <Root className={`${withLayout ? 'desktop' : ''}`}>
         <div className="container">

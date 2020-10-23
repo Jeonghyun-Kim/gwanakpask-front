@@ -28,9 +28,9 @@ const Root = styled.div`
   }
   .modalBox {
     position: fixed;
-    top: 20%;
+    top: 50%;
     left: 50%;
-    transform: translate(-50%, 0);
+    transform: translate(-50%, -50%);
     width: 280px;
     height: 300px;
     border-radius: 10px;
@@ -83,8 +83,21 @@ const Root = styled.div`
       }
     }
   }
-
   &.desktop {
+  }
+  &.res-modal-enter {
+    opacity: 0;
+  }
+  &.res-modal-active {
+    opacity: 1;
+    transition: opacity 300ms ease;
+  }
+  &.res-modal-exit {
+    opacity: 1;
+  }
+  &.res-modal-exit-active {
+    opacity: 0;
+    transition: opacity 300ms ease;
   }
 `;
 
