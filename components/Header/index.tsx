@@ -10,9 +10,10 @@ const Root = styled(HeaderRoot)`
   .back-block,
   .header-title,
   .action-block {
-    flex-grow: 1;
+    width: calc(100% / 3);
   }
   .back-icon {
+    width: fit-content;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -31,9 +32,11 @@ const Root = styled(HeaderRoot)`
   .action-block {
     justify-content: flex-end;
     text-align: right;
-    font-size: 1rem;
-    font-weight: 400;
-    color: #007aff;
+    * {
+      color: #007aff;
+      font-size: 1rem;
+      font-weight: 400;
+    }
   }
 `;
 

@@ -106,7 +106,7 @@ const VisitorPage: React.FC = () => {
         <title>방명록</title>
       </Head>
       <Header
-        backTo={{ href: '/', name: '전시장' }}
+        backTo={{ href: '/ovr/list', name: '전시장' }}
         title="방명록"
         actionComponent={SendButton}
       />
