@@ -21,6 +21,6 @@
     "isolatedModules": true,
     "typeRoots": ["types"]
   },
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "TrashBin"],
   "include": ["**/*.ts", "**/*.tsx", "**/*.jsx", ".eslintrc.js"]
 }

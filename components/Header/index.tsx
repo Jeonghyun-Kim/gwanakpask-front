@@ -34,6 +34,11 @@ const Root = styled(HeaderRoot)`
   .action-block {
     justify-content: flex-end;
     text-align: right;
+    .MuiButton-label {
+      width: fit-content;
+      font-size: 1rem;
+      font-weight: 400;
+    }
     a,
     svg {
       color: #007aff;

@@ -2,7 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
 import useSWR from 'swr';
-import { useCountUp } from 'react-countup';
+import Countup from 'react-countup';
 
 import Button from '@material-ui/core/Button';
 import Layout from '../components/Layout';
@@ -98,19 +98,6 @@ const VisitorPage: React.FC = () => {
   const [templateId, setTemplateId] = React.useState<number>(6);
   const [previewId, setPreviewId] = React.useState<number | null>(null);
   const { data: countsData, mutate: mutateCounter } = useSWR('/api/counter');
-  const { countUp: visitorCount, update: updateCounter } = useCountUp({
-    start: 0,
-    end: 0,
-    duration: 1.5,
-    separator: ',',
-    startOnMount: true,
-  });
-
-  React.useEffect(() => {
-    if (countsData && countsData.counts) {
-      updateCounter(countsData.counts.message);
-    }
-  }, [countsData, updateCounter]);
 
   React.useEffect(() => {
     if (!from || !content) setValid(false);
@@ -144,7 +131,11 @@ const VisitorPage: React.FC = () => {
   const SendButton = (
     <Button
       variant="text"
-      style={{ color: valid ? '#007aff' : '#bdbdbd' }}
+      style={{
+        color: valid ? '#007aff' : '#bdbdbd',
+        width: 'fit-content',
+        marginRight: -10,
+      }}
       onClick={() => handleSubmit()}
       disabled={loading || !valid}>
       {loading ? (
@@ -187,7 +178,20 @@ const VisitorPage: React.FC = () => {
             {withLayout ? ' ' : <br />}
             방명록을 남겨주세요
           </p>
-          <p className="counter">지금까지 {visitorCount}명 참여</p>
+          <p className="counter">
+            지금까지{' '}
+            {countsData && countsData.counts ? (
+              <Countup
+                start={0}
+                end={countsData.counts.message}
+                duration={1.5}
+                separator=","
+              />
+            ) : (
+              '0'
+            )}
+            명 참여
+          </p>
           <div className="content-block">
             <div className="form-block">
               <MessageForm
