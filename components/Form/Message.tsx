@@ -8,7 +8,7 @@ import AppContext from '../../AppContext';
 const Root = styled.div`
   width: 100%;
   margin: 20px auto;
-  max-width: 320px;
+  max-width: 300px;
   .MuiTextField-root {
     margin: 10px 0;
   }

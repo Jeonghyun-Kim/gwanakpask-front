@@ -32,7 +32,8 @@ const Root = styled(HeaderRoot)`
   .action-block {
     justify-content: flex-end;
     text-align: right;
-    * {
+    a,
+    svg {
       color: #007aff;
       font-size: 1rem;
       font-weight: 400;

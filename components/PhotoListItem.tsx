@@ -9,7 +9,7 @@ interface RootProps {
 }
 const Root = styled.div<RootProps>`
   width: ${(props) => props.size}px;
-  height: ${(props) => props.size + 48}px;
+  height: ${(props) => props.size + 64}px;
   display: flex;
   flex-direction: column;
   .photo-list-item-img {

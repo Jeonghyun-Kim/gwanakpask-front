@@ -9,17 +9,15 @@ const Root = styled.div`
   height: 100%;
 `;
 
-const LoadingPage: React.FC = () => {
-  return (
-    <>
-      <Head>
-        <title>Loading Page</title>
-      </Head>
-      <Root>
-        <Loading />
-      </Root>
-    </>
-  );
-};
+const LoadingPage: React.FC = () => (
+  <>
+    <Head>
+      <title>Loading Page</title>
+    </Head>
+    <Root>
+      <Loading />
+    </Root>
+  </>
+);
 
 export default LoadingPage;

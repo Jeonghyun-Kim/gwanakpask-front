@@ -5,20 +5,24 @@ import useSWR from 'swr';
 import { useCountUp } from 'react-countup';
 
 import Button from '@material-ui/core/Button';
+import { truncate } from 'fs/promises';
 import Layout from '../components/Layout';
 import Header from '../components/Header';
 import MessageForm from '../components/Form/Message';
 import TemplateIconBlock from '../components/Paper/IconBlock';
 import PaperPreview from '../components/Paper';
+import ResModal from '../components/Modal/Response';
 
 import fetcher from '../lib/fetcher';
+import { getUserId } from '../lib/utils';
 
 import AppContext from '../AppContext';
 
 const Root = styled.div`
+  position: relative;
   width: 100%;
   height: 100%;
-  padding: 50px 0;
+  padding: 48px 0;
   .container {
     max-width: 850px;
     margin: 0 auto;
@@ -26,9 +30,22 @@ const Root = styled.div`
     flex-direction: column;
     align-items: center;
   }
+  .sub-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 500;
+    text-align: center;
+  }
+  .counter {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #757575;
+    margin: 0;
+    margin-top: 10px;
+  }
   .content-block {
     width: 100%;
-    margin: 30px auto 50px auto;
+    margin: 48px auto 100px auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -42,6 +59,20 @@ const Root = styled.div`
   .spinner {
     width: 25px;
     height: 25px;
+  }
+  .submit-button-block {
+    .submit-button {
+      position: fixed;
+      left: 50%;
+      bottom: 20px;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 48px;
+      transition: background-color 300ms ease;
+      .MuiButton-label {
+        color: white;
+      }
+    }
   }
   @media screen and (min-width: 1201px) {
     .content-block {
@@ -60,7 +91,8 @@ const VisitorPage: React.FC = () => {
   const [from, setFrom] = React.useState<string>('');
   const [content, setContent] = React.useState<string>('');
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [res, setRes] = React.useState<string>('');
+  const [resModalFlag, setResModalFlag] = React.useState<boolean>(true);
+  const [valid, setValid] = React.useState<boolean>(false);
   const [templateId, setTemplateId] = React.useState<number>(6);
   const [previewId, setPreviewId] = React.useState<number | null>(null);
   const { data: countsData, mutate: mutateCounter } = useSWR('/api/counter');
@@ -78,8 +110,13 @@ const VisitorPage: React.FC = () => {
     }
   }, [countsData, updateCounter]);
 
+  React.useEffect(() => {
+    if (!from || !content) setValid(false);
+    else setValid(true);
+  }, [content, from]);
+
   const handleSubmit = React.useCallback(async () => {
-    if (!from || !content) return setRes('모든 칸을 채워주세요.');
+    if (!valid) return setResModalFlag(false);
     try {
       setLoading(true);
       await fetcher('/api/message', {
@@ -87,18 +124,35 @@ const VisitorPage: React.FC = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ templateId, from, content }),
+        body: JSON.stringify({
+          templateId,
+          from,
+          content,
+          userId: getUserId(),
+        }),
       });
       mutateCounter('/api/counter');
       setLoading(false);
-      return setRes('성공적으로 제출하였습니다.');
+      return setResModalFlag(true);
     } catch (err) {
       setLoading(false);
-      return setRes('전송 실패(서버 에러). 잠시 후 다시 시도해주세요.');
+      return setResModalFlag(true);
     }
-  }, [from, content, templateId, mutateCounter]);
+  }, [valid, from, content, templateId, mutateCounter]);
 
-  const SendButton = <Button variant="text">보내기</Button>;
+  const SendButton = (
+    <Button
+      variant="text"
+      style={{ color: valid ? '#007aff' : '#bdbdbd' }}
+      onClick={() => handleSubmit()}
+      disabled={loading || !valid}>
+      {loading ? (
+        <img className="spinner" alt="sipnner" src="/images/spinner.gif" />
+      ) : (
+        <>보내기</>
+      )}
+    </Button>
+  );
 
   return (
     <Layout>
@@ -110,11 +164,18 @@ const VisitorPage: React.FC = () => {
         title="방명록"
         actionComponent={SendButton}
       />
+      <ResModal
+        open={resModalFlag}
+        close={() => setResModalFlag(false)}
+        success
+      />
       <Root className={`${withLayout ? 'desktop' : ''}`}>
         <div className="container">
-          <h2 className="title">방명록</h2>
+          {withLayout && <h2 className="title">방명록</h2>}
           <p className="sub-title">
-            전시에 참여하신 작가님들을 위해 방명록을 남겨주세요
+            전시에 참여하신 작가님들을 위해
+            {withLayout ? ' ' : <br />}
+            방명록을 남겨주세요
           </p>
           <p className="counter">지금까지 {visitorCount}명 참여</p>
           <div className="content-block">
@@ -137,16 +198,18 @@ const VisitorPage: React.FC = () => {
               content={content}
             />
           </div>
-          <p className="response">{res}</p>
           <div className="submit-button-block">
-            <p className="info">
-              보내주신 방명록은 전시에 참여하신 작가님들께 전달됩니다.
-            </p>
+            {withLayout && (
+              <p className="info">
+                보내주신 방명록은 전시에 참여하신 작가님들께 전달됩니다.
+              </p>
+            )}
             <Button
               className="submit-button"
               variant="contained"
+              style={{ backgroundColor: valid ? '#3f51b5' : '#bdbdbd' }}
               onClick={() => handleSubmit()}
-              disabled={loading}>
+              disabled={loading || !valid}>
               {loading ? (
                 <img
                   className="spinner"
@@ -154,7 +217,7 @@ const VisitorPage: React.FC = () => {
                   src="/images/spinner.gif"
                 />
               ) : (
-                <>제출하기</>
+                <>보내기</>
               )}
             </Button>
           </div>

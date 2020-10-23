@@ -20,7 +20,7 @@ const handler = nextConnect<RequestWithSession, NextApiResponse>();
 handler.use(connectMongoDB);
 
 handler.post(async (req, res) => {
-  const { templateId = 0, from, content } = req.body;
+  const { templateId = 0, from, content, userId } = req.body;
   if (!from || !content)
     return res
       .status(400)
@@ -28,11 +28,11 @@ handler.post(async (req, res) => {
   try {
     const message = await req.db
       .collection('message')
-      .insertOne({ templateId, from, content });
+      .insertOne({ userId, templateId, from, content });
     // await sendEmail(
     //   `${from}님의 방명록 작성`,
     //   JSON.stringify({ templateId, from, content }),
-    //   'art.ondisplay@gmail.com',
+    //   'ondisplay.art@gmail.com',
     // );
     return res.json({ message });
   } catch (err) {

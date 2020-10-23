@@ -19,6 +19,7 @@ const LoginPage: React.FC = () => {
     redirectTo: (router.query.from as string) ?? '/admin',
     redirectIfFound: true,
   });
+
   return (
     <>
       <Head>

@@ -41,16 +41,26 @@ const ActionButton = (
 );
 
 const PhotoListPage: React.FC = () => {
-  const { withLayout } = React.useContext(AppContext);
+  const { index, withLayout } = React.useContext(AppContext);
   const {
     size: { innerWidth },
   } = useLayout();
-  const photoSize = (innerWidth - 10 * 2 - 7) / 2;
+  const photoSize = React.useMemo(() => (innerWidth - 10 * 2 - 7) / 2, [
+    innerWidth,
+  ]);
 
   React.useEffect(() => {
     const backgroundImg = new Image();
     backgroundImg.src = '/images/background/land.png';
   }, []);
+
+  React.useEffect(() => {
+    window.scroll({
+      behavior: 'smooth',
+      left: 0,
+      top: Math.floor((index - 1) / 2) * (photoSize + 64),
+    });
+  }, [index, photoSize]);
 
   return (
     <Layout>
