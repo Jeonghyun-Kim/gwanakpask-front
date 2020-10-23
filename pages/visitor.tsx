@@ -5,7 +5,6 @@ import useSWR from 'swr';
 import { useCountUp } from 'react-countup';
 
 import Button from '@material-ui/core/Button';
-import { truncate } from 'fs/promises';
 import Layout from '../components/Layout';
 import Header from '../components/Header';
 import MessageForm from '../components/Form/Message';
