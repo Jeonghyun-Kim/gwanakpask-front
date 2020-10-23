@@ -31,15 +31,7 @@ const App: React.FC<{
 }> = ({ Component, pageProps }) => {
   const router = useRouter();
   const [index, setIndex] = React.useState<number>(0);
-  // const index = React.useRef(0);
-  const [headerOpen, setHeaderOpen] = React.useState<boolean>(true);
   const { withLayout } = useLayout();
-
-  const saveAndSetIndex = React.useCallback((newIndex: number) => {
-    photoCounter(newIndex);
-    setIndex(newIndex);
-    saveIndex(newIndex);
-  }, []);
 
   React.useEffect(() => {
     smoothscroll.polyfill();
@@ -66,6 +58,12 @@ const App: React.FC<{
     return () =>
       window.removeEventListener('orientationchange', refreshHandler);
   }, [router]);
+
+  const saveAndSetIndex = React.useCallback((newIndex: number) => {
+    photoCounter(newIndex);
+    setIndex(newIndex);
+    saveIndex(newIndex);
+  }, []);
 
   if (isEdge && !isEdgeChromium) {
     return (
@@ -131,8 +129,6 @@ const App: React.FC<{
             value={{
               index,
               setIndex: saveAndSetIndex,
-              headerOpen,
-              setHeaderOpen,
               withLayout,
             }}>
             <Component {...pageProps} />

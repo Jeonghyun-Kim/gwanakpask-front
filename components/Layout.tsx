@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Header from './Header';
 import NavBar from './Navbar';
 
 import AppContext from '../AppContext';
@@ -25,18 +24,11 @@ const DesktopMain = styled(Main)`
 
 interface props {
   children: React.ReactNode;
-  noHeader?: boolean;
 }
-const Layout: React.FC<props> = ({ children, noHeader, ...props }) => {
+const Layout: React.FC<props> = ({ children, ...props }) => {
   const { withLayout } = React.useContext(AppContext);
 
-  if (!withLayout)
-    return (
-      <>
-        {!noHeader && <Header />}
-        <Main {...props}>{children}</Main>
-      </>
-    );
+  if (!withLayout) return <Main {...props}>{children}</Main>;
 
   return (
     <>

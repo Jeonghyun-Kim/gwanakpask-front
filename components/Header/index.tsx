@@ -1,67 +1,71 @@
 import React from 'react';
+import Link from 'next/link';
 import styled from 'styled-components';
-import { CSSTransition } from 'react-transition-group';
 
-import Logo from '../Logo/Squared';
+import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
 
-import { HEADER_HEIGHT } from '../../defines';
+import { HeaderRoot } from './styles';
 
-import AppContext from '../../AppContext';
-
-const TRANSITION = 500;
-
-const Root = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: ${HEADER_HEIGHT}px;
-  background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.15) 0 3px 6px;
-  z-index: 1;
-
-  .headerContent {
-    height: 100%;
+const Root = styled(HeaderRoot)`
+  .back-block,
+  .header-title,
+  .action-block {
+    flex-grow: 1;
+  }
+  .back-icon {
     display: flex;
+    justify-content: flex-start;
     align-items: center;
-    margin: 0 auto;
-    padding: 0 10px;
-    max-width: 2000px;
+    color: #007aff;
+    span {
+      margin-left: -5px;
+      font-size: 1rem;
+      font-weight: 400;
+    }
   }
-
-  &.header-enter {
-    top: -${HEADER_HEIGHT}px;
+  .header-title {
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
   }
-  &.header-enter-active {
-    top: 0;
-    transition: ${TRANSITION}ms ease;
-  }
-  &.header-exit {
-    top: 0;
-  }
-  &.header-exit-active {
-    top: -${HEADER_HEIGHT}px;
-    transition: ${TRANSITION}ms ease;
+  .action-block {
+    justify-content: flex-end;
+    text-align: right;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #007aff;
   }
 `;
 
-const Header: React.FC = ({ ...props }) => {
-  const { headerOpen } = React.useContext(AppContext);
-
+interface props {
+  backTo: {
+    href: string;
+    name: string;
+  };
+  title: string;
+  actionComponent: React.ReactNode;
+}
+const Header: React.FC<props> = ({
+  backTo,
+  title,
+  actionComponent,
+  ...props
+}) => {
   return (
-    <CSSTransition
-      in={headerOpen}
-      timeout={TRANSITION}
-      unmountOnExit
-      classNames="header"
-      className="header">
-      <Root {...props}>
-        <div className="headerContent">
-          <Logo href="/" />
-          <div className="grow" />
+    <Root {...props}>
+      <div className="header-content">
+        <div className="back-block">
+          <Link href={backTo.href}>
+            <a className="back-icon">
+              <ArrowBackIos />
+              <span>{backTo.name}</span>
+            </a>
+          </Link>
         </div>
-      </Root>
-    </CSSTransition>
+        <h1 className="header-title">{title}</h1>
+        <div className="action-block">{actionComponent}</div>
+      </div>
+    </Root>
   );
 };
 

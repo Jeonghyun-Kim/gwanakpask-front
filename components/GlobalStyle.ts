@@ -22,6 +22,9 @@ const GlobalStyle = css`
   * {
     box-sizing: border-box;
   }
+  a {
+    text-decoration: none;
+  }
   .grow {
     flex-grow: 1;
   }

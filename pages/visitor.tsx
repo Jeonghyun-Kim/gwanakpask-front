@@ -6,6 +6,7 @@ import { useCountUp } from 'react-countup';
 
 import Button from '@material-ui/core/Button';
 import Layout from '../components/Layout';
+import Header from '../components/Header';
 import MessageForm from '../components/Form/Message';
 import TemplateIconBlock from '../components/Paper/IconBlock';
 import PaperPreview from '../components/Paper';
@@ -97,11 +98,18 @@ const VisitorPage: React.FC = () => {
     }
   }, [from, content, templateId, mutateCounter]);
 
+  const SendButton = <Button variant="text">보내기</Button>;
+
   return (
     <Layout>
       <Head>
         <title>방명록</title>
       </Head>
+      <Header
+        backTo={{ href: '/', name: '전시장' }}
+        title="방명록"
+        actionComponent={SendButton}
+      />
       <Root className={`${withLayout ? 'desktop' : ''}`}>
         <div className="container">
           <h2 className="title">방명록</h2>
@@ -138,7 +146,7 @@ const VisitorPage: React.FC = () => {
               className="submit-button"
               variant="contained"
               onClick={() => handleSubmit()}
-              disablied={loading}>
+              disabled={loading}>
               {loading ? (
                 <img
                   className="spinner"

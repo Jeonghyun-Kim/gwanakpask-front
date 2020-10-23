@@ -38,7 +38,7 @@ const TestPage: React.FC = () => {
   // const { withLayout, size } = useLayout();
 
   return (
-    <Layout noHeader>
+    <Layout>
       <Head>
         <title>test</title>
       </Head>
