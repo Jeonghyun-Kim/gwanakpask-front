@@ -200,7 +200,13 @@ const Slider = ({ photos, pageIndex, innerWidth, ...props }) => {
                 vertical>
                 <IconButton
                   className="close-button"
-                  onClick={() => router.back()}>
+                  onClick={() => {
+                    if (window.history.length < 2) {
+                      router.push('/ovr/list');
+                    } else {
+                      router.back();
+                    }
+                  }}>
                   <CloseIcon />
                 </IconButton>
               </Gradient>
