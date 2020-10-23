@@ -1,7 +1,8 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { useSpring, useSprings, animated } from 'react-spring';
+import { useSpring, useSprings } from '@react-spring/core';
+import { a } from '@react-spring/web';
 import { useGesture } from 'react-use-gesture';
 
 import IconButton from '@material-ui/core/IconButton';
@@ -240,7 +241,7 @@ const Slider: React.FC<props> = ({
   return (
     <Root className={`unselectable ${withLayout ? 'desktop' : ''}`} {...props}>
       {springs.map(({ x: xBackground, display, scale, zIndex }, i) => (
-        <animated.div
+        <a.div
           {...bind()}
           // eslint-disable-next-line react/no-array-index-key
           key={i}
@@ -249,7 +250,7 @@ const Slider: React.FC<props> = ({
             zIndex: zIndex as never,
             x: xBackground,
           }}>
-          <animated.div style={{ scale }}>
+          <a.div style={{ scale }}>
             {!withLayout ? (
               <Gradient
                 size={{ width: '100%', height: '70px' }}
@@ -271,7 +272,7 @@ const Slider: React.FC<props> = ({
             ) : (
               <></>
             )}
-            <animated.img
+            <a.img
               {...imgBind()}
               style={{
                 x,
@@ -320,8 +321,8 @@ const Slider: React.FC<props> = ({
             ) : (
               <></>
             )}
-          </animated.div>
-        </animated.div>
+          </a.div>
+        </a.div>
       ))}
     </Root>
   );
