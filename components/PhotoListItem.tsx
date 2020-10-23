@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 import AppContext from '../AppContext';
@@ -9,9 +10,12 @@ interface RootProps {
 const Root = styled.div<RootProps>`
   width: ${(props) => props.size}px;
   height: ${(props) => props.size + 48}px;
+  display: flex;
+  flex-direction: column;
   .photo-list-item-img {
     width: 100%;
     object-fit: contain;
+    border-radius: 5px;
   }
   .caption-block {
     width: 100%;
@@ -22,7 +26,8 @@ const Root = styled.div<RootProps>`
     h4 {
       font-size: 0.875rem;
       font-weight: 400;
-      margin: 5px 0;
+      margin: 0;
+      margin-top: 3px;
     }
     p {
       font-size: 0.625rem;
@@ -33,23 +38,29 @@ const Root = styled.div<RootProps>`
 `;
 
 interface props {
-  photo: Photo;
-  artistName: string;
+  photo: PhotoWithArtist;
   size: number;
 }
-const PhotoListItem: React.FC<props> = ({
-  photo,
-  artistName,
-  size,
-  ...props
-}) => {
-  const { withLayout } = React.useContext(AppContext);
+const PhotoListItem: React.FC<props> = ({ photo, size, ...props }) => {
+  const router = useRouter();
+  const { setIndex, withLayout } = React.useContext(AppContext);
+
+  const handleMove = React.useCallback(() => {
+    setIndex(photo.photoId);
+    router.push('/ovr');
+  }, [photo.photoId, router, setIndex]);
 
   return (
     <Root
       id={`photo-list-item-${photo.photoId}`}
       className={`${withLayout ? 'desktop' : ''}`}
       size={size}
+      role="button"
+      tabIndex={0}
+      onClick={() => handleMove()}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') handleMove();
+      }}
       {...props}>
       <img
         className="photo-list-item-img"
@@ -58,7 +69,7 @@ const PhotoListItem: React.FC<props> = ({
       />
       <div className="caption-block">
         <h4>{photo.title}</h4>
-        <p>{artistName}</p>
+        <p>{photo.artist?.name}</p>
       </div>
     </Root>
   );

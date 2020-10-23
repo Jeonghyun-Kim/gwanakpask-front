@@ -35,7 +35,7 @@ const IntroPage: React.FC = () => {
         <NextSection>
           <h2>준비되셨나요?</h2>
           <h4>전시장에서 작품들을 만나보세요!</h4>
-          <Link href="/visitor">
+          <Link href="/ovr/list">
             <a>
               <span>전시장 바로가기</span>
               <ArrowForwardIos />

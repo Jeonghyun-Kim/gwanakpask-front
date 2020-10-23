@@ -6,10 +6,15 @@ import styled from 'styled-components';
 import ArrowForwardIos from '@material-ui/icons/ArrowForwardIos';
 import Layout from '../../components/Layout';
 import Header from '../../components/Header';
+import PhotoListItem from '../../components/PhotoListItem';
 
 import { NextSection } from '../../components/GlobalStyle';
 
+import useLayout from '../../lib/useLayout';
+
 import { photosWithArtist } from '../../data';
+
+import AppContext from '../../AppContext';
 
 const Root = styled.div`
   width: 100%;
@@ -21,6 +26,12 @@ const Root = styled.div`
     font-weight: 500;
     color: #757575;
   }
+  .photo-list-container {
+    padding: 0 10px 10px 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
 `;
 
 const ActionButton = (
@@ -30,6 +41,17 @@ const ActionButton = (
 );
 
 const PhotoListPage: React.FC = () => {
+  const { withLayout } = React.useContext(AppContext);
+  const {
+    size: { innerWidth },
+  } = useLayout();
+  const photoSize = (innerWidth - 10 * 2 - 7) / 2;
+
+  React.useEffect(() => {
+    const backgroundImg = new Image();
+    backgroundImg.src = '/images/background/land.png';
+  }, []);
+
   return (
     <Layout>
       <Head>
@@ -40,9 +62,18 @@ const PhotoListPage: React.FC = () => {
         title="전시장"
         actionComponent={ActionButton}
       />
-      <Root>
+      <Root className={`${withLayout ? 'desktop' : ''}`}>
         <section className="photo-list">
           <div className="number-of-photos">총 {photosWithArtist.length}점</div>
+          <div className="photo-list-container">
+            {photosWithArtist.map((photo) => (
+              <PhotoListItem
+                key={photo.photoId}
+                photo={photo}
+                size={photoSize}
+              />
+            ))}
+          </div>
         </section>
         <NextSection>
           <h2>잘 감상하셨나요?</h2>

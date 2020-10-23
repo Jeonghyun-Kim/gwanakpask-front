@@ -1,7 +1,14 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { useSprings, animated } from 'react-spring';
 import { useDrag } from 'react-use-gesture';
+
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import PersonIcon from '@material-ui/icons/Person';
+import ZoomInIcon from '@material-ui/icons/ZoomIn';
+import Gradient from '../Gradient';
 
 import AppContext from '../../AppContext';
 
@@ -28,8 +35,68 @@ const Root = styled.div`
       height: 100%;
       box-shadow: 0 62.5px 125px -25px rgba(50, 50, 73, 0.5),
         0 37.5px 75px -37.5px rgba(0, 0, 0, 0.6);
-      display: grid;
-      place-items: center;
+      .close-button {
+        position: absolute;
+        top: 10px;
+        left: 5px;
+        padding: 5px;
+        svg {
+          font-size: 36px;
+          color: white;
+        }
+      }
+      .photo {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, calc(-50% - 50px));
+        max-width: min(500px, 100% - 40px);
+        max-height: 60%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        box-shadow: rgba(0, 20, 0, 0.2) 10px 7px 10px 3px;
+        border-radius: 1px;
+      }
+      .bottom {
+        padding: 0 16px 24px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        .artist-info {
+          display: flex;
+          align-items: flex-end;
+          .title-and-name {
+            margin-left: 10px;
+            h2 {
+              margin: 5px 0;
+              font-size: 1rem;
+              font-weight: 500;
+              color: white;
+            }
+            p {
+              margin: 0;
+              font-size: 0.75rem;
+              font-weight: 400;
+              color: white;
+            }
+          }
+        }
+        .icon-block {
+          display: flex;
+          flex-direction: column;
+          svg {
+            font-size: 2rem;
+            color: white;
+          }
+          .icon-name {
+            font-size: 0.625rem;
+            font-weight: 400;
+            color: white;
+            text-align: center;
+          }
+        }
+      }
     }
   }
   &.desktop {
@@ -40,6 +107,7 @@ const Root = styled.div`
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const Slider = ({ photos, pageIndex, innerWidth, ...props }) => {
+  const router = useRouter();
   const { withLayout, setIndex } = React.useContext(AppContext);
   const index = React.useRef(pageIndex);
   const [springs, setSprings] = useSprings(photos.length, (i) => ({
@@ -124,7 +192,51 @@ const Slider = ({ photos, pageIndex, innerWidth, ...props }) => {
             style={{
               transform: scale.interpolate((s) => `scale(${s})`),
             }}>
-            index: {i + 1}
+            {!withLayout ? (
+              <Gradient
+                size={{ width: '100%', height: '70px' }}
+                position={{ top: '0', left: '0' }}
+                opacities={{ start: 0, end: 0.4 }}
+                vertical>
+                <IconButton
+                  className="close-button"
+                  onClick={() => router.back()}>
+                  <CloseIcon />
+                </IconButton>
+              </Gradient>
+            ) : (
+              <></>
+            )}
+            <img
+              className="photo"
+              alt={photos[i].title}
+              src={photos[i].url ?? `/images/photo/full/${i + 1}.jpg`}
+            />
+            {!withLayout ? (
+              <Gradient
+                className="bottom"
+                size={{ width: '100%', height: '112px' }}
+                position={{ bottom: '0', left: '0' }}
+                opacities={{ start: 0.5, end: 0 }}
+                vertical>
+                <div className="artist-info">
+                  <div className="icon-block">
+                    <PersonIcon />
+                    <span className="icon-name">작가</span>
+                  </div>
+                  <div className="title-and-name">
+                    <h2 className="title">{photos[i].title}</h2>
+                    <p className="artist-name">{photos[i].artist.name}</p>
+                  </div>
+                </div>
+                <div className="icon-block">
+                  <ZoomInIcon />
+                  <span className="icon-name">확대</span>
+                </div>
+              </Gradient>
+            ) : (
+              <></>
+            )}
           </animated.div>
         </animated.div>
       ))}

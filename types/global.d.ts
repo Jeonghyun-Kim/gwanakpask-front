@@ -25,6 +25,7 @@ declare interface PhotoWithArtist {
   photoId: number;
   title: string;
   artist?: Artist;
+  url?: string;
 }
 
 declare module '*.svg' {
