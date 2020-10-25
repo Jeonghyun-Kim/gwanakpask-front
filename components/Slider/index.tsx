@@ -131,10 +131,12 @@ const Slider: React.FC<props> = ({
 
   const bind = useGesture({
     onDrag: ({
+      last,
       touches,
       down,
       offset: [x],
       lastOffset: [lastX],
+      velocities: [vx],
       cancel,
       swipe: [, y],
     }) => {
@@ -142,29 +144,30 @@ const Slider: React.FC<props> = ({
         setProfileOpen(true);
         if (cancel) cancel();
       }
-      const deltaX = x - lastX;
-      if (down && Math.abs(deltaX) > innerWidth / 3) {
-        if (deltaX < 0) {
-          if (index.current === photos.length - 1) {
-            setEdgeModalFlag(true);
-          } else {
-            index.current += 1;
-            setIndex(index.current + 1);
-          }
-        } else if (deltaX > 0 && index.current > 0) {
-          index.current -= 1;
-          setIndex(index.current + 1);
-        }
-        if (cancel) cancel();
-      }
       if (touches > 1 || zoomIn || profileOpen) {
         if (cancel) cancel();
       } else {
+        const deltaX = x - lastX;
+        if (last && (Math.abs(deltaX) > innerWidth / 2 || Math.abs(vx) > 1.5)) {
+          if (deltaX < 0) {
+            if (index.current === photos.length - 1) {
+              setEdgeModalFlag(true);
+            } else {
+              index.current += 1;
+              setIndex(index.current + 1);
+            }
+          } else if (deltaX > 0 && index.current > 0) {
+            index.current -= 1;
+            setIndex(index.current + 1);
+          }
+          // if (cancel) cancel();
+        }
         setSprings((i) => {
           if (i < index.current - 1 || i > index.current + 1)
             return { display: 'none' };
           const xT = (i - index.current) * innerWidth + (down ? deltaX : 0);
-          const scale = down ? 1 - Math.abs(deltaX) / innerWidth / 4 : 1;
+          const scale =
+            down && touches === 1 ? 1 - Math.abs(deltaX) / innerWidth / 10 : 1;
           if (i === index.current)
             return { x: xT, scale, zIndex: 1, display: 'block' };
           return { x: xT, scale, zIndex: 0, display: 'block' };
