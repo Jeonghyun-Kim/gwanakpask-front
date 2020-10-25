@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "name": "관악구청",
+    "number-of-photos": 9
+  },
+  {
+    "id": 2,
+    "name": "서림동",
+    "number-of-photos": 7
+  },
+  {
+    "id": 3,
+    "name": "성현동",
+    "number-of-photos": 6
+  },
+  {
+    "id": 4,
+    "name": "신림동",
+    "number-of-photos": 2
+  },
+  {
+    "id": 5,
+    "name": "신사동",
+    "number-of-photos": 7
+  },
+  {
+    "id": 6,
+    "name": "중앙동",
+    "number-of-photos": 9
+  },
+  {
+    "id": 7,
+    "name": "청룡동",
+    "number-of-photos": 4
+  }
+]

@@ -1,5 +1,6 @@
 import photosJSON from './photos.json';
 import artistsJSON from './artists.json';
+import covidJSON from './covid.json';
 
 const photos = photosJSON;
 const artists: Artist[] = artistsJSON;
@@ -37,8 +38,11 @@ export const getArtistWithPhotos: (artistId: number) => ArtistWithPhotos = (
   );
 };
 
+export const covidPhotos = covidJSON;
+
 export default {
   photosWithArtist,
   artistsWithPhotos,
   getArtistWithPhotos,
+  covidPhotos,
 };
