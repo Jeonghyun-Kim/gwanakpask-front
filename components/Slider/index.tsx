@@ -148,7 +148,7 @@ const Slider: React.FC<props> = ({
         if (cancel) cancel();
       } else {
         const deltaX = x - lastX;
-        if (last && (Math.abs(deltaX) > innerWidth / 2 || Math.abs(vx) > 0.5)) {
+        if (last && (Math.abs(deltaX) > innerWidth / 2 || Math.abs(vx) > 1)) {
           if (deltaX < 0) {
             if (index.current === photos.length - 1) {
               setEdgeModalFlag(true);
