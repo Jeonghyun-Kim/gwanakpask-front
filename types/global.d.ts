@@ -12,12 +12,19 @@ declare interface Artist {
   profileUrl?: string;
 }
 
+declare interface ArtistWithPhotos {
+  artistId: number;
+  position: string;
+  name: string;
+  photos: Photo[];
+}
+
 declare interface Photo {
   _id?: string;
   photoId: number;
   artistId: number;
   title: string;
-  hitCount: number;
+  hitCount?: number;
   url?: string;
 }
 

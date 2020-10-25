@@ -14,7 +14,31 @@ export const photosWithArtist: PhotoWithArtist[] = photos.map((photo) => {
     artist,
   };
 });
+export const artistsWithPhotos: ArtistWithPhotos[] = artists.map((artist) => {
+  const photosFiltered = photos.filter(
+    (photo) => photo.artistId === artist.artistId,
+  );
+  return {
+    ...artist,
+    photos: photosFiltered,
+  };
+});
+
+export const getArtistWithPhotos: (artistId: number) => ArtistWithPhotos = (
+  artistId,
+) => {
+  return (
+    artistsWithPhotos.find((artist) => artist.artistId === artistId) ?? {
+      artistId: 0,
+      position: '',
+      name: '',
+      photos: [],
+    }
+  );
+};
 
 export default {
   photosWithArtist,
+  artistsWithPhotos,
+  getArtistWithPhotos,
 };

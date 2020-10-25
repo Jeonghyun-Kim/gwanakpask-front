@@ -26,7 +26,7 @@ handler.get(async (req, res) => {
     let totalHitCount = 0;
     (await req.db.collection('photo').find({}).toArray()).forEach(
       (photo: Photo) => {
-        totalHitCount += photo.hitCount;
+        totalHitCount += photo.hitCount ?? 0;
       },
     );
     return res.json({

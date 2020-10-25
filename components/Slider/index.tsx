@@ -9,9 +9,12 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import PersonIcon from '@material-ui/icons/Person';
 import ZoomInIcon from '@material-ui/icons/ZoomIn';
+import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 import Gradient from '../Gradient';
+import Profile from './Profile';
 
 import AppContext from '../../AppContext';
+import { getArtistWithPhotos } from '../../data';
 
 import { NAVBAR_WIDTH } from '../../defines';
 
@@ -108,6 +111,8 @@ const Root = styled.div`
   }
 `;
 
+const zoomScales = [1, 2, 3];
+
 interface props {
   photos: PhotoWithArtist[];
   pageIndex: number;
@@ -121,20 +126,29 @@ const Slider: React.FC<props> = ({
 }) => {
   const router = useRouter();
   const { withLayout, setIndex } = React.useContext(AppContext);
-  const index = React.useRef(pageIndex);
-  const [zoomIn, setZoomIn] = React.useState(false);
-  const [springs, setSprings] = useSprings(photos.length, (i) => ({
-    x: (i - index.current) * innerWidth,
-    scale: 1,
-    zIndex: i === pageIndex ? 1 : 'initial',
-    display: 'block',
-  }));
-  const [{ x, y, zoom }, setSpring] = useSpring(() => ({
-    x: 0,
-    y: 0,
-    zoom: 1,
-    config: { tension: 250 },
-  }));
+  const index = React.useRef<number>(pageIndex);
+  const pinchFlag = React.useRef<boolean>(false);
+  const [zoomIn, setZoomIn] = React.useState<number>(0);
+  const [profileOpen, setProfileOpen] = React.useState<boolean>(false);
+  const [springs, setSprings] = useSprings(
+    photos.length,
+    (i) => ({
+      x: (i - index.current) * innerWidth,
+      scale: 1,
+      zIndex: i === index.current ? 1 : 0,
+      display: 'block',
+    }),
+    [],
+  );
+  const [{ x, y, zoom }, setSpring] = useSpring(
+    () => ({
+      x: 0,
+      y: 0,
+      zoom: zoomScales[zoomIn],
+      config: { tension: 250 },
+    }),
+    [],
+  );
 
   const bind = useGesture({
     onDrag: ({
@@ -143,7 +157,12 @@ const Slider: React.FC<props> = ({
       offset: [xOffset],
       lastOffset: [lastX],
       cancel,
+      swipe: [, swipeY],
     }) => {
+      if (swipeY === -1) {
+        setProfileOpen(true);
+        if (cancel) cancel();
+      }
       const deltaX = xOffset - lastX;
       if (down && Math.abs(deltaX) > innerWidth / 3) {
         if (deltaX < 0 && index.current < photos.length - 1) {
@@ -154,7 +173,7 @@ const Slider: React.FC<props> = ({
         setIndex(index.current + 1);
         if (cancel) cancel();
       }
-      if (touches > 1 || zoomIn) {
+      if (touches > 1 || zoomIn || profileOpen) {
         if (cancel) cancel();
       } else {
         setSprings((i) => {
@@ -164,8 +183,26 @@ const Slider: React.FC<props> = ({
           const scaleT = down ? 1 - Math.abs(deltaX) / innerWidth / 4 : 1;
           if (i === index.current)
             return { x: xT, scale: scaleT, zIndex: 1, display: 'block' };
-          return { x: xT, scale: scaleT, zIndex: 'initial', display: 'block' };
+          return { x: xT, scale: scaleT, zIndex: 0, display: 'block' };
         });
+      }
+    },
+    onPinch: ({ first, last, da: [d], vdva: [vd], cancel }) => {
+      if (first) pinchFlag.current = true;
+      if (last) pinchFlag.current = false;
+      if (
+        pinchFlag.current &&
+        zoomIn < zoomScales.length - 1 &&
+        vd > 0.3 &&
+        (d > 100 || vd > 1)
+      ) {
+        pinchFlag.current = false;
+        setZoomIn(zoomIn + 1);
+        if (cancel) cancel();
+      } else if (pinchFlag.current && zoomIn > 0 && vd < 0) {
+        pinchFlag.current = false;
+        setZoomIn(0);
+        if (cancel) cancel();
       }
     },
   });
@@ -173,6 +210,7 @@ const Slider: React.FC<props> = ({
   const imgBind = useGesture({
     onDrag: ({
       down,
+      touches,
       offset: [xOffset, yOffset],
       lastOffset: [lastX, lastY],
       cancel,
@@ -182,8 +220,14 @@ const Slider: React.FC<props> = ({
         if (cancel) cancel();
       } else {
         setSpring({
-          x: down ? xOffset - lastX : 0,
-          y: down ? yOffset - lastY : 0,
+          x:
+            down && touches === 1
+              ? (xOffset - lastX) * (1 + (zoomScales[zoomIn] - 1) / 2)
+              : 0,
+          y:
+            down && touches === 1
+              ? (yOffset - lastY) * (1 + (zoomScales[zoomIn] - 1) / 2)
+              : 0,
         });
       }
       if (canceled) setSpring({ x: 0, y: 0 });
@@ -197,7 +241,7 @@ const Slider: React.FC<props> = ({
       const xT = (i - index.current) * innerWidth;
       if (i === index.current)
         return { x: xT, scale: 1, zIndex: 1, display: 'block' };
-      return { x: xT, scale: 1, zIndex: 'initial', display: 'block' };
+      return { x: xT, scale: 1, zIndex: 0, display: 'block' };
     });
   }, [innerWidth, setSprings]);
   const handleRight = React.useCallback(() => {
@@ -214,6 +258,14 @@ const Slider: React.FC<props> = ({
       moveSprings();
     }
   }, [moveSprings, setIndex]);
+  const handleGoTo = React.useCallback(
+    (photoId: number) => {
+      index.current = photoId - 1;
+      setIndex(photoId - 1);
+      moveSprings();
+    },
+    [moveSprings, setIndex],
+  );
 
   React.useLayoutEffect(() => {
     const handler = (e: TouchEvent) => {
@@ -235,7 +287,7 @@ const Slider: React.FC<props> = ({
   }, [handleLeft, handleRight]);
 
   React.useEffect(() => {
-    setSpring({ zoom: zoomIn ? 2 : 1 });
+    setSpring({ zoom: zoomScales[zoomIn] });
   }, [zoomIn, setSpring]);
 
   return (
@@ -243,8 +295,11 @@ const Slider: React.FC<props> = ({
       {springs.map(({ x: xBackground, display, scale, zIndex }, i) => (
         <a.div
           {...bind()}
-          // eslint-disable-next-line react/no-array-index-key
-          key={i}
+          key={`background-${photos[i].photoId}`}
+          onClick={() => {
+            if (zoomIn) setZoomIn(0);
+            if (profileOpen) setProfileOpen(false);
+          }}
           style={{
             display: display as never,
             zIndex: zIndex as never,
@@ -260,11 +315,8 @@ const Slider: React.FC<props> = ({
                 <IconButton
                   className="close-button"
                   onClick={() => {
-                    // if (window.history.length < 2) {
-                    router.push('/ovr/list');
-                    // } else {
-                    //   router.back();
-                    // }
+                    if (profileOpen) setProfileOpen(false);
+                    else router.push('/ovr/list');
                   }}>
                   <CloseIcon />
                 </IconButton>
@@ -291,7 +343,20 @@ const Slider: React.FC<props> = ({
                 opacities={{ start: 0.5, end: 0 }}
                 vertical>
                 <div className="artist-info">
-                  <div className="icon-block">
+                  <div
+                    className="icon-block"
+                    role="button"
+                    tabIndex={0}
+                    onClick={(e) => {
+                      setProfileOpen(true);
+                      e.currentTarget.blur();
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        setProfileOpen(true);
+                        e.currentTarget.blur();
+                      }
+                    }}>
                     <PersonIcon />
                     <span className="icon-name">작가</span>
                   </div>
@@ -305,22 +370,28 @@ const Slider: React.FC<props> = ({
                   role="button"
                   tabIndex={0}
                   onClick={(e) => {
-                    setZoomIn(!zoomIn);
+                    setZoomIn(zoomIn ? 0 : 1);
                     e.currentTarget.blur();
                   }}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
-                      setZoomIn(!zoomIn);
+                      setZoomIn(zoomIn ? 0 : 1);
                       e.currentTarget.blur();
                     }
                   }}>
-                  <ZoomInIcon />
-                  <span className="icon-name">확대</span>
+                  {zoomIn ? <ZoomOutIcon /> : <ZoomInIcon />}
+                  <span className="icon-name">{zoomIn ? '축소' : '확대'}</span>
                 </div>
               </Gradient>
             ) : (
               <></>
             )}
+            <Profile
+              open={profileOpen}
+              close={() => setProfileOpen(false)}
+              artist={getArtistWithPhotos(photos[i].artist.artistId)}
+              handleGoTo={handleGoTo}
+            />
           </a.div>
         </a.div>
       ))}
