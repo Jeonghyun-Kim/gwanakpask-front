@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { useSpring, useSprings } from '@react-spring/core';
+import { useSprings } from '@react-spring/core';
 import { a } from '@react-spring/web';
 import { useGesture } from 'react-use-gesture';
 
@@ -10,6 +10,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import PersonIcon from '@material-ui/icons/Person';
 import ZoomInIcon from '@material-ui/icons/ZoomIn';
 import ZoomOutIcon from '@material-ui/icons/ZoomOut';
+import Photo from './Photo';
 import Gradient from '../Gradient';
 import Profile from './Profile';
 import EdgeModal from '../Modal/Edge';
@@ -49,21 +50,6 @@ const Root = styled.div`
           font-size: 36px;
           color: white;
         }
-      }
-      .photo {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        margin: 40% auto;
-        max-width: min(500px, 100% - 40px);
-        max-height: 60%;
-        width: auto;
-        height: auto;
-        object-fit: contain;
-        box-shadow: rgba(0, 20, 0, 0.2) 10px 7px 10px 3px;
-        border-radius: 1px;
       }
       .bottom {
         padding: 0 16px 24px 16px;
@@ -142,30 +128,21 @@ const Slider: React.FC<props> = ({
     }),
     [],
   );
-  const [{ x, y, zoom }, setSpring] = useSpring(
-    () => ({
-      x: 0,
-      y: 0,
-      zoom: zoomScales[zoomIn],
-      config: { tension: 250 },
-    }),
-    [],
-  );
 
   const bind = useGesture({
     onDrag: ({
       touches,
       down,
-      offset: [xOffset],
+      offset: [x],
       lastOffset: [lastX],
       cancel,
-      swipe: [, swipeY],
+      swipe: [, y],
     }) => {
-      if (swipeY === -1) {
+      if (y === -1) {
         setProfileOpen(true);
         if (cancel) cancel();
       }
-      const deltaX = xOffset - lastX;
+      const deltaX = x - lastX;
       if (down && Math.abs(deltaX) > innerWidth / 3) {
         if (deltaX < 0) {
           if (index.current === photos.length - 1) {
@@ -187,10 +164,10 @@ const Slider: React.FC<props> = ({
           if (i < index.current - 1 || i > index.current + 1)
             return { display: 'none' };
           const xT = (i - index.current) * innerWidth + (down ? deltaX : 0);
-          const scaleT = down ? 1 - Math.abs(deltaX) / innerWidth / 4 : 1;
+          const scale = down ? 1 - Math.abs(deltaX) / innerWidth / 4 : 1;
           if (i === index.current)
-            return { x: xT, scale: scaleT, zIndex: 1, display: 'block' };
-          return { x: xT, scale: scaleT, zIndex: 0, display: 'block' };
+            return { x: xT, scale, zIndex: 1, display: 'block' };
+          return { x: xT, scale, zIndex: 0, display: 'block' };
         });
       }
     },
@@ -214,41 +191,14 @@ const Slider: React.FC<props> = ({
     },
   });
 
-  const imgBind = useGesture({
-    onDrag: ({
-      down,
-      touches,
-      offset: [xOffset, yOffset],
-      lastOffset: [lastX, lastY],
-      cancel,
-      canceled,
-    }) => {
-      if (!zoomIn) {
-        if (cancel) cancel();
-      } else {
-        setSpring({
-          x:
-            down && touches === 1
-              ? (xOffset - lastX) * (1 + (zoomScales[zoomIn] - 1) / 2)
-              : 0,
-          y:
-            down && touches === 1
-              ? (yOffset - lastY) * (1 + (zoomScales[zoomIn] - 1) / 2)
-              : 0,
-        });
-      }
-      if (canceled) setSpring({ x: 0, y: 0 });
-    },
-  });
-
   const moveSprings = React.useCallback(() => {
     setSprings((i) => {
       if (i < index.current - 1 || i > index.current + 1)
         return { display: 'none' };
-      const xT = (i - index.current) * innerWidth;
+      const x = (i - index.current) * innerWidth;
       if (i === index.current)
-        return { x: xT, scale: 1, zIndex: 1, display: 'block' };
-      return { x: xT, scale: 1, zIndex: 0, display: 'block' };
+        return { x, scale: 1, zIndex: 1, display: 'block' };
+      return { x, scale: 1, zIndex: 0, display: 'block' };
     });
   }, [innerWidth, setSprings]);
   const handleRight = React.useCallback(() => {
@@ -293,14 +243,10 @@ const Slider: React.FC<props> = ({
     return () => window.removeEventListener('keydown', handler);
   }, [handleLeft, handleRight]);
 
-  React.useEffect(() => {
-    setSpring({ zoom: zoomScales[zoomIn] });
-  }, [zoomIn, setSpring]);
-
   return (
     <Root className={`unselectable ${withLayout ? 'desktop' : ''}`} {...props}>
       <EdgeModal open={edgeModalFlag} />
-      {springs.map(({ x: xBackground, display, scale, zIndex }, i) => (
+      {springs.map(({ x, display, scale, zIndex }, i) => (
         <a.div
           className="slider-page"
           {...bind()}
@@ -309,9 +255,9 @@ const Slider: React.FC<props> = ({
             if (zoomIn) setZoomIn(0);
           }}
           style={{
+            x,
             display: display as never,
             zIndex: zIndex as never,
-            x: xBackground,
           }}>
           <a.div style={{ scale }}>
             {!withLayout ? (
@@ -332,16 +278,13 @@ const Slider: React.FC<props> = ({
             ) : (
               <></>
             )}
-            <a.img
-              {...imgBind()}
-              style={{
-                x,
-                y,
-                scale: zoom,
-              }}
-              className="photo"
-              alt={photos[i].title}
-              src={photos[i].url ?? `/images/photo/full/${i + 1}.jpg`}
+            <Photo
+              title={photos[i].title}
+              src={
+                photos[i].url ?? `/images/photo/full/${photos[i].photoId}.jpg`
+              }
+              zoomScales={zoomScales}
+              zoomIn={zoomIn}
             />
             {!withLayout ? (
               <Gradient

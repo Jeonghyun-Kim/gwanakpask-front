@@ -49,10 +49,5 @@ TEMPLATE.tsx
 # photo and profile
 public/images/photo/medium
 
-# trash bin
-trashBin
-zIndexDictionary.csv
-
 # test
 pages/api/test.ts
-TrashBin/*
