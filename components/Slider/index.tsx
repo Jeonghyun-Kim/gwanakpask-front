@@ -12,6 +12,7 @@ import ZoomInIcon from '@material-ui/icons/ZoomIn';
 import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 import Gradient from '../Gradient';
 import Profile from './Profile';
+import EdgeModal from '../Modal/Edge';
 
 import AppContext from '../../AppContext';
 import { getArtistWithPhotos } from '../../data';
@@ -25,7 +26,7 @@ const Root = styled.div`
   height: 100%;
   top: 0;
   left: 0;
-  & > div {
+  .slider-page {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -130,6 +131,7 @@ const Slider: React.FC<props> = ({
   const pinchFlag = React.useRef<boolean>(false);
   const [zoomIn, setZoomIn] = React.useState<number>(0);
   const [profileOpen, setProfileOpen] = React.useState<boolean>(false);
+  const [edgeModalFlag, setEdgeModalFlag] = React.useState<boolean>(false);
   const [springs, setSprings] = useSprings(
     photos.length,
     (i) => ({
@@ -165,12 +167,17 @@ const Slider: React.FC<props> = ({
       }
       const deltaX = xOffset - lastX;
       if (down && Math.abs(deltaX) > innerWidth / 3) {
-        if (deltaX < 0 && index.current < photos.length - 1) {
-          index.current += 1;
+        if (deltaX < 0) {
+          if (index.current === photos.length - 1) {
+            setEdgeModalFlag(true);
+          } else {
+            index.current += 1;
+            setIndex(index.current + 1);
+          }
         } else if (deltaX > 0 && index.current > 0) {
           index.current -= 1;
+          setIndex(index.current + 1);
         }
-        setIndex(index.current + 1);
         if (cancel) cancel();
       }
       if (touches > 1 || zoomIn || profileOpen) {
@@ -292,13 +299,14 @@ const Slider: React.FC<props> = ({
 
   return (
     <Root className={`unselectable ${withLayout ? 'desktop' : ''}`} {...props}>
+      <EdgeModal open={edgeModalFlag} />
       {springs.map(({ x: xBackground, display, scale, zIndex }, i) => (
         <a.div
+          className="slider-page"
           {...bind()}
           key={`background-${photos[i].photoId}`}
           onClick={() => {
             if (zoomIn) setZoomIn(0);
-            if (profileOpen) setProfileOpen(false);
           }}
           style={{
             display: display as never,
