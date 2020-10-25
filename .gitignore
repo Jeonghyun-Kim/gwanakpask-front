@@ -48,7 +48,6 @@ TEMPLATE.tsx
 
 # photo and profile
 public/images/photo/medium
-public/images/profile/*
 
 # trash bin
 trashBin
