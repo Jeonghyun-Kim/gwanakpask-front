@@ -2,7 +2,7 @@ export const DB_URI = process.env.MONGODB_URI;
 export const DB_NAME = process.env.MONGODB_NAME;
 
 export const HEADER_HEIGHT = 48;
-export const NAVBAR_WIDTH = 200;
+export const NAVBAR_WIDTH = 225;
 
 export const COLORS = {};
 

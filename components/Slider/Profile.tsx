@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useSpring } from '@react-spring/core';
+import { useSpring, config } from '@react-spring/core';
 import { a } from '@react-spring/web';
 import { useDrag } from 'react-use-gesture';
 
@@ -97,7 +97,7 @@ const Profile: React.FC<props> = ({
   const [{ y }, setSpring] = useSpring(
     () => ({
       y: 100,
-      config: { tension: 250 },
+      config: config.stiff,
     }),
     [],
   );

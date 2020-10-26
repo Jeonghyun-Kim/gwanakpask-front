@@ -20,7 +20,7 @@ import AppContext from '../AppContext';
 const Root = styled.div`
   position: relative;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   padding: 48px 0;
   .container {
     max-width: 850px;
@@ -60,6 +60,10 @@ const Root = styled.div`
     height: 25px;
   }
   .submit-button-block {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     .submit-button {
       position: fixed;
       left: 50%;
@@ -81,6 +85,39 @@ const Root = styled.div`
     .form-block {
       height: 425px;
       margin-bottom: 0;
+    }
+  }
+  &.desktop {
+    padding: 80px 0;
+    .title {
+      margin: 0;
+      font-size: 2.5rem;
+      font-weight: 500;
+    }
+    .sub-title {
+      margin: 40px 0 10px 0;
+      font-size: 1.5625rem;
+      font-weight: 400;
+    }
+    .counter {
+      font-size: 1rem;
+    }
+    .content-block {
+      margin-bottom: 50px;
+    }
+    .info {
+      margin: 20px 0;
+      font-size: 1rem;
+      font-weight: 400;
+      color: #757575;
+    }
+    .submit-button {
+      position: relative;
+      left: initial;
+      bottom: initial;
+      transform: none;
+      width: 80%;
+      max-width: 400px;
     }
   }
 `;

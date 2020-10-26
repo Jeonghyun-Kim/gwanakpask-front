@@ -5,10 +5,14 @@ import styled from 'styled-components';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import LogoIcon from '../../public/images/logo/logo-one-line.svg';
 
-const Root = styled.div`
+interface RootProps {
+  color: string;
+}
+const Root = styled.div<RootProps>`
   width: calc(100% - 10px);
   margin: 0 auto;
   .logo-one-line {
+    color: ${(props) => props.color};
     width: 100%;
     height: auto;
   }
@@ -31,15 +35,23 @@ const Logo: React.FC = ({ ...props }) => (
 
 interface props {
   href?: string;
+  color?: string;
 }
-const OneLineLogo: React.FC<props> = ({ href, ...props }) => {
+const OneLineLogo: React.FC<props> = ({ href, color = 'white', ...props }) => {
   const router = useRouter();
 
   return (
     <Root
       className={`${href ? 'clickable' : ''}`}
-      onClick={() => {
+      color={color}
+      role={href ? 'button' : ''}
+      tabIndex={href ? 0 : -1}
+      onKeyDown={(e) => {
+        if (href && e.key === 'Enter') router.push(href);
+      }}
+      onClick={(e) => {
         if (href) router.push(href);
+        e.currentTarget.blur();
       }}
       {...props}>
       <Logo />
