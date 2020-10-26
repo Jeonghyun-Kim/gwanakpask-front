@@ -17,9 +17,10 @@ const Main = styled.div`
 const DesktopMain = styled(Main)`
   position: relative;
   width: calc(100% - ${NAVBAR_WIDTH}px);
+  height: 100%;
   margin-left: ${NAVBAR_WIDTH}px;
   padding-top: 0;
-  overflow-x: auto;
+  /* overflow-x: auto; */
 `;
 
 interface props {

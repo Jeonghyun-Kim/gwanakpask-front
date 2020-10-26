@@ -34,7 +34,11 @@ const NavBar: React.FC = ({ ...props }) => {
       <div className="divider" />
       <MenuItem title="관악 사진협회 단체전" href="/" />
       <MenuItem title="전시소개" href="/intro" />
-      <MenuItem title="전시장" href="/ovr/list" />
+      <MenuItem
+        title="전시장"
+        href="/ovr/list"
+        currentPaths={['/ovr', '/ovr/list']}
+      />
       <MenuItem title="방명록" href="/visitor" />
       <MenuItem title="방역활동 사진첩" href="/covid" />
       <div className="grow" />

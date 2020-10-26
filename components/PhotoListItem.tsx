@@ -4,14 +4,7 @@ import styled from 'styled-components';
 
 import AppContext from '../AppContext';
 
-interface RootProps {
-  size: number;
-}
-const Root = styled.div<RootProps>`
-  width: ${(props) => props.size}px;
-  height: ${(props) => props.size + 64}px;
-  display: flex;
-  flex-direction: column;
+const Root = styled.div`
   .photo-list-item-img {
     width: 100%;
     object-fit: contain;
@@ -39,9 +32,8 @@ const Root = styled.div<RootProps>`
 
 interface props {
   photo: PhotoWithArtist;
-  size: number;
 }
-const PhotoListItem: React.FC<props> = ({ photo, size, ...props }) => {
+const PhotoListItem: React.FC<props> = ({ photo, ...props }) => {
   const router = useRouter();
   const { setIndex, withLayout } = React.useContext(AppContext);
 
@@ -53,8 +45,7 @@ const PhotoListItem: React.FC<props> = ({ photo, size, ...props }) => {
   return (
     <Root
       id={`photo-list-item-${photo.photoId}`}
-      className={`${withLayout ? 'desktop' : ''}`}
-      size={size}
+      className={`${withLayout ? 'desktop' : 'mobile'}`}
       role="button"
       tabIndex={0}
       onClick={() => handleMove()}

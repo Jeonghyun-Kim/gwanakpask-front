@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { useSprings } from '@react-spring/core';
+import { useSprings, config } from '@react-spring/core';
 import { a } from '@react-spring/web';
 import { useGesture } from 'react-use-gesture';
 
@@ -125,7 +125,7 @@ const Slider: React.FC<props> = ({
       scale: 1,
       zIndex: i === index.current ? 1 : 0,
       display: 'block',
-      config: { tension: 500, friction: 50 },
+      config: !withLayout ? { tension: 500, friction: 50 } : config.default,
     }),
     [],
   );

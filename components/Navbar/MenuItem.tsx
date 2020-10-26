@@ -24,14 +24,22 @@ export const MenuRoot = styled.a`
 interface props {
   title: string;
   href: string;
+  currentPaths?: string[];
 }
-const NavbarMenuItem: React.FC<props> = ({ title, href, ...props }) => {
+const NavbarMenuItem: React.FC<props> = ({
+  title,
+  href,
+  currentPaths = [href],
+  ...props
+}) => {
   const router = useRouter();
 
   return (
     <Link href={href}>
       <MenuRoot
-        className={`${router.pathname === href ? 'current' : ''}`}
+        className={`${
+          currentPaths.find((path) => path === router.pathname) ? 'current' : ''
+        }`}
         role="button"
         tabIndex={0}
         onClick={(e) => e.currentTarget.blur()}

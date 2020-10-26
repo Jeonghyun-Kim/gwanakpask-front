@@ -16,9 +16,25 @@ import { photosWithArtist } from '../../data';
 
 import AppContext from '../../AppContext';
 
+import { NAVBAR_WIDTH } from '../../defines';
+
+const GAP = {
+  mobile: 7,
+  desktop: 13,
+};
+
+const PADDING = {
+  mobile: 10,
+  desktop: 32,
+};
+
 const Root = styled.div`
   width: 100%;
   height: 100%;
+  .photo-list {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
   .number-of-photos {
     margin: 5px 10px;
     text-align: right;
@@ -27,10 +43,19 @@ const Root = styled.div`
     color: #757575;
   }
   .photo-list-container {
-    padding: 0 10px 10px 10px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    padding: ${PADDING.mobile}px;
+    padding-top: 0;
+    display: grid;
+    grid-gap: ${GAP.mobile}px;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+  &.desktop {
+    .photo-list-container {
+      padding: ${PADDING.desktop}px;
+      padding-top: 0;
+      grid-gap: ${GAP.desktop}px;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    }
   }
 `;
 
@@ -45,9 +70,20 @@ const PhotoListPage: React.FC = () => {
   const {
     size: { innerWidth },
   } = useLayout();
-  const photoSize = React.useMemo(() => (innerWidth - 10 * 2 - 7) / 2, [
-    innerWidth,
-  ]);
+
+  const getScrollHeight = React.useCallback(() => {
+    const containerWidth = !withLayout
+      ? innerWidth
+      : Math.min(innerWidth - NAVBAR_WIDTH, 1100);
+    const columns = Math.floor(
+      (containerWidth - 2 * PADDING.desktop) / (230 + GAP.desktop),
+    );
+    const photoWidth = !withLayout
+      ? (containerWidth - 2 * PADDING.mobile - GAP.mobile) / 2
+      : (containerWidth - 2 * PADDING.desktop - (columns - 1) * GAP.desktop) /
+        columns;
+    return Math.floor((index - 1) / columns) * (photoWidth + 64);
+  }, [innerWidth, withLayout, index]);
 
   React.useEffect(() => {
     const backgroundImg = new Image();
@@ -56,11 +92,11 @@ const PhotoListPage: React.FC = () => {
 
   React.useEffect(() => {
     window.scroll({
-      // behavior: 'smooth',
+      behavior: !withLayout ? 'auto' : 'smooth',
       left: 0,
-      top: Math.floor((index - 1) / 2) * (photoSize + 64),
+      top: getScrollHeight(),
     });
-  }, [index, photoSize]);
+  }, [getScrollHeight, withLayout]);
 
   return (
     <Layout>
@@ -75,13 +111,12 @@ const PhotoListPage: React.FC = () => {
       <Root className={`${withLayout ? 'desktop' : ''}`}>
         <section className="photo-list">
           <div className="number-of-photos">총 {photosWithArtist.length}점</div>
-          <div className="photo-list-container">
+          <div
+            className={`photo-list-container ${
+              !withLayout ? 'mobile' : 'desktop'
+            }`}>
             {photosWithArtist.map((photo) => (
-              <PhotoListItem
-                key={photo.photoId}
-                photo={photo}
-                size={photoSize}
-              />
+              <PhotoListItem key={photo.photoId} photo={photo} />
             ))}
           </div>
         </section>
