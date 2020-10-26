@@ -4,7 +4,12 @@ import styled from 'styled-components';
 
 import AppContext from '../AppContext';
 
-const Root = styled.div`
+interface RootProps {
+  infoHeight: number;
+}
+const Root = styled.div<RootProps>`
+  display: flex;
+  flex-direction: column;
   .photo-list-item-img {
     width: 100%;
     object-fit: contain;
@@ -12,7 +17,7 @@ const Root = styled.div`
   }
   .caption-block {
     width: 100%;
-    height: 48px;
+    height: ${(props) => props.infoHeight}px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -28,12 +33,24 @@ const Root = styled.div`
       margin: 0;
     }
   }
+  &.desktop {
+    .caption-block {
+      h4 {
+        font-size: 1.25rem;
+        font-weight: 500;
+      }
+      p {
+        font-size: 1rem;
+      }
+    }
+  }
 `;
 
 interface props {
   photo: PhotoWithArtist;
+  infoHeight: number;
 }
-const PhotoListItem: React.FC<props> = ({ photo, ...props }) => {
+const PhotoListItem: React.FC<props> = ({ photo, infoHeight, ...props }) => {
   const router = useRouter();
   const { setIndex, withLayout } = React.useContext(AppContext);
 
@@ -45,7 +62,8 @@ const PhotoListItem: React.FC<props> = ({ photo, ...props }) => {
   return (
     <Root
       id={`photo-list-item-${photo.photoId}`}
-      className={`${withLayout ? 'desktop' : 'mobile'}`}
+      className={withLayout ? 'desktop' : 'mobile'}
+      infoHeight={infoHeight}
       role="button"
       tabIndex={0}
       onClick={() => handleMove()}

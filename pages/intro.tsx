@@ -9,6 +9,8 @@ import Header from '../components/Header';
 
 import { NextSection } from '../components/GlobalStyle';
 
+import AppContext from '../AppContext';
+
 const Root = styled.div`
   width: 100%;
   height: 100%;
@@ -21,6 +23,8 @@ const ActionButton = (
 );
 
 const IntroPage: React.FC = () => {
+  const { withLayout } = React.useContext(AppContext);
+
   return (
     <Layout>
       <Head>
@@ -31,8 +35,8 @@ const IntroPage: React.FC = () => {
         title="전시소개"
         actionComponent={ActionButton}
       />
-      <Root>
-        <NextSection>
+      <Root className={withLayout ? 'desktop' : ''}>
+        <NextSection className={withLayout ? 'desktop' : ''}>
           <h2>준비되셨나요?</h2>
           <h4>전시장에서 작품들을 만나보세요!</h4>
           <Link href="/ovr/list">

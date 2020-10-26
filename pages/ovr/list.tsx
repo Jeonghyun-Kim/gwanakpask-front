@@ -28,6 +28,11 @@ const PADDING = {
   desktop: 32,
 };
 
+const INFO_HEIGHT = {
+  mobile: 48,
+  desktop: 72,
+};
+
 const Root = styled.div`
   width: 100%;
   height: 100%;
@@ -36,23 +41,44 @@ const Root = styled.div`
     margin: 0 auto;
   }
   .number-of-photos {
-    margin: 5px 10px;
+    margin: 5px 0;
+    padding: 0 ${PADDING.mobile}px;
     text-align: right;
     font-size: 0.875rem;
     font-weight: 500;
     color: #757575;
   }
   .photo-list-container {
-    padding: ${PADDING.mobile}px;
-    padding-top: 0;
+    padding: 0 ${PADDING.mobile}px;
+    padding-bottom: 16px;
     display: grid;
     grid-gap: ${GAP.mobile}px;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   }
   &.desktop {
+    .section-title {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px ${PADDING.desktop}px 48px ${PADDING.desktop}px;
+      text-align: center;
+      .title {
+        font-size: 2.5rem;
+        font-weight: 500;
+        margin: 0;
+      }
+      .sub-title {
+        font-size: 1.5rem;
+        font-weight: 400;
+        margin: 0;
+        margin-top: 10px;
+      }
+    }
+    .number-of-photos {
+      padding: 0 ${PADDING.desktop}px;
+    }
     .photo-list-container {
-      padding: ${PADDING.desktop}px;
-      padding-top: 0;
+      padding: 0 ${PADDING.desktop}px;
+      padding-bottom: 80px;
       grid-gap: ${GAP.desktop}px;
       grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
     }
@@ -82,7 +108,10 @@ const PhotoListPage: React.FC = () => {
       ? (containerWidth - 2 * PADDING.mobile - GAP.mobile) / 2
       : (containerWidth - 2 * PADDING.desktop - (columns - 1) * GAP.desktop) /
         columns;
-    return Math.floor((index - 1) / columns) * (photoWidth + 64);
+    return (
+      Math.floor((index - 1) / columns) *
+      (photoWidth + (!withLayout ? INFO_HEIGHT.mobile : INFO_HEIGHT.desktop))
+    );
   }, [innerWidth, withLayout, index]);
 
   React.useEffect(() => {
@@ -108,7 +137,15 @@ const PhotoListPage: React.FC = () => {
         title="전시장"
         actionComponent={ActionButton}
       />
-      <Root className={`${withLayout ? 'desktop' : ''}`}>
+      <Root className={withLayout ? 'desktop' : ''}>
+        {withLayout && (
+          <section className="section-title">
+            <h2 className="title">전시장</h2>
+            <h4 className="sub-title">
+              관악구 사진작가님들의 사진을 만나보세요
+            </h4>
+          </section>
+        )}
         <section className="photo-list">
           <div className="number-of-photos">총 {photosWithArtist.length}점</div>
           <div
@@ -116,11 +153,17 @@ const PhotoListPage: React.FC = () => {
               !withLayout ? 'mobile' : 'desktop'
             }`}>
             {photosWithArtist.map((photo) => (
-              <PhotoListItem key={photo.photoId} photo={photo} />
+              <PhotoListItem
+                key={photo.photoId}
+                photo={photo}
+                infoHeight={
+                  !withLayout ? INFO_HEIGHT.mobile : INFO_HEIGHT.desktop
+                }
+              />
             ))}
           </div>
         </section>
-        <NextSection>
+        <NextSection className={withLayout ? 'desktop' : ''}>
           <h2>잘 감상하셨나요?</h2>
           <h4>
             고생하셨을 작가님을 위해

@@ -33,7 +33,7 @@ const MessageForm: React.FC<props> = ({
   const { withLayout } = React.useContext(AppContext);
 
   return (
-    <Root className={`${withLayout ? 'withLayout' : ''}`} {...props}>
+    <Root className={withLayout ? 'withLayout' : ''} {...props}>
       <TextField
         label="보내는 사람"
         name="name"

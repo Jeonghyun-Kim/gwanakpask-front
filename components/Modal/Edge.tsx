@@ -50,7 +50,7 @@ const EdgeModal: React.FC<Props> = ({ open, ...props }) => {
 
   return (
     <CSSTransition in={open} timeout={300} unmountOnExit classNames="modal">
-      <Root className={`${withLayout && 'desktop'}`} {...props}>
+      <Root className={withLayout ? 'desktop' : ''} {...props}>
         <ScrollLock isActive={open} />
         <div className="blurBackground" />
         <div className="modalBox">

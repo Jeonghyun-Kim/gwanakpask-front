@@ -209,7 +209,7 @@ const VisitorPage: React.FC = () => {
         }}
         success={resModalFlags.success}
       />
-      <Root className={`${withLayout ? 'desktop' : ''}`}>
+      <Root className={withLayout ? 'desktop' : ''}>
         <div className="container">
           {withLayout && <h2 className="title">방명록</h2>}
           <p className="sub-title">

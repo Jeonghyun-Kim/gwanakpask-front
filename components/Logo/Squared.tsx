@@ -36,7 +36,7 @@ const SquaredLogo: React.FC<props> = ({ href, ...props }) => {
 
   return (
     <Root
-      className={`${href ? 'clickable' : ''}`}
+      className={href ? 'clickable' : ''}
       onClick={() => {
         if (href) router.push(href);
       }}

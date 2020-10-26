@@ -89,7 +89,7 @@ const CovidPage: React.FC = () => {
         title="방역활동 사진첩"
         actionComponent={ActionButton}
       />
-      <Root className={`${withLayout ? 'desktop' : ''}`}>
+      <Root className={withLayout ? 'desktop' : ''}>
         <CrossFadeSlider
           images={repImages}
           timeout={3000}

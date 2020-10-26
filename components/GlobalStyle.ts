@@ -80,6 +80,26 @@ export const NextSection = styled.section`
       font-weight: 700;
     }
   }
+  &.desktop {
+    padding: 80px 0;
+    h2 {
+      font-size: 2.5rem;
+    }
+    h4 {
+      margin: 32px 0 80px 0;
+      font-size: 1.5625rem;
+    }
+    a {
+      svg,
+      span {
+        font-size: 1.5625rem;
+      }
+      span {
+        margin: 0 10px;
+        font-weight: 700;
+      }
+    }
+  }
 `;
 
 export default { GlobalCSS, NextSection };
