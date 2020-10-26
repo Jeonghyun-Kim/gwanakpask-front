@@ -125,6 +125,7 @@ const Slider: React.FC<props> = ({
       scale: 1,
       zIndex: i === index.current ? 1 : 0,
       display: 'block',
+      config: { tension: 500, friction: 50 },
     }),
     [],
   );

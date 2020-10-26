@@ -56,7 +56,7 @@ const PhotoListPage: React.FC = () => {
 
   React.useEffect(() => {
     window.scroll({
-      behavior: 'smooth',
+      // behavior: 'smooth',
       left: 0,
       top: Math.floor((index - 1) / 2) * (photoSize + 64),
     });
