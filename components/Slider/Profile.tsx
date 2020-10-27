@@ -28,6 +28,7 @@ const Root = styled(a.div)`
     display: grid;
     place-items: center;
     padding: 0;
+    z-index: 1;
     svg {
       font-size: 25px;
       color: white;

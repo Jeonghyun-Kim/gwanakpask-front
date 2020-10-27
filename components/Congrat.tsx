@@ -7,22 +7,27 @@ import { a } from '@react-spring/web';
 import useMeasure from '../lib/hooks/useMeasure';
 import usePrevious from '../lib/hooks/usePrevious';
 
-const CONTENT_PADDING = 32;
+import AppContext from '../AppContext';
+
+const CONTENT_PADDING = {
+  mobile: 32,
+  desktop: 48,
+};
 
 const Root = styled.div`
   width: 100%;
-  margin-bottom: 10px;
+  background-color: white;
   h4,
   p {
     margin: 0;
   }
   .profile-box {
     width: 100%;
-    height: ${(90 * 375) / 307}px;
+    height: 120px;
     display: flex;
     cursor: pointer;
     .profile-img {
-      width: 90px;
+      height: 100%;
       object-fit: contain;
     }
     .summary {
@@ -36,14 +41,43 @@ const Root = styled.div`
       }
       .name {
         font-size: 0.875rem;
-        font-weight: 500;
+        font-weight: 400;
       }
     }
   }
   .content-box {
     overflow: hidden;
     .content {
-      padding: ${CONTENT_PADDING}px 0;
+      padding: ${CONTENT_PADDING.mobile}px 16px;
+      font-size: 0.875rem;
+      font-weight: 400;
+    }
+  }
+  &.desktop {
+    border-radius: 16px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+    overflow: hidden;
+    .profile-box {
+      width: 100%;
+      height: 240px;
+      .summary {
+        display: flex;
+        flex-direction: column;
+        margin: 16px 24px;
+        .division {
+          font-size: 1.5625rem;
+          letter-spacing: 16px;
+        }
+        .name {
+          font-size: 1.5625rem;
+        }
+      }
+    }
+    .content-box {
+      .content {
+        padding: ${CONTENT_PADDING.desktop}px 32px;
+        font-size: 1.5625rem;
+      }
     }
   }
 `;
@@ -54,6 +88,7 @@ interface Props {
   content: string;
 }
 const Congrat: React.FC<Props> = ({ id, name, content, ...props }) => {
+  const { withLayout } = React.useContext(AppContext);
   const [open, setOpen] = React.useState<boolean>(false);
   const previous = usePrevious(open);
   const [bind, { height: viewHeight }] = useMeasure();
@@ -65,15 +100,22 @@ const Congrat: React.FC<Props> = ({ id, name, content, ...props }) => {
     [],
   );
 
+  const padding = React.useMemo(
+    () => (!withLayout ? CONTENT_PADDING.mobile : CONTENT_PADDING.desktop),
+    [withLayout],
+  );
+
+  const yMax = React.useMemo(() => (!withLayout ? 50 : 140), [withLayout]);
+
   React.useEffect(() => {
     setSpring({
-      height: open ? (viewHeight ?? 0) + 2 * CONTENT_PADDING : 0,
-      y: open ? 50 : 0,
+      height: open ? (viewHeight ?? 0) + 2 * padding : 0,
+      y: open ? yMax : 0,
     });
-  }, [setSpring, viewHeight, open]);
+  }, [setSpring, viewHeight, open, padding, yMax]);
 
   return (
-    <Root {...props}>
+    <Root className={`congrat ${withLayout ? 'desktop' : ''}`} {...props}>
       <div
         className="profile-box"
         onClick={(e) => {

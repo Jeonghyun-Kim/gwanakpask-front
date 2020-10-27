@@ -13,7 +13,7 @@ export const MobileRoot = styled.div`
     height: 100%;
     & > div {
       position: relative;
-      background-image: url('/images/background/land.png');
+      background-image: url('/images/background/original.jpg');
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center bottom;
@@ -26,13 +26,9 @@ export const MobileRoot = styled.div`
         top: 10px;
         left: 5px;
         padding: 5px;
-        transition: opacity 300ms ease;
         svg {
           font-size: 36px;
           color: white;
-        }
-        &:hover {
-          opacity: 0.7;
         }
       }
       .bottom {
@@ -93,7 +89,7 @@ export const MobileRoot = styled.div`
 export const DesktopRoot = styled.div`
   width: 100%;
   height: 100%;
-  background-image: url('/images/background/land.png');
+  background-image: url('/images/background/original.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center bottom;
@@ -103,10 +99,9 @@ export const DesktopRoot = styled.div`
     height: 80px;
     padding: 5px;
     top: 80px;
-    left: initial;
     right: 80px;
     border-radius: 50%;
-    background-color: #515253;
+    background-color: #515253 !important;
     transition: opacity 300ms ease;
     .MuiIconButton-label {
       width: 80px;
@@ -208,6 +203,10 @@ export const DesktopRoot = styled.div`
     background-color: #515253;
     opacity: 0.8;
     cursor: pointer;
+    transition: opacity 300ms ease;
+    &:hover {
+      opacity: 0.7;
+    }
   }
 `;
 
