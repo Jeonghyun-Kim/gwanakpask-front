@@ -1,5 +1,6 @@
 /* eslint-disable react/no-danger */
 import React from 'react';
+import Image from 'next/image';
 import styled from 'styled-components';
 import { useSpring } from '@react-spring/core';
 import { a } from '@react-spring/web';
@@ -130,10 +131,12 @@ const Congrat: React.FC<Props> = ({ id, name, content, ...props }) => {
             e.currentTarget.blur();
           }
         }}>
-        <img
+        <Image
           className="profile-img"
           alt={name}
           src={`/images/congrats_profile/${id}.jpg`}
+          width={!withLayout ? 98 : 196}
+          height={!withLayout ? 120 : 240}
         />
         <div className="summary">
           <a.div style={{ height: y }} />

@@ -97,22 +97,36 @@ const PhotoListPage: React.FC = () => {
     size: { innerWidth },
   } = useLayout();
 
+  const containerWidth = React.useMemo(
+    () =>
+      !withLayout ? innerWidth : Math.min(innerWidth - NAVBAR_WIDTH, 1100),
+    [innerWidth, withLayout],
+  );
+  const padding = React.useMemo(
+    () => (!withLayout ? PADDING.mobile : PADDING.desktop),
+    [withLayout],
+  );
+  const gap = React.useMemo(() => (!withLayout ? GAP.mobile : GAP.desktop), [
+    withLayout,
+  ]);
+  const columns = React.useMemo(
+    () =>
+      Math.floor(
+        (containerWidth - 2 * padding) / ((!withLayout ? 140 : 230) + gap),
+      ),
+    [withLayout, containerWidth, padding, gap],
+  );
+  const photoSize = React.useMemo(
+    () => (containerWidth - 2 * padding - (columns - 1) * gap) / columns,
+    [containerWidth, columns, padding, gap],
+  );
+
   const getScrollHeight = React.useCallback(() => {
-    const containerWidth = !withLayout
-      ? innerWidth
-      : Math.min(innerWidth - NAVBAR_WIDTH, 1100);
-    const padding = !withLayout ? PADDING.mobile : PADDING.desktop;
-    const gap = !withLayout ? GAP.mobile : GAP.desktop;
-    const columns = Math.floor(
-      (containerWidth - 2 * padding) / ((!withLayout ? 140 : 230) + gap),
-    );
-    const photoWidth =
-      (containerWidth - 2 * padding - (columns - 1) * gap) / columns;
     return (
       Math.floor((index - 1) / columns) *
-      (photoWidth + (!withLayout ? INFO_HEIGHT.mobile : INFO_HEIGHT.desktop))
+      (photoSize + (!withLayout ? INFO_HEIGHT.mobile : INFO_HEIGHT.desktop))
     );
-  }, [innerWidth, withLayout, index]);
+  }, [index, columns, photoSize, withLayout]);
 
   React.useEffect(() => {
     const backgroundImg = new Image();
@@ -156,6 +170,7 @@ const PhotoListPage: React.FC = () => {
               <PhotoListItem
                 key={photo.photoId}
                 photo={photo}
+                size={photoSize}
                 infoHeight={
                   !withLayout ? INFO_HEIGHT.mobile : INFO_HEIGHT.desktop
                 }

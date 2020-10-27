@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import Head from 'next/head';
 import styled from 'styled-components';
 
@@ -117,11 +118,12 @@ const CovidPage: React.FC = () => {
               { length: sec['number-of-photos'] },
               (_, i) => i + 1,
             ).map((idx) => (
-              <img
+              <Image
                 key={`${sec.name}-${idx}`}
                 className="covid-photo"
                 alt=""
                 src={`/images/covid/sec-${sec.id}/${idx}.jpg`}
+                unsized
               />
             ))}
           </section>

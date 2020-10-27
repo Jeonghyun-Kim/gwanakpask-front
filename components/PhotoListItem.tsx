@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
@@ -49,9 +50,15 @@ const Root = styled.div<RootProps>`
 
 interface props {
   photo: PhotoWithArtist;
+  size: number;
   infoHeight: number;
 }
-const PhotoListItem: React.FC<props> = ({ photo, infoHeight, ...props }) => {
+const PhotoListItem: React.FC<props> = ({
+  photo,
+  size,
+  infoHeight,
+  ...props
+}) => {
   const router = useRouter();
   const { setIndex, withLayout } = React.useContext(AppContext);
 
@@ -72,10 +79,12 @@ const PhotoListItem: React.FC<props> = ({ photo, infoHeight, ...props }) => {
         if (e.key === 'Enter') handleMove();
       }}
       {...props}>
-      <img
+      <Image
         className="photo-list-item-img"
         alt={photo.title}
         src={`/images/photo/thumb/${photo.photoId}.jpg`}
+        width={size}
+        height={size}
       />
       <div className="caption-block">
         <h4>{photo.title}</h4>

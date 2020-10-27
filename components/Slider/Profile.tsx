@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import styled from 'styled-components';
 import { useSpring } from '@react-spring/core';
 import { a } from '@react-spring/web';
@@ -171,17 +172,19 @@ const Profile: React.FC<props> = ({
       }}
       {...props}>
       <div className="profile-block">
-        <img alt={artist.name} src={`/images/profile/${artist.artistId}.jpg`} />
+        <Image
+          alt={artist.name}
+          src={`/images/profile/${artist.artistId}.jpg`}
+          width={117}
+          height={156}
+        />
         <div className="name-and-position">
           <h4 className="artist-name">{artist.name}</h4>
           <p className="position">{artist.position}</p>
         </div>
         <IconButton
           className="profile-close-button"
-          onClick={async () => {
-            // await setSpring({ height: 0 });
-            close();
-          }}>
+          onClick={async () => close()}>
           <CloseIcon />
         </IconButton>
       </div>
