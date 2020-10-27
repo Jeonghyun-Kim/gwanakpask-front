@@ -165,27 +165,30 @@ const VisitorPage: React.FC = () => {
     }
   }, [from, content, templateId, mutateCounter]);
 
-  const SendButton = (
-    <Button
-      variant="text"
-      style={{
-        color: valid ? '#007aff' : '#bdbdbd',
-        width: 'fit-content',
-        marginRight: -10,
-      }}
-      onClick={() => handleSubmit()}
-      disabled={loading || !valid}>
-      {loading ? (
-        <img
-          className="spinner"
-          style={{ width: 16, height: 16 }}
-          alt="sipnner"
-          src="/images/spinner.gif"
-        />
-      ) : (
-        <>보내기</>
-      )}
-    </Button>
+  const SendButton: React.FC = React.useCallback(
+    () => (
+      <Button
+        variant="text"
+        style={{
+          color: valid ? '#007aff' : '#bdbdbd',
+          width: 'fit-content',
+          marginRight: -10,
+        }}
+        onClick={() => handleSubmit()}
+        disabled={loading || !valid}>
+        {loading ? (
+          <img
+            className="spinner"
+            style={{ width: 16, height: 16 }}
+            alt="sipnner"
+            src="/images/spinner.gif"
+          />
+        ) : (
+          <>보내기</>
+        )}
+      </Button>
+    ),
+    [handleSubmit, loading, valid],
   );
 
   return (

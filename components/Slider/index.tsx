@@ -1,7 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import styled from 'styled-components';
-import { useSprings, config } from '@react-spring/core';
+import { useSprings } from '@react-spring/core';
 import { a } from '@react-spring/web';
 import { useGesture } from 'react-use-gesture';
 
@@ -10,93 +9,20 @@ import CloseIcon from '@material-ui/icons/Close';
 import PersonIcon from '@material-ui/icons/Person';
 import ZoomInIcon from '@material-ui/icons/ZoomIn';
 import ZoomOutIcon from '@material-ui/icons/ZoomOut';
+import SvgIcon from '@material-ui/core/SvgIcon';
+import ArrowLeft from '../../public/icons/arrow_left.svg';
+import ArrowRight from '../../public/icons/arrow_right.svg';
 import Photo from './Photo';
 import Gradient from '../Gradient';
 import Profile from './Profile';
 import EdgeModal from '../Modal/Edge';
 
+import { MobileRoot, DesktopRoot } from './styles';
+
+import usePrevious from '../../lib/usePrevious';
+
 import AppContext from '../../AppContext';
 import { getArtistWithPhotos } from '../../data';
-
-import { NAVBAR_WIDTH } from '../../defines';
-
-const Root = styled.div`
-  position: fixed;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  .slider-page {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    & > div {
-      position: relative;
-      background-image: url('/images/background/land.png');
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center bottom;
-      width: 100%;
-      height: 100%;
-      box-shadow: 0 62.5px 125px -25px rgba(50, 50, 73, 0.5),
-        0 37.5px 75px -37.5px rgba(0, 0, 0, 0.6);
-      .close-button {
-        position: absolute;
-        top: 10px;
-        left: 5px;
-        padding: 5px;
-        svg {
-          font-size: 36px;
-          color: white;
-        }
-      }
-      .bottom {
-        padding: 0 16px 24px 16px;
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        .artist-info {
-          display: flex;
-          align-items: flex-end;
-          .title-and-name {
-            margin-left: 10px;
-            h2 {
-              margin: 5px 0;
-              font-size: 1rem;
-              font-weight: 500;
-              color: white;
-            }
-            p {
-              margin: 0;
-              font-size: 0.75rem;
-              font-weight: 400;
-              color: white;
-            }
-          }
-        }
-        .icon-block {
-          display: flex;
-          flex-direction: column;
-          svg {
-            font-size: 2rem;
-            color: white;
-          }
-          .icon-name {
-            font-size: 0.625rem;
-            font-weight: 400;
-            color: white;
-            text-align: center;
-          }
-        }
-      }
-    }
-  }
-  &.desktop {
-    width: calc(100% - ${NAVBAR_WIDTH}px);
-    left: ${NAVBAR_WIDTH}px;
-  }
-`;
 
 const zoomScales = [1, 2, 3];
 
@@ -117,6 +43,7 @@ const Slider: React.FC<props> = ({
   const pinchFlag = React.useRef<boolean>(false);
   const [zoomIn, setZoomIn] = React.useState<number>(0);
   const [profileOpen, setProfileOpen] = React.useState<boolean>(false);
+  const previousProfileOpen = usePrevious(profileOpen);
   const [edgeModalFlag, setEdgeModalFlag] = React.useState<boolean>(false);
   const [springs, setSprings] = useSprings(
     photos.length,
@@ -125,9 +52,47 @@ const Slider: React.FC<props> = ({
       scale: 1,
       zIndex: i === index.current ? 1 : 0,
       display: 'block',
-      config: !withLayout ? { tension: 500, friction: 50 } : config.default,
+      config: { tension: 500, friction: 50 },
     }),
     [],
+  );
+
+  const moveSprings = React.useCallback(() => {
+    setSprings((i) => {
+      if (i < index.current - 1 || i > index.current + 1)
+        return { display: 'none' };
+      const x = (i - index.current) * innerWidth;
+      if (i === index.current)
+        return { x, scale: 1, zIndex: 1, display: 'block' };
+      return { x, scale: 1, zIndex: 0, display: 'block' };
+    });
+  }, [innerWidth, setSprings]);
+
+  const handleRight = React.useCallback(() => {
+    if (index.current < photos.length - 1) {
+      index.current += 1;
+      setIndex(index.current + 1);
+      if (!withLayout) moveSprings();
+    } else if (index.current === photos.length - 1) {
+      setEdgeModalFlag(true);
+    }
+  }, [moveSprings, setIndex, photos.length, withLayout]);
+
+  const handleLeft = React.useCallback(() => {
+    if (index.current > 0) {
+      index.current -= 1;
+      setIndex(index.current + 1);
+      if (!withLayout) moveSprings();
+    }
+  }, [moveSprings, setIndex, withLayout]);
+
+  const handleGoTo = React.useCallback(
+    (photoId: number) => {
+      index.current = photoId - 1;
+      setIndex(photoId - 1);
+      if (!withLayout) moveSprings();
+    },
+    [moveSprings, setIndex, withLayout],
   );
 
   const bind = useGesture({
@@ -149,20 +114,6 @@ const Slider: React.FC<props> = ({
         if (cancel) cancel();
       } else {
         const deltaX = x - lastX;
-        if (last && (Math.abs(deltaX) > innerWidth / 3 || Math.abs(vx) > 1)) {
-          if (deltaX < 0) {
-            if (index.current === photos.length - 1) {
-              setEdgeModalFlag(true);
-            } else {
-              index.current += 1;
-              setIndex(index.current + 1);
-            }
-          } else if (deltaX > 0 && index.current > 0) {
-            index.current -= 1;
-            setIndex(index.current + 1);
-          }
-          // if (cancel) cancel();
-        }
         setSprings((i) => {
           if (i < index.current - 1 || i > index.current + 1)
             return { display: 'none' };
@@ -173,6 +124,10 @@ const Slider: React.FC<props> = ({
             return { x: xT, scale, zIndex: 1, display: 'block' };
           return { x: xT, scale, zIndex: 0, display: 'block' };
         });
+        if (last && (Math.abs(deltaX) > innerWidth / 3 || Math.abs(vx) > 1)) {
+          if (deltaX < 0) handleRight();
+          else handleLeft();
+        }
       }
     },
     onPinch: ({ first, last, da: [d], vdva: [vd], cancel }) => {
@@ -195,39 +150,6 @@ const Slider: React.FC<props> = ({
     },
   });
 
-  const moveSprings = React.useCallback(() => {
-    setSprings((i) => {
-      if (i < index.current - 1 || i > index.current + 1)
-        return { display: 'none' };
-      const x = (i - index.current) * innerWidth;
-      if (i === index.current)
-        return { x, scale: 1, zIndex: 1, display: 'block' };
-      return { x, scale: 1, zIndex: 0, display: 'block' };
-    });
-  }, [innerWidth, setSprings]);
-  const handleRight = React.useCallback(() => {
-    if (index.current < photos.length - 1) {
-      index.current += 1;
-      setIndex(index.current + 1);
-      moveSprings();
-    }
-  }, [moveSprings, setIndex, photos.length]);
-  const handleLeft = React.useCallback(() => {
-    if (index.current > 0) {
-      index.current -= 1;
-      setIndex(index.current + 1);
-      moveSprings();
-    }
-  }, [moveSprings, setIndex]);
-  const handleGoTo = React.useCallback(
-    (photoId: number) => {
-      index.current = photoId - 1;
-      setIndex(photoId - 1);
-      moveSprings();
-    },
-    [moveSprings, setIndex],
-  );
-
   React.useLayoutEffect(() => {
     const handler = (e: TouchEvent) => {
       if (e.touches && e.touches.length > 1) {
@@ -247,110 +169,187 @@ const Slider: React.FC<props> = ({
     return () => window.removeEventListener('keydown', handler);
   }, [handleLeft, handleRight]);
 
-  return (
-    <Root className={`unselectable ${withLayout ? 'desktop' : ''}`} {...props}>
-      <EdgeModal open={edgeModalFlag} />
-      {springs.map(({ x, display, scale, zIndex }, i) => (
-        <a.div
-          className="slider-page"
-          {...bind()}
-          key={`background-${photos[i].photoId}`}
-          onClick={() => {
-            if (zoomIn) setZoomIn(0);
+  const CloseButton: React.FC = React.useCallback(
+    () => (
+      <IconButton
+        className="close-button"
+        onClick={() => router.push('/ovr/list')}>
+        <CloseIcon />
+      </IconButton>
+    ),
+    [router],
+  );
+
+  const ArtistInfo: React.FC<{
+    i: number;
+    children?: React.ReactNode;
+  }> = React.useCallback(
+    ({ i, children }) => (
+      <div className="artist-info">
+        <div
+          className="click-area"
+          role="button"
+          tabIndex={0}
+          onClick={(e) => {
+            setProfileOpen(!profileOpen);
+            e.currentTarget.blur();
           }}
-          style={{
-            x,
-            display: display as never,
-            zIndex: zIndex as never,
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              setProfileOpen(!profileOpen);
+              e.currentTarget.blur();
+            }
           }}>
-          <a.div style={{ scale }}>
-            {!withLayout ? (
-              <Gradient
-                size={{ width: '100%', height: '70px' }}
-                position={{ top: '0', left: '0' }}
-                opacities={{ start: 0, end: 0.4 }}
-                vertical>
-                <IconButton
-                  className="close-button"
-                  onClick={() => {
-                    if (profileOpen) setProfileOpen(false);
-                    else router.push('/ovr/list');
-                  }}>
-                  <CloseIcon />
-                </IconButton>
-              </Gradient>
-            ) : (
-              <></>
-            )}
-            <Photo
-              title={photos[i].title}
-              src={
-                photos[i].url ?? `/images/photo/full/${photos[i].photoId}.jpg`
-              }
-              zoomScales={zoomScales}
-              zoomIn={zoomIn}
-            />
-            {!withLayout ? (
-              <Gradient
-                className="bottom"
-                size={{ width: '100%', height: '112px' }}
-                position={{ bottom: '0', left: '0' }}
-                opacities={{ start: 0.5, end: 0 }}
-                vertical>
-                <div className="artist-info">
-                  <div
-                    className="icon-block"
-                    role="button"
-                    tabIndex={0}
-                    onClick={(e) => {
-                      setProfileOpen(true);
-                      e.currentTarget.blur();
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        setProfileOpen(true);
-                        e.currentTarget.blur();
-                      }
-                    }}>
-                    <PersonIcon />
-                    <span className="icon-name">작가</span>
-                  </div>
-                  <div className="title-and-name">
-                    <h2 className="title">{photos[i].title}</h2>
-                    <p className="artist-name">{photos[i].artist.name}</p>
-                  </div>
-                </div>
-                <div
-                  className="icon-block"
-                  role="button"
-                  tabIndex={0}
-                  onClick={(e) => {
-                    setZoomIn(zoomIn ? 0 : 1);
-                    e.currentTarget.blur();
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      setZoomIn(zoomIn ? 0 : 1);
-                      e.currentTarget.blur();
-                    }
-                  }}>
-                  {zoomIn ? <ZoomOutIcon /> : <ZoomInIcon />}
-                  <span className="icon-name">{zoomIn ? '축소' : '확대'}</span>
-                </div>
-              </Gradient>
-            ) : (
-              <></>
-            )}
+          <div className="icon-block">
+            <PersonIcon />
+            <span className="icon-name">작가</span>
+          </div>
+          <div className="vertical-divider" />
+          <div className="title-and-name">
+            <h2 className="title">{photos[i].title}</h2>
+            <p className="artist-name">{photos[i].artist.name}</p>
+          </div>
+        </div>
+        {children}
+      </div>
+    ),
+    [photos, profileOpen],
+  );
+
+  const ZoomInButton: React.FC = React.useCallback(
+    () => (
+      <div className="zoom-in-button">
+        <div
+          className="icon-block"
+          role="button"
+          tabIndex={0}
+          onClick={(e) => {
+            setZoomIn(zoomIn ? 0 : 1);
+            e.currentTarget.blur();
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              setZoomIn(zoomIn ? 0 : 1);
+              e.currentTarget.blur();
+            }
+          }}>
+          {zoomIn ? <ZoomOutIcon /> : <ZoomInIcon />}
+          <span className="icon-name">{zoomIn ? '축소' : '확대'}</span>
+        </div>
+      </div>
+    ),
+    [zoomIn],
+  );
+
+  const Gradients: React.FC = React.useCallback(
+    () => (
+      <>
+        <Gradient
+          size={{ width: '100%', height: '70px' }}
+          position={{ top: '0', left: '0' }}
+          opacities={{ start: 0, end: 0.4 }}
+          vertical
+        />
+        <Gradient
+          className="bottom"
+          size={{ width: '100%', height: '112px' }}
+          position={{ bottom: '0', left: '0' }}
+          opacities={{ start: 0.5, end: 0 }}
+          vertical
+        />
+      </>
+    ),
+    [],
+  );
+
+  const Arrows: React.FC = React.useCallback(
+    () => (
+      <>
+        <IconButton className="arrow-button left" onClick={() => handleLeft()}>
+          <SvgIcon component={ArrowLeft} viewBox="6 6 12 12" />
+        </IconButton>
+        <IconButton
+          className="arrow-button right"
+          onClick={() => handleRight()}>
+          <SvgIcon component={ArrowRight} viewBox="6 6 12 12" />
+        </IconButton>
+      </>
+    ),
+    [handleLeft, handleRight],
+  );
+
+  return (
+    <>
+      <EdgeModal open={edgeModalFlag} />
+      {!withLayout ? (
+        <MobileRoot className="unselectable" {...props}>
+          {springs.map(({ x, display, scale, zIndex }, i) => (
+            <a.div
+              className="slider-page"
+              {...bind()}
+              key={`background-${photos[i].photoId}`}
+              onClick={() => {
+                if (zoomIn) setZoomIn(0);
+              }}
+              style={{
+                x,
+                display: display as never,
+                zIndex: zIndex as never,
+              }}>
+              <a.div style={{ scale }}>
+                <Gradients />
+                <CloseButton />
+                <Photo
+                  title={photos[i].title}
+                  src={
+                    photos[i].url ??
+                    `/images/photo/full/${photos[i].photoId}.jpg`
+                  }
+                  zoomScales={zoomScales}
+                  zoomIn={zoomIn}
+                />
+                <ArtistInfo i={i} />
+                <ZoomInButton />
+                <Profile
+                  open={profileOpen}
+                  previous={previousProfileOpen}
+                  close={() => setProfileOpen(false)}
+                  artist={getArtistWithPhotos(photos[i].artist.artistId)}
+                  handleGoTo={handleGoTo}
+                />
+              </a.div>
+            </a.div>
+          ))}
+        </MobileRoot>
+      ) : (
+        <DesktopRoot className="unselectable" {...props}>
+          {process.env.NODE_ENV !== 'production' && (
+            <span>photoId: {photos[pageIndex].photoId}</span>
+          )}
+          <CloseButton />
+          <Photo
+            title={photos[pageIndex].title}
+            src={
+              photos[pageIndex].url ??
+              `/images/photo/full/${photos[pageIndex].photoId}.jpg`
+            }
+            zoomScales={zoomScales}
+            zoomIn={zoomIn}
+          />
+          <Arrows />
+          <ArtistInfo i={pageIndex}>
             <Profile
               open={profileOpen}
+              previous={previousProfileOpen}
               close={() => setProfileOpen(false)}
-              artist={getArtistWithPhotos(photos[i].artist.artistId)}
-              handleGoTo={handleGoTo}
+              artist={getArtistWithPhotos(photos[pageIndex].artist.artistId)}
+              handleGoTo={setIndex}
             />
-          </a.div>
-        </a.div>
-      ))}
-    </Root>
+          </ArtistInfo>
+          <ZoomInButton />
+        </DesktopRoot>
+      )}
+    </>
   );
 };
 

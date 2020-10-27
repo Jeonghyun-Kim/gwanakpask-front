@@ -10,6 +10,7 @@ interface RootProps {
 const Root = styled.div<RootProps>`
   display: flex;
   flex-direction: column;
+  cursor: pointer;
   .photo-list-item-img {
     width: 100%;
     object-fit: contain;

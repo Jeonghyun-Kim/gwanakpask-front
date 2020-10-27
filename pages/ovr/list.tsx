@@ -101,13 +101,13 @@ const PhotoListPage: React.FC = () => {
     const containerWidth = !withLayout
       ? innerWidth
       : Math.min(innerWidth - NAVBAR_WIDTH, 1100);
+    const padding = !withLayout ? PADDING.mobile : PADDING.desktop;
+    const gap = !withLayout ? GAP.mobile : GAP.desktop;
     const columns = Math.floor(
-      (containerWidth - 2 * PADDING.desktop) / (230 + GAP.desktop),
+      (containerWidth - 2 * padding) / ((!withLayout ? 140 : 230) + gap),
     );
-    const photoWidth = !withLayout
-      ? (containerWidth - 2 * PADDING.mobile - GAP.mobile) / 2
-      : (containerWidth - 2 * PADDING.desktop - (columns - 1) * GAP.desktop) /
-        columns;
+    const photoWidth =
+      (containerWidth - 2 * padding - (columns - 1) * gap) / columns;
     return (
       Math.floor((index - 1) / columns) *
       (photoWidth + (!withLayout ? INFO_HEIGHT.mobile : INFO_HEIGHT.desktop))

@@ -87,6 +87,7 @@ const Photo: React.FC<props> = ({
     <Root
       {...props}
       {...bind()}
+      className="unselectable"
       style={{
         x,
         y,

@@ -34,6 +34,7 @@ export const GlobalCSS = css`
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    -webkit-user-drag: none;
   }
   span.MuiButton-label {
     font-family: 'Noto Sans KR', sans-serif, -apple-system, BlinkMacSystemFont,

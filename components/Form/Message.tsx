@@ -43,6 +43,7 @@ const MessageForm: React.FC<props> = ({
         fullWidth
         value={from}
         onChange={(e) => setFrom(e.target.value)}
+        onBlur={(e) => setFrom(e.target.value.trim())}
         inputProps={{
           maxLength: 10,
           required: true,
@@ -58,6 +59,7 @@ const MessageForm: React.FC<props> = ({
         multiline
         value={content}
         onChange={(e) => setContent(e.target.value)}
+        onBlur={(e) => setContent(e.target.value.trim())}
         inputProps={{
           maxLength: 150,
           required: true,

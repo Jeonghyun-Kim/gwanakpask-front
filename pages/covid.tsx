@@ -49,10 +49,12 @@ const Root = styled.div`
       text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
     }
     .sec-0 {
-      padding: 32px;
+      padding: 32px 0 80px 0;
       .content {
         margin: 0;
-        margin-bottom: 80px;
+      }
+      .content + .content {
+        margin-top: 32px;
       }
     }
     .sec {
@@ -99,12 +101,12 @@ const CovidPage: React.FC = () => {
         <section className="sec-0">
           <p className="content">
             모두가 어려운 시기,
-            <br />
+            {!withLayout ? <br /> : ' '}
             관악구와 주민들이 함께 나섰습니다.
           </p>
           <p className="content">
             관악구청과 주민자치회의
-            <br />
+            {!withLayout ? <br /> : ' '}
             코로나 방역활동을 사진으로 만나보세요.
           </p>
         </section>
