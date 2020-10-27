@@ -4,12 +4,15 @@ import styled from 'styled-components';
 
 import Layout from '../components/Layout';
 import Header from '../components/Header';
+import Congrat from '../components/Congrat';
+
+import { congrats } from '../data';
 
 const Root = styled.div`
   width: 100%;
   height: 100%;
-  display: grid;
-  place-items: center;
+  max-width: 1000px;
+  margin: 0 auto;
 `;
 
 const TestPage: React.FC = () => {
@@ -23,7 +26,16 @@ const TestPage: React.FC = () => {
         title="Test Page"
         actionComponent="Hello"
       />
-      <Root>test</Root>
+      <Root>
+        {congrats.map((congrat) => (
+          <Congrat
+            key={congrat.id}
+            id={congrat.id}
+            name={congrat.name}
+            content={congrat.content}
+          />
+        ))}
+      </Root>
     </Layout>
   );
 };
