@@ -19,7 +19,7 @@ import EdgeModal from '../Modal/Edge';
 
 import { MobileRoot, DesktopRoot } from './styles';
 
-import usePrevious from '../../lib/usePrevious';
+import usePrevious from '../../lib/hooks/usePrevious';
 
 import AppContext from '../../AppContext';
 import { getArtistWithPhotos } from '../../data';

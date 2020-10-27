@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import LoginForm from '../components/Form/Login';
 
-import useAdmin from '../lib/useAdmin';
+import useAdmin from '../lib/hooks/useAdmin';
 
 const Root = styled.div`
   width: 100%;

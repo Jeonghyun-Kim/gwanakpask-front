@@ -10,7 +10,7 @@ import PhotoListItem from '../../components/PhotoListItem';
 
 import { NextSection } from '../../components/GlobalStyle';
 
-import useLayout from '../../lib/useLayout';
+import useLayout from '../../lib/hooks/useLayout';
 
 import { photosWithArtist } from '../../data';
 

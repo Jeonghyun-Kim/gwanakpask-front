@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { useSpring } from '@react-spring/core';
 import { a } from '@react-spring/web';
 
-import useMeasure from '../lib/useMeasure';
-import usePrevious from '../lib/usePrevious';
+import useMeasure from '../lib/hooks/useMeasure';
+import usePrevious from '../lib/hooks/usePrevious';
 
 const CONTENT_PADDING = 32;
 
