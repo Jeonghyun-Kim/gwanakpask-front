@@ -60,7 +60,7 @@ const PhotoListItem: React.FC<props> = ({
   ...props
 }) => {
   const router = useRouter();
-  const { setIndex, withLayout } = React.useContext(AppContext);
+  const { setIndex, withLayout, index } = React.useContext(AppContext);
 
   const handleMove = React.useCallback(() => {
     setIndex(photo.photoId);
@@ -85,6 +85,7 @@ const PhotoListItem: React.FC<props> = ({
         src={`/images/photo/thumb/${photo.photoId}.jpg`}
         width={size}
         height={size}
+        priority={Math.abs(photo.photoId - index) < 4}
       />
       <div className="caption-block">
         <h4>{photo.title}</h4>
