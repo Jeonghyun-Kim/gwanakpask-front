@@ -17,6 +17,21 @@ import AppContext from '../AppContext';
 const Root = styled.div`
   width: 100%;
   height: 100%;
+  .video-section {
+    width: 100%;
+    background-color: black;
+    .padding-box {
+      position: relative;
+      padding-bottom: ${(100 * 1080) / 1920}%;
+    }
+    .intro-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
   .welcome-section {
     padding: 32px 16px;
     margin: 0 auto;
@@ -50,6 +65,13 @@ const Root = styled.div`
     }
   }
   &.desktop {
+    .video-section {
+      .padding-box {
+        max-width: 1300px;
+        padding-bottom: min(${(100 * 1080) / 1920}%, 731px);
+        margin: 0 auto;
+      }
+    }
     .welcome-section {
       max-width: 1360px;
       padding: 80px 32px 160px 32px;
@@ -97,6 +119,20 @@ const IntroPage: React.FC = () => {
         actionComponent={ActionButton}
       />
       <Root className={withLayout ? 'desktop' : ''}>
+        <section className="video-section">
+          <div className="padding-box">
+            <iframe
+              className="intro-video"
+              frameBorder="0"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+              title="관악미술협회 15주년 기념전"
+              src={`https://www.youtube.com/embed/FDe8WEz4tU0?enablejsapi=1&${
+                withLayout && 'autoplay=1'
+              }`}
+            />
+          </div>
+        </section>
         <section className="welcome-section">
           <h2 className="title">지부장 인사말</h2>
           <h4 className="name">한국 사진작가협회 관악구지부 지부장 박태재</h4>
