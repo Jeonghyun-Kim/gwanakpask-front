@@ -78,6 +78,7 @@ const Root = styled.div`
       .content {
         padding: ${CONTENT_PADDING.desktop}px 32px;
         font-size: 1.5625rem;
+        /* word-break: keep-all; */
       }
     }
   }

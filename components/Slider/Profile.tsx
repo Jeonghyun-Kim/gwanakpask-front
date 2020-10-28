@@ -19,6 +19,7 @@ const Root = styled(a.div)`
   border-radius: 5px 5px 0 0;
   display: flex;
   flex-direction: column;
+  z-index: 99;
   .profile-close-button {
     position: absolute;
     right: 10px;
@@ -177,6 +178,7 @@ const Profile: React.FC<props> = ({
           src={`/images/profile/${artist.artistId}.jpg`}
           width={117}
           height={156}
+          priority
         />
         <div className="name-and-position">
           <h4 className="artist-name">{artist.name}</h4>

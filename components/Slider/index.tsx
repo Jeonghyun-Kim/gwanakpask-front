@@ -70,21 +70,23 @@ const Slider: React.FC<props> = ({
 
   const handleRight = React.useCallback(() => {
     if (index.current < photos.length - 1) {
+      if (profileOpen) setProfileOpen(false);
       index.current += 1;
       setIndex(index.current + 1);
       if (!withLayout) moveSprings();
     } else if (index.current === photos.length - 1) {
       setEdgeModalFlag(true);
     }
-  }, [moveSprings, setIndex, photos.length, withLayout]);
+  }, [moveSprings, setIndex, profileOpen, photos.length, withLayout]);
 
   const handleLeft = React.useCallback(() => {
     if (index.current > 0) {
+      if (profileOpen) setProfileOpen(false);
       index.current -= 1;
       setIndex(index.current + 1);
       if (!withLayout) moveSprings();
     }
-  }, [moveSprings, setIndex, withLayout]);
+  }, [moveSprings, setIndex, profileOpen, withLayout]);
 
   const handleGoTo = React.useCallback(
     (photoId: number) => {
@@ -104,13 +106,13 @@ const Slider: React.FC<props> = ({
       lastOffset: [lastX],
       velocities: [vx],
       cancel,
-      swipe: [, y],
+      swipe: [, sy],
     }) => {
-      if (y === -1) {
+      if (sy === -1) {
         setProfileOpen(true);
         if (cancel) cancel();
       }
-      if (touches > 1 || zoomIn || profileOpen) {
+      if (touches > 1 || zoomIn) {
         if (cancel) cancel();
       } else {
         const deltaX = x - lastX;
@@ -148,6 +150,9 @@ const Slider: React.FC<props> = ({
         if (cancel) cancel();
       }
     },
+    onTouchStart: () => {
+      if (profileOpen) setProfileOpen(false);
+    },
   });
 
   React.useLayoutEffect(() => {
@@ -164,10 +169,22 @@ const Slider: React.FC<props> = ({
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight') handleRight();
       if (e.key === 'ArrowLeft') handleLeft();
+      if (e.key === 'Escape') {
+        if (profileOpen) {
+          setProfileOpen(false);
+        } else {
+          router.push('/ovr/list');
+        }
+      }
+      if (e.key === 'P' || e.key === 'p') setProfileOpen(!profileOpen);
+      if (e.key === ' ') {
+        e.preventDefault();
+        setZoomIn(zoomIn ? 0 : 1);
+      }
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [handleLeft, handleRight]);
+  }, [handleLeft, handleRight, router, profileOpen, zoomIn]);
 
   const CloseButton: React.FC = React.useCallback(
     () => (
@@ -283,43 +300,45 @@ const Slider: React.FC<props> = ({
       <EdgeModal open={edgeModalFlag} />
       {!withLayout ? (
         <MobileRoot className="unselectable" {...props}>
-          {springs.map(({ x, display, scale, zIndex }, i) => (
-            <a.div
-              className="slider-page"
-              {...bind()}
-              key={`background-${photos[i].photoId}`}
-              onClick={() => {
-                if (zoomIn) setZoomIn(0);
-              }}
-              style={{
-                x,
-                display: display as never,
-                zIndex: zIndex as never,
-              }}>
-              <a.div style={{ scale }}>
-                <Gradients />
-                <CloseButton />
-                <Photo
-                  title={photos[i].title}
-                  src={
-                    photos[i].url ??
-                    `/images/photo/full/${photos[i].photoId}.jpg`
-                  }
-                  zoomScales={zoomScales}
-                  zoomIn={zoomIn}
-                />
-                <ArtistInfo i={i} />
-                <ZoomInButton />
-                <Profile
-                  open={profileOpen}
-                  previous={previousProfileOpen}
-                  close={() => setProfileOpen(false)}
-                  artist={getArtistWithPhotos(photos[i].artist.artistId)}
-                  handleGoTo={handleGoTo}
-                />
+          <>
+            {springs.map(({ x, display, scale, zIndex }, i) => (
+              <a.div
+                className="slider-page"
+                {...bind()}
+                key={`background-${photos[i].photoId}`}
+                onClick={() => {
+                  if (zoomIn) setZoomIn(0);
+                }}
+                style={{
+                  x,
+                  display: display as never,
+                  zIndex: zIndex as never,
+                }}>
+                <a.div style={{ scale }}>
+                  <Gradients />
+                  <CloseButton />
+                  <Photo
+                    title={photos[i].title}
+                    src={
+                      photos[i].url ??
+                      `/images/photo/full/${photos[i].photoId}.jpg`
+                    }
+                    zoomScales={zoomScales}
+                    zoomIn={zoomIn}
+                  />
+                  <ArtistInfo i={i} />
+                  <ZoomInButton />
+                </a.div>
               </a.div>
-            </a.div>
-          ))}
+            ))}
+            <Profile
+              open={profileOpen}
+              previous={previousProfileOpen}
+              close={() => setProfileOpen(false)}
+              artist={getArtistWithPhotos(photos[pageIndex].artist.artistId)}
+              handleGoTo={handleGoTo}
+            />
+          </>
         </MobileRoot>
       ) : (
         <DesktopRoot className="unselectable" {...props}>

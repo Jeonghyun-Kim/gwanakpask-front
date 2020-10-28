@@ -21,6 +21,7 @@ const Root = styled(a.img)`
   height: auto;
   box-shadow: rgba(0, 20, 0, 0.2) 10px 7px 10px 3px;
   border-radius: 1px;
+  z-index: 1;
 `;
 
 interface props {

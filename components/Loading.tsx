@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import styled from 'styled-components';
 
 interface RootProps {
@@ -11,20 +12,26 @@ const Root = styled.div<RootProps>`
   place-items: center;
 
   #loading-img {
-    width: ${(props) => props.size};
-    height: ${(props) => props.size};
+    width: ${(props) => props.size}px;
+    height: ${(props) => props.size}px;
   }
 `;
 
 interface Props {
-  size?: string | number;
+  size?: number;
   children?: React.ReactNode;
 }
-const Loading: React.FC<Props> = ({ size = '100px', children, ...props }) => {
+const Loading: React.FC<Props> = ({ size = 100, children, ...props }) => {
   return (
     <Root size={size} {...props}>
       {children ?? (
-        <img id="loading-img" alt="loading..." src="/images/loading.gif" />
+        <Image
+          id="loading-img"
+          alt="loading..."
+          src="/images/loading.gif"
+          width={size}
+          height={size}
+        />
       )}
     </Root>
   );
