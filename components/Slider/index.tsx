@@ -24,7 +24,7 @@ import usePrevious from '../../lib/hooks/usePrevious';
 import AppContext from '../../AppContext';
 import { getArtistWithPhotos } from '../../data';
 
-const zoomScales = [1, 2, 3];
+const zoomScales = [1, 2];
 
 interface props {
   photos: PhotoWithArtist[];
@@ -150,8 +150,11 @@ const Slider: React.FC<props> = ({
         if (cancel) cancel();
       }
     },
-    onTouchStart: () => {
+    onClick: () => {
       if (profileOpen) setProfileOpen(false);
+    },
+    onDoubleClick: () => {
+      setZoomIn(zoomIn ? 0 : 1);
     },
   });
 
@@ -306,17 +309,12 @@ const Slider: React.FC<props> = ({
                 className="slider-page"
                 {...bind()}
                 key={`background-${photos[i].photoId}`}
-                onClick={() => {
-                  if (zoomIn) setZoomIn(0);
-                }}
                 style={{
                   x,
                   display: display as never,
                   zIndex: zIndex as never,
                 }}>
                 <a.div style={{ scale }}>
-                  <Gradients />
-                  <CloseButton />
                   <Photo
                     title={photos[i].title}
                     src={
@@ -325,7 +323,10 @@ const Slider: React.FC<props> = ({
                     }
                     zoomScales={zoomScales}
                     zoomIn={zoomIn}
+                    innerWidth={innerWidth}
                   />
+                  <Gradients />
+                  <CloseButton />
                   <ArtistInfo i={i} />
                   <ZoomInButton />
                 </a.div>
@@ -342,10 +343,6 @@ const Slider: React.FC<props> = ({
         </MobileRoot>
       ) : (
         <DesktopRoot className="unselectable" {...props}>
-          {process.env.NODE_ENV !== 'production' && (
-            <span>photoId: {photos[pageIndex].photoId}</span>
-          )}
-          <CloseButton />
           <Photo
             title={photos[pageIndex].title}
             src={
@@ -354,7 +351,9 @@ const Slider: React.FC<props> = ({
             }
             zoomScales={zoomScales}
             zoomIn={zoomIn}
+            innerWidth={innerWidth}
           />
+          <CloseButton />
           <Arrows />
           <ArtistInfo i={pageIndex}>
             <Profile

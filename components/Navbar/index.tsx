@@ -16,6 +16,7 @@ const Root = styled.div`
   width: ${NAVBAR_WIDTH}px;
   padding: 30px 30px 60px 30px;
   background-color: #2a2b2c;
+  z-index: 999;
   .logo-one-line {
     margin: 20px 0;
   }

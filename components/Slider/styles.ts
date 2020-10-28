@@ -13,74 +13,70 @@ export const MobileRoot = styled.div`
     height: 100%;
     & > div {
       position: relative;
-      background-image: url('/images/background/original.jpg');
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center bottom;
       width: 100%;
       height: 100%;
       box-shadow: 0 62.5px 125px -25px rgba(50, 50, 73, 0.5),
         0 37.5px 75px -37.5px rgba(0, 0, 0, 0.6);
-      .close-button {
-        position: absolute;
-        top: 10px;
-        left: 5px;
-        padding: 5px;
-        svg {
-          font-size: 36px;
-          color: white;
-        }
+    }
+    .close-button {
+      position: absolute;
+      top: 10px;
+      left: 5px;
+      padding: 5px;
+      svg {
+        font-size: 36px;
+        color: white;
       }
-      .bottom {
-        padding: 0 16px 24px 16px;
+    }
+    .bottom {
+      padding: 0 16px 24px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .artist-info {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      .click-area {
         display: flex;
-        justify-content: space-between;
         align-items: flex-end;
-      }
-      .artist-info {
-        position: absolute;
-        bottom: 12px;
-        left: 12px;
-        .click-area {
-          display: flex;
-          align-items: flex-end;
-          cursor: pointer;
-        }
-        .title-and-name {
-          margin-left: 10px;
-          h2 {
-            margin: 5px 0;
-            font-size: 1rem;
-            font-weight: 500;
-            color: white;
-          }
-          p {
-            margin: 0;
-            font-size: 0.75rem;
-            font-weight: 400;
-            color: white;
-          }
-        }
-      }
-      .zoom-in-button {
-        position: absolute;
-        bottom: 12px;
-        right: 12px;
         cursor: pointer;
       }
-      .icon-block {
-        display: flex;
-        flex-direction: column;
-        svg {
-          font-size: 2rem;
+      .title-and-name {
+        margin-left: 10px;
+        h2 {
+          margin: 5px 0;
+          font-size: 1rem;
+          font-weight: 500;
           color: white;
         }
-        .icon-name {
-          font-size: 0.625rem;
+        p {
+          margin: 0;
+          font-size: 0.75rem;
           font-weight: 400;
           color: white;
-          text-align: center;
         }
+      }
+    }
+    .zoom-in-button {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      cursor: pointer;
+    }
+    .icon-block {
+      display: flex;
+      flex-direction: column;
+      svg {
+        font-size: 2rem;
+        color: white;
+      }
+      .icon-name {
+        font-size: 0.625rem;
+        font-weight: 400;
+        color: white;
+        text-align: center;
       }
     }
   }
@@ -89,10 +85,6 @@ export const MobileRoot = styled.div`
 export const DesktopRoot = styled.div`
   width: 100%;
   height: 100%;
-  background-image: url('/images/background/original.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center bottom;
   .close-button {
     position: absolute;
     width: 80px;
