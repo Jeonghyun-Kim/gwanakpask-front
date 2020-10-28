@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-import Logo from '../Logo/Squared';
+import { SqauredLogo as Logo } from '../Logo';
 
 import { HeaderRoot, MenuItemRoot } from './styles';
 

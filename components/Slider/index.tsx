@@ -15,7 +15,7 @@ import ArrowRight from '../../public/icons/arrow_right.svg';
 import Photo from './Photo';
 import Gradient from '../Gradient';
 import Profile from './Profile';
-import EdgeModal from '../Modal/Edge';
+import { EdgeModal } from '../Modal';
 
 import { MobileRoot, DesktopRoot } from './styles';
 

@@ -10,7 +10,7 @@ import Header from '../components/Header';
 import MessageForm from '../components/Form/Message';
 import TemplateIconBlock from '../components/Paper/IconBlock';
 import PaperPreview from '../components/Paper';
-import ResModal from '../components/Modal/Response';
+import { ResponseModal as ResModal } from '../components/Modal';
 
 import fetcher from '../lib/fetcher';
 import { getUserId } from '../lib/utils';

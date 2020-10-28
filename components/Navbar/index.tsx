@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Logo from '../Logo/OneLine';
+import { OneLineLogo as Logo } from '../Logo';
 import MenuItem, { MenuRoot } from './MenuItem';
 
 import { NAVBAR_WIDTH } from '../../defines';
