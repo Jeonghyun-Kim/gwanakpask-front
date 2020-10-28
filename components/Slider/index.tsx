@@ -68,25 +68,33 @@ const Slider: React.FC<props> = ({
     });
   }, [innerWidth, setSprings]);
 
-  const handleRight = React.useCallback(() => {
+  const handleRight = React.useCallback(async () => {
     if (index.current < photos.length - 1) {
       if (profileOpen) setProfileOpen(false);
+      if (zoomIn) {
+        setZoomIn(0);
+        await new Promise((resolve) => setTimeout(() => resolve(), 300));
+      }
       index.current += 1;
       setIndex(index.current + 1);
       if (!withLayout) moveSprings();
     } else if (index.current === photos.length - 1) {
       setEdgeModalFlag(true);
     }
-  }, [moveSprings, setIndex, profileOpen, photos.length, withLayout]);
+  }, [moveSprings, setIndex, profileOpen, zoomIn, photos.length, withLayout]);
 
-  const handleLeft = React.useCallback(() => {
+  const handleLeft = React.useCallback(async () => {
     if (index.current > 0) {
       if (profileOpen) setProfileOpen(false);
+      if (zoomIn) {
+        setZoomIn(0);
+        await new Promise((resolve) => setTimeout(() => resolve(), 300));
+      }
       index.current -= 1;
       setIndex(index.current + 1);
       if (!withLayout) moveSprings();
     }
-  }, [moveSprings, setIndex, profileOpen, withLayout]);
+  }, [moveSprings, setIndex, profileOpen, zoomIn, withLayout]);
 
   const handleGoTo = React.useCallback(
     (photoId: number) => {
