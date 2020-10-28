@@ -43,7 +43,7 @@ const CrossFadeSlider: React.FC<props> = ({
 }) => {
   const [pause, setPause] = React.useState<boolean>(false);
   const index = React.useRef<number>(0);
-  const [timer, setTimer] = React.useState<NodeJS.Timeout | null>(null);
+  const timer = React.useRef<NodeJS.Timeout | null>(null);
   const [springs, setSprings] = useSprings(
     images.length,
     (i) => ({
@@ -65,25 +65,25 @@ const CrossFadeSlider: React.FC<props> = ({
   }, [images.length, setSprings]);
 
   const startTimer = React.useCallback(() => {
-    setTimer(setInterval(() => handleNext(), timeout));
+    timer.current = setInterval(() => handleNext(), timeout);
   }, [timeout, handleNext]);
 
   const endTimer = React.useCallback(() => {
-    if (timer) {
-      clearInterval(timer);
-      setTimer(null);
+    if (timer.current) {
+      clearInterval(timer.current);
+      timer.current = null;
     }
-  }, [timer]);
+  }, []);
 
   React.useEffect(() => {
-    if (pause && timer) {
+    if (pause && timer.current) {
       endTimer();
     }
-    if (!pause && !timer) {
+    if (!pause && timer.current) {
       startTimer();
     }
     return () => endTimer();
-  }, [pause, timer, startTimer, endTimer]);
+  }, [pause, startTimer, endTimer]);
 
   return (
     <Root height={height} {...bind()} {...props}>

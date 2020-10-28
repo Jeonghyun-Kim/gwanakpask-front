@@ -1,4 +1,5 @@
 import React from 'react';
+// import Image from 'next/image';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -8,9 +9,12 @@ import Countup from 'react-countup';
 import { CSSTransition } from 'react-transition-group';
 
 import Button from '@material-ui/core/Button';
-
+import ArrowForwardIos from '@material-ui/icons/ArrowForwardIos';
 import Layout from '../components/Layout';
 import Header from '../components/Header/Home';
+import KeenSlider from '../components/Slider/Keen';
+
+import { NextSection } from '../components/GlobalStyle';
 
 import useWindowScroll from '../lib/hooks/useWindowScroll';
 
@@ -85,7 +89,73 @@ const Root = styled.div`
       }
     }
   }
+  .section-1 {
+    height: 700px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    .title-block {
+      p {
+        font-size: 1.5625rem;
+        font-weight: 500;
+      }
+      h4 {
+        font-size: 1rem;
+        font-weight: 400;
+      }
+    }
+    a {
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      color: #007aff;
+      svg {
+        font-size: 1rem;
+      }
+      span {
+        margin: 0 5px;
+        font-size: 0.875rem;
+        font-weight: 700;
+      }
+    }
+  }
+  .visitor-link {
+    margin-top: 20px;
+    text-decoration: underline;
+    color: #757575;
+  }
+  .section-2 {
+    background-color: #f9f9f9;
+    padding: 16px 0 136px 0;
+    p {
+      text-align: center;
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: #757575;
+    }
+  }
+  .section-3 {
+    background-color: #292929;
+    padding: 32px 0 136px 0;
+  }
+  &.desktop {
+    .section-1 {
+      svg,
+      span {
+        font-size: 1.5625rem;
+      }
+      span {
+        margin: 0 10px;
+        font-weight: 700;
+      }
+    }
+  }
 `;
+
+const repPhotos = [2, 3, 5, 7, 19, 50];
+const repCovid = [1, 2, 3, 4, 5, 6, 7];
 
 const IndexPage: React.FC = () => {
   const router = useRouter();
@@ -133,8 +203,67 @@ const IndexPage: React.FC = () => {
             </Link>
           </CSSTransition>
         </section>
-        <div style={{ height: '100vh' }} />
-        <div style={{ height: '100vh' }} />
+        <section className="section-1">
+          <div className="title-block">
+            <p>환영합니다.</p>
+            <h4>한국사진협회 관악지부의 온라인 사진전입니다.</h4>
+          </div>
+          <Link href="/intro">
+            <a>
+              <span>전시소개 바로가기</span>
+              <ArrowForwardIos />
+            </a>
+          </Link>
+        </section>
+        <NextSection white className={withLayout ? 'desktop' : ''}>
+          <h2>전시장</h2>
+          <h4>
+            전시장에서는 31분 작가의 62점 사진 작품이 전시 중입니다.
+            <br />
+            작품을 감상하고 방명록도 남겨주세요.
+          </h4>
+          <Link href="/ovr/list">
+            <a>
+              <span>전시장 바로가기</span>
+              <ArrowForwardIos />
+            </a>
+          </Link>
+          <Link href="/visitor">
+            <a className="visitor-link">
+              {/* style={{ textDecoration: 'underline', color: '#757575' }}> */}
+              <span>방명록 바로가기</span>
+            </a>
+          </Link>
+        </NextSection>
+        <section className="section-2">
+          <p>* 이 전시는 온라인으로만 진행되는 비대면 전시입니다.</p>
+          <KeenSlider
+            images={repPhotos.map((id) => `/images/photo/full/${id}.jpg`)}
+            autoPlay
+          />
+        </section>
+        <NextSection className={withLayout ? 'desktop' : ''}>
+          <h2>방역활동 사진첩</h2>
+          <h4>
+            모두가 어려운 시기,
+            <br />
+            관악구와 주민들이 함께 나섰습니다.
+            <br />
+            관악구청과 주민자치회의 코로나 방역활동을 사진으로 만나보세요.
+          </h4>
+          <Link href="/covid">
+            <a>
+              <span>방역활동 사진첩 바로가기</span>
+              <ArrowForwardIos />
+            </a>
+          </Link>
+        </NextSection>
+        <section className="section-3">
+          <KeenSlider
+            images={repCovid.map((id) => `/images/covid/rep/${id}.jpg`)}
+            autoPlay
+          />
+        </section>
       </Root>
     </Layout>
   );
