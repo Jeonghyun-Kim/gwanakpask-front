@@ -3,6 +3,8 @@ import Image from 'next/image';
 import Head from 'next/head';
 import styled from 'styled-components';
 
+import Button from '@material-ui/core/Button';
+
 import Layout from '../components/Layout';
 import Header from '../components/Header';
 import CrossFadeSlider from '../components/Slider/CrossFade';
@@ -43,8 +45,7 @@ const Root = styled.div`
     }
   }
   &.desktop {
-    max-width: 680px;
-    margin: 32px auto;
+    margin-bottom: 32px;
     .title {
       font-size: 2.5rem;
       text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
@@ -52,13 +53,16 @@ const Root = styled.div`
     .sec-0 {
       padding: 32px 0 80px 0;
       .content {
-        margin: 0;
+        margin: 48px 0;
+        font-size: 1.25rem;
       }
       .content + .content {
-        margin-top: 32px;
+        margin-top: 16px;
       }
     }
     .sec {
+      max-width: 680px;
+      margin: 0 auto;
       margin-bottom: 80px;
       padding: 0 16px;
       .section-title {
@@ -68,6 +72,25 @@ const Root = styled.div`
       .covid-photo {
         width: 100%;
         margin: 16px 0;
+      }
+    }
+    .go-top-button {
+      position: fixed;
+      right: 60px;
+      bottom: 60px;
+      width: 64px;
+      height: 64px;
+      display: block;
+      background-color: #3f51b5;
+      border-radius: 50%;
+      font-size: 1rem;
+      z-index: 0;
+      padding: 0;
+      opacity: 0.8;
+      .MuiButton-label {
+        width: 64px;
+        margin: 0;
+        color: #ffffff;
       }
     }
   }
@@ -96,7 +119,7 @@ const CovidPage: React.FC = () => {
         <CrossFadeSlider
           images={repImages}
           timeout={3000}
-          height={!withLayout ? '160px' : '219px'}>
+          height={!withLayout ? '160px' : '500px'}>
           <h2 className="title">방역활동 사진첩</h2>
         </CrossFadeSlider>
         <section className="sec-0">
@@ -128,6 +151,16 @@ const CovidPage: React.FC = () => {
             ))}
           </section>
         ))}
+        {withLayout && (
+          <Button
+            className="go-top-button"
+            variant="contained"
+            onClick={() =>
+              window.scroll({ behavior: 'smooth', left: 0, top: 0 })
+            }>
+            TOP
+          </Button>
+        )}
       </Root>
     </Layout>
   );

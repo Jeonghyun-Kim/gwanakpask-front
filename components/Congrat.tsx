@@ -64,7 +64,7 @@ const Root = styled.div`
       .summary {
         display: flex;
         flex-direction: column;
-        margin: 16px 24px;
+        margin: 16px 36px;
         .division {
           font-size: 1.5625rem;
           letter-spacing: 16px;
@@ -77,7 +77,7 @@ const Root = styled.div`
     .content-box {
       .content {
         padding: ${CONTENT_PADDING.desktop}px 32px;
-        font-size: 1.5625rem;
+        font-size: 1.25rem;
         /* word-break: keep-all; */
       }
     }
@@ -94,10 +94,9 @@ const Congrat: React.FC<Props> = ({ id, name, content, ...props }) => {
   const [open, setOpen] = React.useState<boolean>(false);
   const previous = usePrevious(open);
   const [bind, { height: viewHeight }] = useMeasure();
-  const [{ height, y }, setSpring] = useSpring(
+  const [{ height }, setSpring] = useSpring(
     {
       height: 0,
-      y: 0,
     },
     [],
   );
@@ -107,14 +106,11 @@ const Congrat: React.FC<Props> = ({ id, name, content, ...props }) => {
     [withLayout],
   );
 
-  const yMax = React.useMemo(() => (!withLayout ? 50 : 140), [withLayout]);
-
   React.useEffect(() => {
     setSpring({
       height: open ? (viewHeight ?? 0) + 2 * padding : 0,
-      y: open ? yMax : 0,
     });
-  }, [setSpring, viewHeight, open, padding, yMax]);
+  }, [setSpring, viewHeight, open, padding]);
 
   return (
     <Root className={`congrat ${withLayout ? 'desktop' : ''}`} {...props}>
@@ -140,7 +136,7 @@ const Congrat: React.FC<Props> = ({ id, name, content, ...props }) => {
           height={!withLayout ? 120 : 240}
         />
         <div className="summary">
-          <a.div style={{ height: y }} />
+          <div className="grow" />
           <h4 className="division">축사</h4>
           <p className="name">{name}</p>
         </div>

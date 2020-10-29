@@ -87,20 +87,20 @@ export const DesktopRoot = styled.div`
   height: 100%;
   .close-button {
     position: absolute;
-    width: 80px;
-    height: 80px;
+    width: 51px;
+    height: 51px;
     padding: 5px;
-    top: 80px;
-    right: 80px;
+    top: 40px;
+    right: 40px;
     border-radius: 50%;
     background-color: #515253 !important;
     transition: opacity 300ms ease;
     .MuiIconButton-label {
-      width: 80px;
-      height: 80px;
+      width: 51px;
+      height: 51px;
     }
     svg {
-      font-size: 64px;
+      font-size: 40px;
       color: white;
     }
     &:hover {
@@ -125,15 +125,21 @@ export const DesktopRoot = styled.div`
     }
     &.left {
       left: 80px;
+      @media screen and (max-width: 1100px) {
+        left: 40px;
+      }
     }
     &.right {
       right: 80px;
+      @media screen and (max-width: 1100px) {
+        right: 40px;
+      }
     }
   }
   .artist-info {
     position: absolute;
-    bottom: 80px;
-    left: 80px;
+    bottom: 40px;
+    left: 40px;
     .click-area {
       width: 400px;
       height: 80px;
@@ -186,10 +192,10 @@ export const DesktopRoot = styled.div`
   }
   .zoom-in-button {
     position: absolute;
-    width: 80px;
-    height: 80px;
-    bottom: 80px;
-    right: 80px;
+    width: 51px;
+    height: 51px;
+    bottom: 40px;
+    right: 40px;
     border-radius: 50%;
     padding: 5px;
     background-color: #515253;
@@ -198,6 +204,19 @@ export const DesktopRoot = styled.div`
     transition: opacity 300ms ease;
     &:hover {
       opacity: 0.7;
+    }
+    .icon-block {
+      width: 100%;
+      height: 100%;
+      padding: 0 8px;
+      justify-content: center;
+      svg {
+        font-size: 28px;
+        margin-bottom: -3px;
+      }
+      .icon-name {
+        font-size: 0.6rem;
+      }
     }
   }
 `;

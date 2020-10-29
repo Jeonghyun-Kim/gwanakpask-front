@@ -80,11 +80,11 @@ const Root = styled.div`
         font-size: 2.5rem;
       }
       .name {
-        font-size: 1.5625rem;
+        font-size: 1.25rem;
         margin-bottom: 80px;
       }
       .content {
-        font-size: 1.5625rem;
+        font-size: 1.25rem;
       }
     }
     .congrats-section {
@@ -93,9 +93,9 @@ const Root = styled.div`
         max-width: 1360px;
         margin: 0 auto;
       }
-    }
-    .congrat + .congrat {
-      margin-top: 8px;
+      .congrat + .congrat {
+        margin-top: 16px;
+      }
     }
   }
 `;
@@ -128,7 +128,7 @@ const IntroPage: React.FC = () => {
               allow="autoplay; encrypted-media"
               allowFullScreen
               title="관악미술협회 15주년 기념전"
-              src={`https://www.youtube.com/embed/FDe8WEz4tU0?enablejsapi=1&${
+              src={`https://www.youtube.com/embed/2F-J_TJehtg?enablejsapi=1&${
                 withLayout && 'autoplay=1'
               }`}
             />
