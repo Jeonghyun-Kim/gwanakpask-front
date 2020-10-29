@@ -23,6 +23,7 @@ if (!uri || !dbName) {
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  maxIdleTimeMS: 100,
 });
 
 // Connecting MongoDb
@@ -31,10 +32,13 @@ const database = async (
   _res: NextApiResponse,
   next: NextHandler,
 ) => {
-  if (!client.isConnected()) await client.connect();
+  if (!client.isConnected()) {
+    await client.connect();
+  }
   req.client = client;
   req.db = client.db(dbName);
 
+  // await req.client.connect();
   return next();
 };
 
