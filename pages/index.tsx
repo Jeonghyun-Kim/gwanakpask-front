@@ -10,6 +10,8 @@ import { CSSTransition } from 'react-transition-group';
 
 import Button from '@material-ui/core/Button';
 import ArrowForwardIos from '@material-ui/icons/ArrowForwardIos';
+import Visibility from '@material-ui/icons/Visibility';
+import Create from '@material-ui/icons/Create';
 import Layout from '../components/Layout';
 import Header from '../components/Header/Home';
 import KeenSlider from '../components/Slider/Keen';
@@ -34,6 +36,7 @@ const Root = styled.div`
       position: absolute;
       bottom: 80px;
       left: 50%;
+      width: fit-content;
       transform: translateX(-50%);
       font-size: 1rem;
       font-weight: 400;
@@ -141,7 +144,47 @@ const Root = styled.div`
     padding: 32px 0 136px 0;
   }
   &.desktop {
+    .poster {
+      max-width: 1300px;
+      margin: 0 auto;
+      .counter {
+        bottom: 110px;
+        color: #757575;
+        display: flex;
+        align-items: flex-end;
+        font-size: 1.5625rem;
+        .icons {
+          margin: 0 10px;
+          font-size: 2rem;
+        }
+        .counter-number {
+          margin-left: 20px;
+          margin-bottom: -5px;
+          font-size: 2.4rem;
+          font-weight: 500;
+        }
+      }
+      .enter-button {
+        position: absolute;
+        width: 80%;
+        height: 60px;
+        border-radius: 10px;
+        .MuiButton-label {
+          font-size: 1.5rem;
+          font-weight: 500;
+        }
+      }
+    }
     .section-1 {
+      .title-block {
+        p {
+          font-size: 2.5rem;
+          font-weight: 700;
+        }
+        h4 {
+          font-size: 1.5625rem;
+        }
+      }
       svg,
       span {
         font-size: 1.5625rem;
@@ -162,6 +205,13 @@ const IndexPage: React.FC = () => {
   const { withLayout } = React.useContext(AppContext);
   const { data: counter } = useSWR('/api/counter');
   const { y: scrollY } = useWindowScroll();
+  const [counters, setCounters] = React.useState<[number, number]>([0, 0]);
+
+  React.useEffect(() => {
+    if (counter && counter.counts) {
+      setCounters([counter.counts.visitor, counter.counts.message]);
+    }
+  }, [counter]);
 
   return (
     <Layout>
@@ -173,22 +223,28 @@ const IndexPage: React.FC = () => {
         <section className="poster">
           <h1 className="title">관악 사진협회 단체전</h1>
           <span className="counter">
+            {withLayout && <Visibility className="icons" />}
             방문자{' '}
-            {counter && counter.counts ? (
-              <Countup start={0} end={counter.counts.visitor} duration={2} />
+            <span className="counter-number">
+              <Countup start={0} end={counters[0]} duration={2} />
+            </span>
+            명
+            {!withLayout ? (
+              ' ・ '
             ) : (
-              ''
+              <>
+                <span className="spacer" />
+                <Create className="icons" />
+              </>
             )}
-            명 &middot; 방명록{' '}
-            {counter && counter.counts ? (
-              <Countup start={0} end={counter.counts.message} duration={2} />
-            ) : (
-              ''
-            )}
+            방명록{' '}
+            <span className="counter-number">
+              <Countup start={0} end={counters[1]} duration={2} />
+            </span>
             개
           </span>
           <CSSTransition
-            in={scrollY > 5}
+            in={!withLayout && scrollY > 5}
             timeout={1000}
             classNames="enter-button">
             <Link href="/intro">
@@ -198,7 +254,7 @@ const IndexPage: React.FC = () => {
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') router.push('/intro');
                 }}>
-                전시입장
+                전시 입장
               </Button>
             </Link>
           </CSSTransition>
@@ -230,7 +286,6 @@ const IndexPage: React.FC = () => {
           </Link>
           <Link href="/visitor">
             <a className="visitor-link">
-              {/* style={{ textDecoration: 'underline', color: '#757575' }}> */}
               <span>방명록 바로가기</span>
             </a>
           </Link>

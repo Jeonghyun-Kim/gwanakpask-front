@@ -4,12 +4,19 @@ import styled from 'styled-components';
 import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css';
 
+import AppContext from '../../AppContext';
+
 const Root = styled.div`
   .keen-photo {
-    width: 311px;
-    height: 204px;
+    width: 100%;
+    height: 65vw;
     object-fit: cover;
     border-radius: 5px;
+  }
+  &.desktop {
+    .keen-photo {
+      height: 16vw;
+    }
   }
 `;
 
@@ -24,10 +31,11 @@ const KeenSlider: React.FC<props> = ({
   interval = 3000,
   ...props
 }) => {
+  const { withLayout } = React.useContext(AppContext);
   const [pause, setPause] = React.useState<boolean>(false);
   const timer = React.useRef<NodeJS.Timeout | null>(null);
   const [sliderRef, slider] = useKeenSlider({
-    slidesPerView: 1.25,
+    slidesPerView: !withLayout ? 1.25 : 3.5,
     spacing: 16,
     mode: 'snap',
     centered: true,
@@ -70,7 +78,10 @@ const KeenSlider: React.FC<props> = ({
   }, [autoPlay, startTimer, endTimer, pause]);
 
   return (
-    <Root ref={sliderRef as never} className="keen-slider" {...props}>
+    <Root
+      ref={sliderRef as never}
+      className={`keen-slider ${withLayout && 'desktop'}`}
+      {...props}>
       {images.map((image) => (
         <div key={image} className="keen-slider__slide">
           <img alt="" className="keen-photo" src={image} />
