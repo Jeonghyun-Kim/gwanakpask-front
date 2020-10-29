@@ -175,6 +175,7 @@ const Profile: React.FC<props> = ({
       <div className="profile-block">
         <Image
           alt={artist.name}
+          className="unselectable"
           src={`/images/profile/${artist.artistId}.jpg`}
           width={117}
           height={156}
@@ -197,6 +198,7 @@ const Profile: React.FC<props> = ({
           {artist.photos.map((photo) => (
             <ImageButton
               key={photo.photoId}
+              className="unselectable"
               alt={photo.title}
               src={`/images/photo/thumb/${photo.photoId}.jpg`}
               role="button"

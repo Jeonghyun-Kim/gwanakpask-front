@@ -80,7 +80,7 @@ const PhotoListItem: React.FC<props> = ({
       }}
       {...props}>
       <Image
-        className="photo-list-item-img"
+        className="photo-list-item-img unselectable"
         alt={photo.title}
         src={`/images/photo/thumb/${photo.photoId}.jpg`}
         width={size}

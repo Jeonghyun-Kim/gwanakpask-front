@@ -402,12 +402,13 @@ const IndexPage: React.FC = () => {
           <section className="poster">
             <div className="image-container">
               <img
+                className="unselectable"
                 id="horse"
                 alt="general ganggamchan statue"
                 src="/images/poster/horse.png"
               />
               <img
-                className="title"
+                className="title unselectable"
                 alt="2020 관악 강감찬 축제"
                 src="/images/poster/title.png"
               />
@@ -457,6 +458,7 @@ const IndexPage: React.FC = () => {
             <div className="title-block">
               <a.img
                 id="fireworks"
+                className="unselectable"
                 alt=""
                 src="/images/fireworks.png"
                 style={{ height, opacity: opacity as never }}
