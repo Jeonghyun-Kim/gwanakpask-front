@@ -27,6 +27,7 @@
     "react-scrolllock": "^5.0.1",
     "react-transition-group": "^4.4.1",
     "react-use-gesture": "^7.0.16",
+    "react-visibility-sensor": "^5.1.1",
     "resize-observer-polyfill": "^1.5.1",
     "sha256": "^0.2.0",
     "smoothscroll-polyfill": "^0.4.4",

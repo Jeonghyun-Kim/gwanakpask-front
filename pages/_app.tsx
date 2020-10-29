@@ -2,7 +2,7 @@ import React from 'react';
 import { SWRConfig } from 'swr';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { ThemeProvider, createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 import { isMobile, isIE, isEdge, isEdgeChromium } from 'react-device-detect';
 import smoothscroll from 'smoothscroll-polyfill';
 
@@ -18,12 +18,6 @@ import AppContext from '../AppContext';
 const GlobalStyle = createGlobalStyle`
   ${GlobalCSS}
 `;
-
-const theme = {
-  colors: {
-    primary: '#000000',
-  },
-};
 
 const App: React.FC<{
   Component: React.FC;
@@ -101,40 +95,36 @@ const App: React.FC<{
   return (
     <>
       <GlobalStyle />
-      <ThemeProvider theme={theme}>
-        <Head>
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0"
-          />
-          <meta name="theme-color" content="#000000" />
-          {/* <meta property="og:title" content="2020 관악강감찬" />
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="theme-color" content="#000000" />
+        {/* <meta property="og:title" content="2020 관악강감찬" />
             <meta property="og:description" content="온라인 미술공모전" />
           <meta property="og:image" content="/images/og_image.jpg" /> */}
-          <title>DEFAULT TITLE</title>
-          <link
-            href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap"
-            rel="stylesheet"
-          />
-        </Head>
-        <SWRConfig
+        <title>DEFAULT TITLE</title>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap"
+          rel="stylesheet"
+        />
+      </Head>
+      <SWRConfig
+        value={{
+          refreshInterval: 5000,
+          fetcher,
+          onError: (err) => {
+            // eslint-disable-next-line no-console
+            console.error(err);
+          },
+        }}>
+        <AppContext.Provider
           value={{
-            fetcher,
-            onError: (err) => {
-              // eslint-disable-next-line no-console
-              console.error(err);
-            },
+            index,
+            setIndex: saveAndSetIndex,
+            withLayout,
           }}>
-          <AppContext.Provider
-            value={{
-              index,
-              setIndex: saveAndSetIndex,
-              withLayout,
-            }}>
-            <Component {...pageProps} />
-          </AppContext.Provider>
-        </SWRConfig>
-      </ThemeProvider>
+          <Component {...pageProps} />
+        </AppContext.Provider>
+      </SWRConfig>
     </>
   );
 };

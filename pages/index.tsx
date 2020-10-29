@@ -7,6 +7,9 @@ import styled from 'styled-components';
 import useSWR from 'swr';
 import Countup from 'react-countup';
 import { CSSTransition } from 'react-transition-group';
+import { useSpring } from '@react-spring/core';
+import { a } from '@react-spring/web';
+import VisibilitySensor from 'react-visibility-sensor';
 
 import Button from '@material-ui/core/Button';
 import ArrowForwardIos from '@material-ui/icons/ArrowForwardIos';
@@ -93,13 +96,22 @@ const Root = styled.div`
     }
   }
   .section-1 {
+    position: relative;
     height: 700px;
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    #fireworks {
+      position: absolute;
+      width: auto;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
     .title-block {
+      position: relative;
       p {
         font-size: 1.5625rem;
         font-weight: 500;
@@ -206,12 +218,29 @@ const IndexPage: React.FC = () => {
   const { data: counter } = useSWR('/api/counter');
   const { y: scrollY } = useWindowScroll();
   const [counters, setCounters] = React.useState<[number, number]>([0, 0]);
+  const [{ height, opacity }, setSpring] = useSpring(
+    {
+      height: 0,
+      opacity: 0,
+    },
+    [],
+  );
 
   React.useEffect(() => {
     if (counter && counter.counts) {
       setCounters([counter.counts.visitor, counter.counts.message]);
     }
   }, [counter]);
+
+  const handleVisibilityChange = React.useCallback(
+    (visible: boolean) => {
+      setSpring({
+        height: visible ? 500 : 0,
+        opacity: visible ? 0.5 : 0,
+      });
+    },
+    [setSpring],
+  );
 
   return (
     <Layout>
@@ -254,16 +283,24 @@ const IndexPage: React.FC = () => {
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') router.push('/intro');
                 }}>
-                전시 입장
+                전시 입장
               </Button>
             </Link>
           </CSSTransition>
         </section>
         <section className="section-1">
-          <div className="title-block">
-            <p>환영합니다.</p>
-            <h4>한국사진협회 관악지부의 온라인 사진전입니다.</h4>
-          </div>
+          <a.img
+            id="fireworks"
+            alt=""
+            src="/images/fireworks.png"
+            style={{ height, opacity: opacity as never }}
+          />
+          <VisibilitySensor onChange={handleVisibilityChange}>
+            <div className="title-block">
+              <p>환영합니다.</p>
+              <h4>한국사진협회 관악지부의 온라인 사진전입니다.</h4>
+            </div>
+          </VisibilitySensor>
           <Link href="/intro">
             <a>
               <span>전시소개 바로가기</span>
