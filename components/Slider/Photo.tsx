@@ -18,21 +18,21 @@ const Root = styled(a.div)`
     height: 100%;
     object-fit: cover;
     object-position: center bottom;
+    image-rendering: auto;
   }
   .photo-img {
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin: auto;
-    max-width: min(500px, 100% - 40px);
-    max-height: 60%;
+    top: 50%;
+    left: 50%;
+    max-width: min(1000px, 200% - 80px);
+    max-height: 120%;
     width: auto;
     height: auto;
+    transform: translate(-50%, -50%) scale(0.5);
     box-shadow: rgba(0, 20, 0, 0.2) 10px 7px 10px 3px;
     border-radius: 1px;
     z-index: 1;
+    image-rendering: auto;
   }
   &.grabbable {
     cursor: move; /* fallback if grab cursor is unsupported */
