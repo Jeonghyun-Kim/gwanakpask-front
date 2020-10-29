@@ -28,6 +28,11 @@ export const MenuItemRoot = styled.div`
     font-size: 0.75rem;
     font-weight: 500;
     color: #9e9e9e;
+
+    &.current {
+      color: #3f51b5;
+      font-weight: 700;
+    }
   }
 `;
 

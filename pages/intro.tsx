@@ -5,7 +5,8 @@ import styled from 'styled-components';
 
 import ArrowForwardIos from '@material-ui/icons/ArrowForwardIos';
 import Layout from '../components/Layout';
-import Header from '../components/Header';
+// import Header from '../components/Header';
+import Header from '../components/Header/Home';
 import Congrat from '../components/Congrat';
 import Footer from '../components/Footer';
 
@@ -100,11 +101,11 @@ const Root = styled.div`
   }
 `;
 
-const ActionButton = (
-  <Link href="/ovr/list">
-    <a>전시장</a>
-  </Link>
-);
+// const ActionButton = (
+//   <Link href="/ovr/list">
+//     <a>전시장</a>
+//   </Link>
+// );
 
 const IntroPage: React.FC = () => {
   const { withLayout } = React.useContext(AppContext);
@@ -112,13 +113,14 @@ const IntroPage: React.FC = () => {
   return (
     <Layout>
       <Head>
-        <title>title</title>
+        <title>전시 소개</title>
       </Head>
-      <Header
+      {/* <Header
         backTo={{ href: '/', name: '홈' }}
         title="전시소개"
         actionComponent={ActionButton}
-      />
+      /> */}
+      <Header />
       <Root className={withLayout ? 'desktop' : ''}>
         <section className="video-section">
           <div className="padding-box">

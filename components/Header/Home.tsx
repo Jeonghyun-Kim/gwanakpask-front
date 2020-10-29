@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { SqauredLogo as Logo } from '../Logo';
 
@@ -11,15 +12,24 @@ interface MenuItemProps {
   href: string;
   title: string;
 }
-const MenuItem: React.FC<MenuItemProps> = ({ href, title, ...props }) => (
-  <MenuItemRoot {...props}>
-    <Link href={href}>
-      <a>
-        <span className="menu-item-title">{title}</span>
-      </a>
-    </Link>
-  </MenuItemRoot>
-);
+const MenuItem: React.FC<MenuItemProps> = ({ href, title, ...props }) => {
+  const router = useRouter();
+
+  return (
+    <MenuItemRoot {...props}>
+      <Link href={href}>
+        <a>
+          <span
+            className={`menu-item-title ${
+              router.pathname === href && 'current'
+            }`}>
+            {title}
+          </span>
+        </a>
+      </Link>
+    </MenuItemRoot>
+  );
+};
 
 const Header: React.FC = ({ ...props }) => {
   const { withLayout } = React.useContext(AppContext);
@@ -29,11 +39,12 @@ const Header: React.FC = ({ ...props }) => {
   return (
     <HeaderRoot {...props}>
       <div className="header-content">
-        <Logo />
+        <Logo href="/" />
         <div className="grow" />
         <MenuItem href="/intro" title="전시소개" />
         <MenuItem href="/ovr/list" title="전시장" />
         <MenuItem href="/visitor" title="방명록" />
+        <MenuItem href="/covid" title="방역" />
       </div>
     </HeaderRoot>
   );

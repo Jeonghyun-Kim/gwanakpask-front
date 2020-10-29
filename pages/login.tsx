@@ -23,7 +23,7 @@ const LoginPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Login Page</title>
+        <title>관악구 온라인 사진전 - 로그인</title>
       </Head>
       <Root>
         <LoginForm mutate={mutateAdmin} />

@@ -5,7 +5,8 @@ import styled from 'styled-components';
 
 import ArrowForwardIos from '@material-ui/icons/ArrowForwardIos';
 import Layout from '../../components/Layout';
-import Header from '../../components/Header';
+// import Header from '../../components/Header';
+import Header from '../../components/Header/Home';
 import PhotoListItem from '../../components/PhotoListItem';
 import Footer from '../../components/Footer';
 
@@ -86,11 +87,11 @@ const Root = styled.div`
   }
 `;
 
-const ActionButton = (
-  <Link href="/visitor">
-    <a>방명록</a>
-  </Link>
-);
+// const ActionButton = (
+//   <Link href="/visitor">
+//     <a>방명록</a>
+//   </Link>
+// );
 
 const PhotoListPage: React.FC = () => {
   const { index, withLayout } = React.useContext(AppContext);
@@ -145,13 +146,14 @@ const PhotoListPage: React.FC = () => {
   return (
     <Layout>
       <Head>
-        <title>title</title>
+        <title>전시장 - 작품 목록</title>
       </Head>
-      <Header
+      {/* <Header
         backTo={{ href: '/intro', name: '전시소개' }}
         title="전시장"
         actionComponent={ActionButton}
-      />
+      /> */}
+      <Header />
       <Root className={withLayout ? 'desktop' : ''}>
         {withLayout && (
           <section className="section-title">

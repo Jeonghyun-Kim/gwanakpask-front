@@ -1,5 +1,5 @@
 import React from 'react';
-import Head from 'next/head';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styled from 'styled-components';
@@ -77,7 +77,7 @@ const Root = styled.div`
       .MuiButton-label {
         font-size: 1rem;
         font-weight: 700;
-        color: #3f51b5;
+        color: #006288;
       }
       &.sticky {
         height: calc(50px + env(safe-area-inset-bottom) / 2);
@@ -99,7 +99,7 @@ const Root = styled.div`
         background-color: white;
         .MuiButton-label {
           font-weight: 700;
-          color: #3f51b5;
+          color: #006288;
         }
         transition: 1000ms;
       }
@@ -136,7 +136,7 @@ const Root = styled.div`
         background-color: white;
         .MuiButton-label {
           font-weight: 700;
-          color: #3f51b5;
+          color: #006288;
         }
       }
     }
@@ -245,10 +245,6 @@ const Root = styled.div`
     }
     .ack-logo {
       margin-top: 32px;
-      img {
-        width: 100%;
-        height: auto;
-      }
     }
     .divider {
       height: 1px;
@@ -400,9 +396,6 @@ const IndexPage: React.FC = () => {
 
   return (
     <Layout>
-      <Head>
-        <title>title</title>
-      </Head>
       <Header />
       <Root className={withLayout ? 'desktop' : ''}>
         <VisibilitySensor onChange={offFireworks}>
@@ -555,24 +548,20 @@ const IndexPage: React.FC = () => {
             <p>참여작가</p>
             {artists.map((artist) => `${artist.name}`).join(' ')}
           </div>
-          <div className="division">
-            <p>주최</p>
-            관악구
-          </div>
-          <div className="division">
-            <p>주관</p>
-            관악문화재단 한국사진작가협회-관악구지부
-          </div>
           <div className="ack-logo">
             {!withLayout ? (
-              <img
+              <Image
                 alt="주최 관악미술협회 후원 관악구 관악문화재단 관악문화원"
                 src="/images/logo/ack_m.png"
+                width={200}
+                height={80}
               />
             ) : (
-              <img
+              <Image
                 alt="주최 관악미술협회 후원 관악구 관악문화재단 관악문화원"
                 src="/images/logo/ack_w.png"
+                width={625}
+                height={28}
               />
             )}
           </div>

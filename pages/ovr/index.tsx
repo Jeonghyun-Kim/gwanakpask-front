@@ -23,7 +23,10 @@ const OnlineViewingRoomPage: React.FC = () => {
   return (
     <Layout>
       <Head>
-        <title>test</title>
+        <title>
+          전시장 - {index ? photosWithArtist[index - 1].title : '작품이름'},{' '}
+          {index ? photosWithArtist[index - 1].artist.name : '작가이름'}
+        </title>
       </Head>
       <Root>
         {index ? (

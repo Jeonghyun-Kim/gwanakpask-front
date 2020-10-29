@@ -6,7 +6,8 @@ import Countup from 'react-countup';
 
 import Button from '@material-ui/core/Button';
 import Layout from '../components/Layout';
-import Header from '../components/Header';
+// import Header from '../components/Header';
+import Header from '../components/Header/Home';
 import MessageForm from '../components/Form/Message';
 import TemplateIconBlock from '../components/Paper/IconBlock';
 import PaperPreview from '../components/Paper';
@@ -165,42 +166,43 @@ const VisitorPage: React.FC = () => {
     }
   }, [from, content, templateId, mutateCounter]);
 
-  const SendButton: React.FC = React.useCallback(
-    () => (
-      <Button
-        variant="text"
-        style={{
-          color: valid ? '#007aff' : '#bdbdbd',
-          width: 'fit-content',
-          marginRight: -10,
-        }}
-        onClick={() => handleSubmit()}
-        disabled={loading || !valid}>
-        {loading ? (
-          <img
-            className="spinner"
-            style={{ width: 16, height: 16 }}
-            alt="sipnner"
-            src="/images/spinner.gif"
-          />
-        ) : (
-          <>보내기</>
-        )}
-      </Button>
-    ),
-    [handleSubmit, loading, valid],
-  );
+  // const SendButton: React.FC = React.useCallback(
+  //   () => (
+  //     <Button
+  //       variant="text"
+  //       style={{
+  //         color: valid ? '#007aff' : '#bdbdbd',
+  //         width: 'fit-content',
+  //         marginRight: -10,
+  //       }}
+  //       onClick={() => handleSubmit()}
+  //       disabled={loading || !valid}>
+  //       {loading ? (
+  //         <img
+  //           className="spinner"
+  //           style={{ width: 16, height: 16 }}
+  //           alt="sipnner"
+  //           src="/images/spinner.gif"
+  //         />
+  //       ) : (
+  //         <>보내기</>
+  //       )}
+  //     </Button>
+  //   ),
+  //   [handleSubmit, loading, valid],
+  // );
 
   return (
     <Layout>
       <Head>
         <title>방명록</title>
       </Head>
-      <Header
+      {/* <Header
         backTo={{ href: '/ovr/list', name: '전시장' }}
         title="방명록"
         actionComponent={SendButton}
-      />
+      /> */}
+      <Header />
       <ResModal
         open={resModalFlags.open}
         close={() => {

@@ -6,7 +6,8 @@ import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 
 import Layout from '../components/Layout';
-import Header from '../components/Header';
+// import Header from '../components/Header';
+import Header from '../components/Header/Home';
 import CrossFadeSlider from '../components/Slider/CrossFade';
 
 import { covidPhotos } from '../data';
@@ -100,7 +101,7 @@ const repImages = Array.from({ length: 7 }, (_, i) => i + 1).map(
   (i) => `/images/covid/rep/${i}.jpg`,
 );
 
-const ActionButton = <div />;
+// const ActionButton = <div />;
 
 const CovidPage: React.FC = () => {
   const { withLayout } = React.useContext(AppContext);
@@ -108,13 +109,14 @@ const CovidPage: React.FC = () => {
   return (
     <Layout>
       <Head>
-        <title>title</title>
+        <title>방역활동 사진첩</title>
       </Head>
-      <Header
+      {/* <Header
         backTo={{ href: '/', name: '홈' }}
         title="방역활동 사진첩"
         actionComponent={ActionButton}
-      />
+      /> */}
+      <Header />
       <Root className={withLayout ? 'desktop' : ''}>
         <CrossFadeSlider
           images={repImages}

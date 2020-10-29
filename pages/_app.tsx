@@ -98,10 +98,10 @@ const App: React.FC<{
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="theme-color" content="#000000" />
-        <meta property="og:title" content="2020 관악강감찬" />
-        <meta property="og:description" content="온라인 사진전" />
+        <meta property="og:title" content="2020 관악 강감찬 축제" />
+        <meta property="og:description" content="관악구 온라인 사진전" />
         <meta property="og:image" content="/images/open_graph.jpg" />
-        <title>DEFAULT TITLE</title>
+        <title>2020 관악구 온라인 사진전</title>
         <link
           href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap"
           rel="stylesheet"
