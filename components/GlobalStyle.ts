@@ -97,11 +97,11 @@ export const NextSection = styled.section<NextSectionProps>`
     }
     a {
       svg {
-        font-size: 2rem;
+        font-size: 1rem;
       }
       span {
         margin: 0 10px;
-        font-size: 1.5625rem;
+        font-size: 1rem;
         font-weight: 700;
       }
     }

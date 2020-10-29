@@ -73,17 +73,17 @@ const CrossFadeSlider: React.FC<props> = ({
       clearInterval(timer.current);
       timer.current = null;
     }
-  }, []);
+  }, [timer]);
 
   React.useEffect(() => {
-    if (pause && timer.current) {
+    if (pause && timer) {
       endTimer();
     }
-    if (!pause && timer.current) {
+    if (!pause) {
       startTimer();
     }
     return () => endTimer();
-  }, [pause, startTimer, endTimer]);
+  }, [timer, pause, startTimer, endTimer]);
 
   return (
     <Root height={height} {...bind()} {...props}>

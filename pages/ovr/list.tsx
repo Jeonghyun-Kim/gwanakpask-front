@@ -7,6 +7,7 @@ import ArrowForwardIos from '@material-ui/icons/ArrowForwardIos';
 import Layout from '../../components/Layout';
 import Header from '../../components/Header';
 import PhotoListItem from '../../components/PhotoListItem';
+import Footer from '../../components/Footer';
 
 import { NextSection } from '../../components/GlobalStyle';
 
@@ -130,7 +131,7 @@ const PhotoListPage: React.FC = () => {
 
   React.useEffect(() => {
     const backgroundImg = new Image();
-    backgroundImg.src = '/images/background/land.png';
+    backgroundImg.src = '/images/background/original.jpg';
   }, []);
 
   React.useEffect(() => {
@@ -192,6 +193,7 @@ const PhotoListPage: React.FC = () => {
             </a>
           </Link>
         </NextSection>
+        <Footer />
       </Root>
     </Layout>
   );

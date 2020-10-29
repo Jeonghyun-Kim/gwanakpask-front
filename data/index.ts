@@ -4,7 +4,7 @@ import covidJSON from './covid.json';
 import congratsJSON from './congrats.json';
 
 const photos = photosJSON;
-const artists: Artist[] = artistsJSON;
+export const artists: Artist[] = artistsJSON;
 export const photosWithArtist: PhotoWithArtist[] = photos.map((photo) => {
   const artist = artists.find((tmp) => tmp.artistId === photo.artistId) ?? {
     artistId: -1,
@@ -44,6 +44,7 @@ export const covidPhotos = covidJSON;
 export const congrats = congratsJSON;
 
 export default {
+  artists,
   photosWithArtist,
   artistsWithPhotos,
   getArtistWithPhotos,

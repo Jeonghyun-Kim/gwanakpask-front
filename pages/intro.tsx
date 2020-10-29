@@ -7,6 +7,7 @@ import ArrowForwardIos from '@material-ui/icons/ArrowForwardIos';
 import Layout from '../components/Layout';
 import Header from '../components/Header';
 import Congrat from '../components/Congrat';
+import Footer from '../components/Footer';
 
 import { NextSection } from '../components/GlobalStyle';
 
@@ -170,6 +171,7 @@ const IntroPage: React.FC = () => {
             </a>
           </Link>
         </NextSection>
+        <Footer />
       </Root>
     </Layout>
   );
