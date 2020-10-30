@@ -11,7 +11,7 @@ import { GlobalCSS } from '../components/GlobalStyle';
 import fetcher from '../lib/fetcher';
 import { getIndex, saveIndex, pageCounter, photoCounter } from '../lib/utils';
 import useLayout from '../lib/hooks/useLayout';
-// import { initGA } from '../lib/analytics';
+import { initGA, logPageView } from '../lib/analytics';
 
 import AppContext from '../AppContext';
 
@@ -29,9 +29,7 @@ const App: React.FC<{
 
   React.useEffect(() => {
     smoothscroll.polyfill();
-    if (process.env.NODE_ENV === 'production') {
-      // initGA();
-    }
+    initGA();
   }, []);
 
   React.useEffect(() => {
@@ -41,6 +39,7 @@ const App: React.FC<{
 
   React.useEffect(() => {
     pageCounter();
+    logPageView();
   }, [router.asPath]);
 
   React.useEffect(() => {
