@@ -6,8 +6,11 @@ interface WindowSize {
   innerHeight: number;
 }
 
-const useLayout: () => { withLayout: boolean; size: WindowSize } = () => {
-  const [withLayout, setLayout] = useState<boolean>(false);
+const useLayout: () => {
+  withLayout: boolean | null;
+  size: WindowSize;
+} = () => {
+  const [withLayout, setLayout] = useState<boolean | null>(null);
   const [size, setSize] = useState<WindowSize>({
     innerWidth: 0,
     innerHeight: 0,

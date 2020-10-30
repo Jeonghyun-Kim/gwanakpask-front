@@ -112,10 +112,11 @@ const Root = styled.div`
       font-size: 1rem;
     }
     .content-block {
-      margin-bottom: 50px;
+      margin-bottom: 32px;
     }
     .info {
       font-size: 1rem;
+      margin-bottom: 16px;
     }
     .submit-button {
       position: relative;

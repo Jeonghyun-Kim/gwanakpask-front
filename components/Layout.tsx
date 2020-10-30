@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import NavBar from './Navbar';
+import Loading from './Loading';
 
 import AppContext from '../AppContext';
 
@@ -28,6 +29,8 @@ interface props {
 }
 const Layout: React.FC<props> = ({ children, ...props }) => {
   const { withLayout } = React.useContext(AppContext);
+
+  if (withLayout === null) return <Loading />;
 
   if (!withLayout) return <Main {...props}>{children}</Main>;
 
