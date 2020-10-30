@@ -9,7 +9,7 @@ import smoothscroll from 'smoothscroll-polyfill';
 import { GlobalCSS } from '../components/GlobalStyle';
 
 import fetcher from '../lib/fetcher';
-import { getIndex, saveIndex, getUserId, photoCounter } from '../lib/utils';
+import { getIndex, saveIndex, pageCounter, photoCounter } from '../lib/utils';
 import useLayout from '../lib/hooks/useLayout';
 // import { initGA } from '../lib/analytics';
 
@@ -40,7 +40,7 @@ const App: React.FC<{
   }, [setIndex]);
 
   React.useEffect(() => {
-    getUserId();
+    pageCounter();
   }, [router.asPath]);
 
   React.useEffect(() => {
