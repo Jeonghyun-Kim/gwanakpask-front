@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Layout from '../../components/Layout';
 import Slider from '../../components/Slider';
 import Loading from '../../components/Loading';
+import { ManualModal } from '../../components/Modal';
 
 import { photosWithArtist } from '../../data';
 
@@ -19,6 +20,18 @@ const Root = styled.div`
 
 const OnlineViewingRoomPage: React.FC = () => {
   const { index, withLayout } = React.useContext(AppContext);
+  const [manualModalOpen, setManualModalOpen] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    if (!sessionStorage.getItem('@manual')) {
+      setManualModalOpen(true);
+    }
+  }, []);
+
+  const handleModalClose = React.useCallback(() => {
+    sessionStorage.setItem('@manual', 'seen');
+    setManualModalOpen(false);
+  }, []);
 
   return (
     <Layout>
@@ -30,13 +43,20 @@ const OnlineViewingRoomPage: React.FC = () => {
       </Head>
       <Root>
         {index ? (
-          <Slider
-            photos={photosWithArtist}
-            pageIndex={index - 1}
-            innerWidth={
-              withLayout ? window.innerWidth - NAVBAR_WIDTH : window.innerWidth
-            }
-          />
+          <>
+            {!withLayout && (
+              <ManualModal open={manualModalOpen} close={handleModalClose} />
+            )}
+            <Slider
+              photos={photosWithArtist}
+              pageIndex={index - 1}
+              innerWidth={
+                withLayout
+                  ? window.innerWidth - NAVBAR_WIDTH
+                  : window.innerWidth
+              }
+            />
+          </>
         ) : (
           <Loading />
         )}

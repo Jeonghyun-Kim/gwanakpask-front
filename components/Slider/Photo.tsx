@@ -33,7 +33,7 @@ const Root = styled(a.div)`
     margin: auto;
     box-shadow: rgba(0, 20, 0, 0.5) 0px 1px 3px, rgba(0, 0, 0, 0.4) 0 6px 10px,
       rgba(0, 0, 0, 0.25) -20px 10px 30px;
-    transform: translateY(-30px);
+    transform: translateY(-40px);
     border-radius: 1px;
     z-index: 1;
     image-rendering: auto;
@@ -130,8 +130,8 @@ const Photo: React.FC<props> = ({
         bounds: {
           left: (-innerWidth / 4) * zoomScales[zoomIn],
           right: (innerWidth / 4) * zoomScales[zoomIn],
-          top: -window.innerHeight / 4 + 30,
-          bottom: window.innerHeight / 4 - 30,
+          top: -window.innerHeight / 4 + 80,
+          bottom: window.innerHeight / 4 + 80,
         },
       },
     },

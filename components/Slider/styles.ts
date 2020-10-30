@@ -25,7 +25,7 @@ export const MobileRoot = styled.div`
       padding: 5px;
       svg {
         font-size: 36px;
-        color: white;
+        color: #757575;
       }
     }
     .bottom {
@@ -44,7 +44,7 @@ export const MobileRoot = styled.div`
         cursor: pointer;
       }
       .title-and-name {
-        margin-left: 10px;
+        margin-left: 24px;
         h2 {
           margin: 5px 0;
           font-size: 1rem;
@@ -58,6 +58,12 @@ export const MobileRoot = styled.div`
           color: white;
         }
       }
+    }
+    .message-button {
+      position: absolute;
+      bottom: 12px;
+      right: 72px;
+      cursor: pointer;
     }
     .zoom-in-button {
       position: absolute;
@@ -112,10 +118,17 @@ export const DesktopRoot = styled.div`
     top: 50%;
     transform: translateY(-50%);
     width: 80px;
+    z-index: 2;
     height: 80px;
+    border-radius: 50%;
+    @media screen and (max-width: 1400px) {
+      transform: none;
+      top: initial;
+      bottom: 150px;
+    }
     .MuiIconButton-label {
-      width: 80px;
-      height: 80px;
+      width: 51px;
+      height: 51px;
     }
     svg {
       width: 100%;
@@ -124,16 +137,10 @@ export const DesktopRoot = styled.div`
       color: #515253;
     }
     &.left {
-      left: 80px;
-      @media screen and (max-width: 1100px) {
-        left: 40px;
-      }
+      left: 40px;
     }
     &.right {
-      right: 80px;
-      @media screen and (max-width: 1100px) {
-        right: 40px;
-      }
+      right: 40px;
     }
   }
   .artist-info {

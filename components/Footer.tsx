@@ -6,6 +6,7 @@ import { OneLineLogo } from './Logo';
 const Logo = styled(OneLineLogo)`
   width: 115px;
   margin: 0;
+  margin-bottom: 20px;
 `;
 
 const Root = styled.section`
@@ -17,10 +18,6 @@ const Root = styled.section`
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
-  }
-  .logo {
-    margin: 0;
-    margin-bottom: 10px;
   }
   .info-block {
     font-size: 0.75rem;
@@ -40,6 +37,7 @@ const Root = styled.section`
     display: flex;
     align-items: center;
     margin-top: 20px;
+    display: none;
     * {
       margin: 0 10px;
     }
@@ -63,6 +61,9 @@ const Footer: React.FC = ({ ...props }) => {
   return (
     <Root {...props}>
       <div className="info-block">
+        <p>
+          <b>온라인 전시 제작</b>
+        </p>
         <Logo href="https://home.ondisplay.co.kr/" color="black" />
         <p>
           <b>주식회사 온디스플레이</b>
@@ -74,7 +75,16 @@ const Footer: React.FC = ({ ...props }) => {
           <b>사업자등록번호</b> 721-86-01906
         </p>
         <p>
-          <b>대표전화</b> 010-6317-1498
+          <b>주소</b> 서울특별시 관악구 봉천로 373, 3층
+        </p>
+        <p>
+          <b>홈페이지</b>{' '}
+          <a
+            href="https://home.ondisplay.co.kr"
+            target="_blank"
+            rel="noreferrer">
+            https://home.ondisplay.co.kr/
+          </a>
         </p>
         <p>
           <b>이메일</b>{' '}

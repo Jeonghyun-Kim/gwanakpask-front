@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSprings } from '@react-spring/core';
 import { a } from '@react-spring/web';
@@ -9,6 +10,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import PersonIcon from '@material-ui/icons/Person';
 import ZoomInIcon from '@material-ui/icons/ZoomIn';
 import ZoomOutIcon from '@material-ui/icons/ZoomOut';
+import ImportContacts from '@material-ui/icons/ImportContacts';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import { ArrowLeft, ArrowRight } from '../icons';
 import Photo from './Photo';
@@ -198,11 +200,15 @@ const Slider: React.FC<props> = ({
 
   const CloseButton: React.FC = React.useCallback(
     () => (
-      <IconButton
-        className="close-button"
-        onClick={() => router.push('/ovr/list')}>
-        <CloseIcon />
-      </IconButton>
+      <Link href="/ovr/list">
+        <IconButton
+          className="close-button"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') router.push('/ovr/list');
+          }}>
+          <CloseIcon />
+        </IconButton>
+      </Link>
     ),
     [router],
   );
@@ -268,18 +274,41 @@ const Slider: React.FC<props> = ({
     [zoomIn],
   );
 
+  const MessageButton: React.FC = React.useCallback(
+    () => (
+      <Link href="/visitor">
+        <div className="message-button">
+          <div
+            className="icon-block"
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                router.push('/visitor');
+                e.currentTarget.blur();
+              }
+            }}>
+            <ImportContacts />
+            <span className="icon-name">방명록</span>
+          </div>
+        </div>
+      </Link>
+    ),
+    [router],
+  );
+
   const Gradients: React.FC = React.useCallback(
     () => (
       <>
-        <Gradient
+        {/* <Gradient
           size={{ width: '100%', height: '70px' }}
           position={{ top: '0', left: '0' }}
-          opacities={{ start: 0, end: 0.4 }}
+          opacities={{ start: 0, end: 0.1 }}
           vertical
-        />
+        /> */}
         <Gradient
           className="bottom"
-          size={{ width: '100%', height: '112px' }}
+          size={{ width: '100%', height: '80px' }}
           position={{ bottom: '0', left: '0' }}
           opacities={{ start: 0.5, end: 0 }}
           vertical
@@ -335,6 +364,7 @@ const Slider: React.FC<props> = ({
                   <Gradients />
                   <CloseButton />
                   <ArtistInfo i={i} />
+                  <MessageButton />
                   <ZoomInButton />
                 </a.div>
               </a.div>

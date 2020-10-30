@@ -63,7 +63,7 @@ const Root = styled.div`
     padding: 16px 0;
     margin: 0 auto;
     .congrat + .congrat {
-      margin-top: 16px;
+      margin-top: 8px;
     }
   }
   &.desktop {
@@ -140,10 +140,10 @@ const IntroPage: React.FC = () => {
           <h2 className="title">지부장 인사말</h2>
           <h4 className="name">한국 사진작가협회 관악구지부 지부장 박태재</h4>
           <p className="content">
-            2020년 강감찬 축제 개최를 축하드리며 올해에는 코로나 19로 인해
-            비대면 온라인전시회를 하게 되었다는 점에 아쉽지만, 코로나 19의
-            종식을 위해 서로 불편하지만 조금 더 노력하여 바이러스가 종식되기를
-            기원하는 바입니다.
+            2020년 강감찬 축제 개최를 축하드립니다. 강감찬 축제의 일환으로
+            열리는 올해의 사진전은 아쉽게도 비대면 온라인 전시로 진행되게
+            되었습니다. 서로 더욱 노력하여 바이러스가 빠르게 종식되기를
+            기원합니다.
             <br />
             <br />
             이번 2020년 관악구 온라인 사진전은 회원들이 전국을 돌아다니며 숨겨진

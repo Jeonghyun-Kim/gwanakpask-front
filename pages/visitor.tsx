@@ -22,7 +22,7 @@ const Root = styled.div`
   position: relative;
   width: 100%;
   min-height: 100%;
-  padding: 48px 0;
+  padding: 32px 0 48px 0;
   .container {
     max-width: 850px;
     margin: 0 auto;
@@ -37,7 +37,7 @@ const Root = styled.div`
     text-align: center;
   }
   .counter {
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 400;
     color: #757575;
     margin: 0;
@@ -45,7 +45,7 @@ const Root = styled.div`
   }
   .content-block {
     width: 100%;
-    margin: 48px auto 100px auto;
+    margin: 16px auto 32px auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -60,11 +60,19 @@ const Root = styled.div`
     width: 25px;
     height: 25px;
   }
+  .info {
+    margin: 20px 0 64px 0;
+    padding: 0 16px;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: #757575;
+  }
   .submit-button-block {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    z-index: 99;
     .submit-button {
       position: fixed;
       left: 50%;
@@ -107,10 +115,7 @@ const Root = styled.div`
       margin-bottom: 50px;
     }
     .info {
-      margin: 20px 0;
       font-size: 1rem;
-      font-weight: 400;
-      color: #757575;
     }
     .submit-button {
       position: relative;
@@ -255,15 +260,13 @@ const VisitorPage: React.FC = () => {
             />
           </div>
           <div className="submit-button-block">
-            {withLayout && (
-              <p className="info">
-                보내주신 방명록은 전시에 참여하신 작가님들께 전달됩니다.
-              </p>
-            )}
+            <p className="info">
+              보내주신 방명록은 전시에 참여하신 작가님들께 전달됩니다.
+            </p>
             <Button
               className="submit-button"
               variant="contained"
-              style={{ backgroundColor: valid ? '#3f51b5' : '#bdbdbd' }}
+              style={{ backgroundColor: valid ? '#006288' : '#bdbdbd' }}
               onClick={() => handleSubmit()}
               disabled={loading || !valid}>
               {loading ? (

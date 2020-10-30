@@ -85,6 +85,9 @@ export const NextSection = styled.section<NextSectionProps>`
       font-size: 0.875rem;
       font-weight: 700;
     }
+    &:hover {
+      text-decoration: underline;
+    }
   }
   &.desktop {
     padding: 80px 0;

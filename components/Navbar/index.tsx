@@ -33,7 +33,7 @@ const NavBar: React.FC = ({ ...props }) => {
     <Root {...props}>
       <Logo href="/" />
       <div className="divider" />
-      <MenuItem title="관악 사진협회 단체전" href="/" />
+      <MenuItem title="관악구 온라인 사진전" href="/" />
       <MenuItem title="전시소개" href="/intro" />
       <MenuItem
         title="전시장"

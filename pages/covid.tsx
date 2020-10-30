@@ -52,9 +52,9 @@ const Root = styled.div`
       text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
     }
     .sec-0 {
-      padding: 32px 0 80px 0;
+      padding: 32px 0 48px 0;
       .content {
-        margin: 48px 0;
+        margin: 16px 0;
         font-size: 1.25rem;
       }
       .content + .content {
@@ -72,7 +72,8 @@ const Root = styled.div`
       }
       .covid-photo {
         width: 100%;
-        margin: 16px 0;
+        margin: 4px 0;
+        border-radius: 5px;
       }
     }
     .go-top-button {
@@ -82,12 +83,11 @@ const Root = styled.div`
       width: 64px;
       height: 64px;
       display: block;
-      background-color: #3f51b5;
+      background-color: #006288;
       border-radius: 50%;
       font-size: 1rem;
       z-index: 0;
       padding: 0;
-      opacity: 0.8;
       .MuiButton-label {
         width: 64px;
         margin: 0;

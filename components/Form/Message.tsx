@@ -53,7 +53,7 @@ const MessageForm: React.FC<props> = ({
         label="내용"
         name="name"
         type="text"
-        placeholder="관악 사진작가 협회 작가님들께 전하고 싶은 내용을 적어주세요. (180자 제한)"
+        placeholder="관악 사진작가 협회 작가님들께 전하고 싶은 내용을 적어주세요. 특정 작가님에게 남기는 내용이라면 작가님 성함을 꼭 적어주세요. (180자 제한)"
         variant="outlined"
         fullWidth
         multiline

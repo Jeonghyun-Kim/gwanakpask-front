@@ -30,7 +30,7 @@ export const MenuItemRoot = styled.div`
     color: #9e9e9e;
 
     &.current {
-      color: #3f51b5;
+      color: #006288;
       font-weight: 700;
     }
   }

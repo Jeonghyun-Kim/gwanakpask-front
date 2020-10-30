@@ -74,6 +74,7 @@ const Root = styled.div`
       height: 45px;
       z-index: 99;
       background-color: white;
+      border-radius: 10px;
       .MuiButton-label {
         font-size: 1rem;
         font-weight: 700;
@@ -85,7 +86,7 @@ const Root = styled.div`
         bottom: 0;
         padding-bottom: calc(8px + env(safe-area-inset-bottom) / 4);
         border-radius: 0;
-        background-color: #3f51b5;
+        background-color: #006288;
         .MuiButton-label {
           font-weight: 500;
           color: white;
@@ -95,6 +96,7 @@ const Root = styled.div`
         height: 45px;
         width: calc(100% - 60px);
         bottom: 30px;
+        padding-bottom: 6px;
         border-radius: 10px;
         background-color: white;
         .MuiButton-label {
@@ -109,7 +111,7 @@ const Root = styled.div`
         bottom: 0;
         padding-bottom: calc(8px + env(safe-area-inset-bottom) / 4);
         border-radius: 0;
-        background-color: #3f51b5;
+        background-color: #006288;
         .MuiButton-label {
           font-weight: 500;
           color: white;
@@ -121,7 +123,7 @@ const Root = styled.div`
         bottom: 0;
         padding-bottom: calc(8px + env(safe-area-inset-bottom) / 4);
         border-radius: 0;
-        background-color: #3f51b5;
+        background-color: #006288;
         .MuiButton-label {
           font-weight: 500;
           color: white;
@@ -132,6 +134,7 @@ const Root = styled.div`
         height: 45px;
         width: calc(100% - 60px);
         bottom: 30px;
+        padding-bottom: 6px;
         border-radius: 10px;
         background-color: white;
         .MuiButton-label {
@@ -152,11 +155,10 @@ const Root = styled.div`
     word-break: keep-all;
     .title-block {
       position: relative;
-      margin-bottom: 32px;
       #fireworks {
         position: absolute;
         width: auto;
-        bottom: 50px;
+        bottom: 0px;
         left: 50%;
         transform: translateX(-50%);
       }
@@ -165,17 +167,12 @@ const Root = styled.div`
         font-size: 1.5625rem;
         font-weight: 500;
       }
-      h4 {
-        position: relative;
-        font-size: 1rem;
-        font-weight: 400;
-      }
     }
     .welcome-guide {
       position: relative;
       margin: 32px 0;
       padding: 0 32px;
-      line-height: 3;
+      line-height: 2;
       font-size: 0.875rem;
       font-weight: 400;
     }
@@ -199,6 +196,9 @@ const Root = styled.div`
         margin: 0 5px;
         font-size: 0.875rem;
         font-weight: 700;
+      }
+      &:hover {
+        text-decoration: underline;
       }
     }
   }
@@ -464,7 +464,6 @@ const IndexPage: React.FC = () => {
                 style={{ height, opacity: opacity as never }}
               />
               <p>환영합니다.</p>
-              <h4>한국사진협회 관악지부의 온라인 사진전입니다.</h4>
             </div>
           </VisibilitySensor>
           <p className="welcome-guide">

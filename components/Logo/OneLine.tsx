@@ -42,7 +42,7 @@ const OneLineLogo: React.FC<props> = ({ href, color = 'white', ...props }) => {
 
   return (
     <Root
-      className={href ? 'clickable' : ''}
+      className={`logo ${href ? 'clickable' : ''}`}
       color={color}
       role={href ? 'button' : ''}
       tabIndex={href ? 0 : -1}
