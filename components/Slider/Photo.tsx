@@ -22,14 +22,18 @@ const Root = styled(a.div)`
   }
   .photo-img {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    max-width: min(1000px, 200% - 80px);
-    max-height: 120%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-width: min(1200px, 100% - 40px);
+    max-height: min(60%, 100% - 100px);
     width: auto;
     height: auto;
-    transform: translate(-50%, -50%) scale(0.5);
-    box-shadow: rgba(0, 20, 0, 0.2) 10px 7px 10px 3px;
+    margin: auto;
+    box-shadow: rgba(0, 20, 0, 0.5) 0px 1px 3px, rgba(0, 0, 0, 0.4) 0 6px 10px,
+      rgba(0, 0, 0, 0.25) -20px 10px 30px;
+    transform: translateY(-30px);
     border-radius: 1px;
     z-index: 1;
     image-rendering: auto;
@@ -126,8 +130,8 @@ const Photo: React.FC<props> = ({
         bounds: {
           left: (-innerWidth / 4) * zoomScales[zoomIn],
           right: (innerWidth / 4) * zoomScales[zoomIn],
-          top: -100,
-          bottom: 100,
+          top: -window.innerHeight / 4 + 30,
+          bottom: window.innerHeight / 4 - 30,
         },
       },
     },

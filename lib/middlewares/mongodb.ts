@@ -24,6 +24,7 @@ const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   maxIdleTimeMS: 100,
+  socketTimeoutMS: 100,
 });
 
 // Connecting MongoDb
