@@ -33,6 +33,9 @@ const Root = styled.div<RootProps>`
       font-size: 0.75rem;
       font-weight: 400;
       margin: 0;
+      span {
+        font-weight: 500;
+      }
     }
   }
   &.desktop {
@@ -89,7 +92,9 @@ const PhotoListItem: React.FC<props> = ({
       />
       <div className="caption-block">
         <h4>{photo.title}</h4>
-        <p>{photo.artist?.name}</p>
+        <p>
+          <span>{photo.artist?.position}</span> {photo.artist?.name}
+        </p>
       </div>
     </Root>
   );

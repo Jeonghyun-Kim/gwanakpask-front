@@ -240,7 +240,9 @@ const Slider: React.FC<props> = ({
           <div className="vertical-divider" />
           <div className="title-and-name">
             <h2 className="title">{photos[i].title}</h2>
-            <p className="artist-name">{photos[i].artist.name}</p>
+            <p className="artist-name">
+              {photos[i].artist.position} {photos[i].artist.name}
+            </p>
           </div>
         </div>
         {children}
