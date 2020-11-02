@@ -10,6 +10,8 @@ import Layout from '../components/Layout';
 import Header from '../components/Header/Home';
 import CrossFadeSlider from '../components/Slider/CrossFade';
 
+import useWindowScroll from '../lib/hooks/useWindowScroll';
+
 import { covidPhotos } from '../data';
 
 import AppContext from '../AppContext';
@@ -88,10 +90,15 @@ const Root = styled.div`
       font-size: 1rem;
       z-index: 0;
       padding: 0;
+      transition: opacity 500ms;
+      opacity: 0;
       .MuiButton-label {
         width: 64px;
         margin: 0;
         color: #ffffff;
+      }
+      &.display {
+        opacity: 1;
       }
     }
   }
@@ -105,6 +112,7 @@ const repImages = Array.from({ length: 7 }, (_, i) => i + 1).map(
 
 const CovidPage: React.FC = () => {
   const { withLayout } = React.useContext(AppContext);
+  const { y } = useWindowScroll();
 
   return (
     <Layout>
@@ -155,7 +163,7 @@ const CovidPage: React.FC = () => {
         ))}
         {withLayout && (
           <Button
-            className="go-top-button"
+            className={`go-top-button ${y > 1000 && 'display'}`}
             variant="contained"
             onClick={() =>
               window.scroll({ behavior: 'smooth', left: 0, top: 0 })
