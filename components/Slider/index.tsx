@@ -179,24 +179,31 @@ const Slider: React.FC<props> = ({
 
   React.useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight') handleRight();
-      if (e.key === 'ArrowLeft') handleLeft();
+      if (e.key === 'ArrowRight') {
+        if (!edgeModalFlag) handleRight();
+      }
+      if (e.key === 'ArrowLeft') {
+        if (!edgeModalFlag) handleLeft();
+      }
       if (e.key === 'Escape') {
-        if (profileOpen) {
+        if (profileOpen || edgeModalFlag) {
           setProfileOpen(false);
+          setEdgeModalFlag(false);
         } else {
           router.push('/ovr/list');
         }
       }
-      if (e.key === 'P' || e.key === 'p') setProfileOpen(!profileOpen);
+      if (e.key === 'P' || e.key === 'p') {
+        if (!edgeModalFlag) setProfileOpen(!profileOpen);
+      }
       if (e.key === ' ') {
         e.preventDefault();
-        setZoomIn(zoomIn ? 0 : 1);
+        if (!edgeModalFlag) setZoomIn(zoomIn ? 0 : 1);
       }
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [handleLeft, handleRight, router, profileOpen, zoomIn]);
+  }, [handleLeft, handleRight, router, edgeModalFlag, profileOpen, zoomIn]);
 
   const CloseButton: React.FC = React.useCallback(
     () => (
