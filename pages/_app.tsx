@@ -3,7 +3,14 @@ import { SWRConfig } from 'swr';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { createGlobalStyle } from 'styled-components';
-import { isMobile, isIE, isEdge, isEdgeChromium } from 'react-device-detect';
+import {
+  isMobile,
+  isIE,
+  isEdge,
+  isEdgeChromium,
+  browserName,
+  isAndroid,
+} from 'react-device-detect';
 import smoothscroll from 'smoothscroll-polyfill';
 
 import { GlobalCSS } from '../components/GlobalStyle';
@@ -38,8 +45,14 @@ const App: React.FC<{
   }, [setIndex]);
 
   React.useEffect(() => {
-    pageCounter();
-    logPageView();
+    if (/Web/.test(browserName) && isAndroid) {
+      window.location.href = `intent://${window.location.href.split('/')[2]}${
+        router.asPath
+      }#Intent;scheme=https;package=com.android.chrome;end`;
+    } else {
+      pageCounter();
+      logPageView();
+    }
   }, [router.asPath]);
 
   React.useEffect(() => {
