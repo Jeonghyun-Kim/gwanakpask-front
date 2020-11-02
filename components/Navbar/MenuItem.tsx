@@ -17,6 +17,7 @@ export const MenuRoot = styled.a`
   &.current {
     font-weight: 700;
     color: white;
+    /* color: black; */
     opacity: 1;
   }
 `;

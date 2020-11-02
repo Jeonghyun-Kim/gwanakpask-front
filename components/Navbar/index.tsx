@@ -16,6 +16,7 @@ const Root = styled.div`
   width: ${NAVBAR_WIDTH}px;
   padding: 30px 30px 60px 30px;
   background-color: #2a2b2c;
+  /* background-color: #f8f8f8; */
   z-index: 999;
   .logo-one-line {
     margin: 20px 0;
@@ -42,6 +43,7 @@ const NavBar: React.FC = ({ ...props }) => {
       />
       <MenuItem title="방명록" href="/visitor" />
       <MenuItem title="방역활동 사진첩" href="/covid" />
+      <MenuItem title="관악구 풍경" href="/landscape" />
       <div className="grow" />
       <div className="divider" />
       <MenuRoot

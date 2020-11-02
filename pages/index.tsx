@@ -217,11 +217,15 @@ const Root = styled.div`
       color: #757575;
     }
   }
-  .section-3 {
+  .section-3,
+  .section-4 {
     background-color: #292929;
     padding: 32px 0 136px 0;
   }
-  .section-4 {
+  .section-3 {
+    padding-bottom: 32px;
+  }
+  .section-5 {
     background-color: #dbdbdb;
     padding: 48px 16px 0 16px;
     & > * {
@@ -330,7 +334,7 @@ const Root = styled.div`
         font-size: 1rem;
       }
     }
-    .section-4 {
+    .section-5 {
       .title {
         font-size: 1.2rem;
       }
@@ -346,6 +350,7 @@ const Root = styled.div`
 
 const repPhotos = [2, 3, 5, 7, 19, 50];
 const repCovid = [1, 2, 3, 4, 5, 6, 7];
+const repLandscape = [1, 2, 3, 4, 5, 6];
 
 const IndexPage: React.FC = () => {
   const router = useRouter();
@@ -531,7 +536,29 @@ const IndexPage: React.FC = () => {
             autoPlay
           />
         </section>
+        <NextSection className={withLayout ? 'desktop' : ''}>
+          <h2>관악구 풍경</h2>
+          <h4>
+            관악의 옛 모습을 간직하고 있는 신림동 밤골마을과
+            <br />
+            하늘에서 본 관악구의 요즘 모습을
+            <br />
+            사진으로 만나보세요.
+          </h4>
+          <Link href="/landscape">
+            <a>
+              <span>관악구 풍경 바로가기</span>
+              <ArrowForwardIos />
+            </a>
+          </Link>
+        </NextSection>
         <section className="section-4">
+          <KeenSlider
+            images={repLandscape.map((id) => `/images/landscape/rep/${id}.jpg`)}
+            autoPlay
+          />
+        </section>
+        <section className="section-5">
           <h2 className="title">
             2020 관악 강감찬 축제
             <br />

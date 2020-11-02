@@ -41,10 +41,11 @@ const Header: React.FC = ({ ...props }) => {
       <div className="header-content">
         <Logo href="/" />
         <div className="grow" />
-        <MenuItem href="/intro" title="전시소개" />
+        <MenuItem href="/intro" title="소개" />
         <MenuItem href="/ovr/list" title="전시장" />
         <MenuItem href="/visitor" title="방명록" />
         <MenuItem href="/covid" title="방역" />
+        <MenuItem href="/landscape" title="풍경" />
       </div>
     </HeaderRoot>
   );

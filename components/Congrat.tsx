@@ -88,29 +88,40 @@ interface Props {
   id: number;
   name: string;
   content: string;
+  defaultOpen?: boolean;
+  children?: React.ReactNode;
 }
-const Congrat: React.FC<Props> = ({ id, name, content, ...props }) => {
+const Congrat: React.FC<Props> = ({
+  id,
+  name,
+  content,
+  defaultOpen = false,
+  children,
+  ...props
+}) => {
   const { withLayout } = React.useContext(AppContext);
-  const [open, setOpen] = React.useState<boolean>(false);
+  const [open, setOpen] = React.useState<boolean>(defaultOpen);
   const previous = usePrevious(open);
   const [bind, { height: viewHeight }] = useMeasure();
+  // const padding = React.useMemo(
+  //   () => (!withLayout ? CONTENT_PADDING.mobile : CONTENT_PADDING.desktop),
+  //   [withLayout],
+  // );
+
   const [{ height }, setSpring] = useSpring(
     {
-      height: 0,
+      // height: open ? (viewHeight ?? 0) + 2 * padding : 0,
+      height: open ? viewHeight ?? 0 : 0,
     },
     [],
   );
 
-  const padding = React.useMemo(
-    () => (!withLayout ? CONTENT_PADDING.mobile : CONTENT_PADDING.desktop),
-    [withLayout],
-  );
-
   React.useEffect(() => {
     setSpring({
-      height: open ? (viewHeight ?? 0) + 2 * padding : 0,
+      // height: open ? (viewHeight ?? 0) + 2 * padding : 0,
+      height: open ? viewHeight ?? 0 : 0,
     });
-  }, [setSpring, viewHeight, open, padding]);
+  }, [setSpring, viewHeight, open]);
 
   return (
     <Root className={`congrat ${withLayout ? 'desktop' : ''}`} {...props}>
@@ -143,14 +154,16 @@ const Congrat: React.FC<Props> = ({ id, name, content, ...props }) => {
       </div>
       <a.div
         className="content-box"
-        style={{ height: open && previous === open ? 0 : height }}>
-        <p
-          className="content"
-          dangerouslySetInnerHTML={{
-            __html: content.split('\n').join('<br />'),
-          }}
-          {...bind}
-        />
+        style={{ height: !open && previous === open ? 0 : height }}>
+        <div {...bind}>
+          {children}
+          <p
+            className="content"
+            dangerouslySetInnerHTML={{
+              __html: content.split('\n').join('<br />'),
+            }}
+          />
+        </div>
       </a.div>
     </Root>
   );

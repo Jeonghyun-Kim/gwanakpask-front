@@ -109,6 +109,9 @@ export const NextSection = styled.section<NextSectionProps>`
       }
     }
   }
+  & + & {
+    padding-top: 0;
+  }
 `;
 
 export default { GlobalCSS, NextSection };

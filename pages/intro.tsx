@@ -19,20 +19,21 @@ import AppContext from '../AppContext';
 const Root = styled.div`
   width: 100%;
   height: 100%;
+  .padding-box {
+    position: relative;
+    padding-bottom: ${(100 * 1080) / 1920}%;
+  }
+  .intro-video,
+  .congrat-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
   .video-section {
     width: 100%;
     background-color: black;
-    .padding-box {
-      position: relative;
-      padding-bottom: ${(100 * 1080) / 1920}%;
-    }
-    .intro-video {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
   }
   .welcome-section {
     padding: 32px 16px;
@@ -130,7 +131,7 @@ const IntroPage: React.FC = () => {
               allow="autoplay; encrypted-media"
               allowFullScreen
               title="관악미술협회 15주년 기념전"
-              src={`https://www.youtube.com/embed/2F-J_TJehtg?enablejsapi=1&${
+              src={`https://www.youtube.com/embed/JW3MkPACfBo?enablejsapi=1&${
                 withLayout && 'autoplay=1'
               }`}
             />
@@ -154,13 +155,26 @@ const IntroPage: React.FC = () => {
           </p>
         </section>
         <section className="congrats-section">
-          {congrats.map((congrat) => (
+          {congrats.map((congrat, idx) => (
             <Congrat
               key={congrat.id}
               id={congrat.id}
               name={congrat.name}
               content={congrat.content}
-            />
+              defaultOpen={congrat.defaultOepn}>
+              {!idx && (
+                <div className="padding-box">
+                  <iframe
+                    className="congrat-video"
+                    frameBorder="0"
+                    allow="autoplay; encrypted-media"
+                    allowFullScreen
+                    title="관악미술협회 15주년 기념전"
+                    src="https://www.youtube.com/embed/JRYlF3h5Umw?enablejsapi=1"
+                  />
+                </div>
+              )}
+            </Congrat>
           ))}
         </section>
         <NextSection className={withLayout ? 'desktop' : ''}>
