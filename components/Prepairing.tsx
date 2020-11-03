@@ -41,6 +41,7 @@ const PreparingPage: React.FC = () => {
           alt="Character General Ganggamchan"
           width={702}
           height={702}
+          priority
         />
         <Image
           id="preparing-text"
@@ -48,6 +49,7 @@ const PreparingPage: React.FC = () => {
           alt="전시 준비 중 전시기간 2020.11.06 ~ 11.19"
           width={702}
           height={702}
+          priority
         />
       </div>
     </Root>
