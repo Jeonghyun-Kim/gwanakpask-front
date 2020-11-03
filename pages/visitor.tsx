@@ -72,7 +72,7 @@ const Root = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    z-index: 99;
+    z-index: 1;
     .submit-button {
       position: fixed;
       left: 50%;

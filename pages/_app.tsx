@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import { createGlobalStyle } from 'styled-components';
 import {
   isMobile,
-  isIE,
   isEdge,
   isEdgeChromium,
   browserName,
@@ -80,21 +79,6 @@ const App: React.FC<{
           보다 원활한 전시 감상을 위해 엣지를 업데이트 하시거나 크롬 브라우저
           사용을 권장합니다.
         </h2>
-        <a
-          href="https://www.google.com/chrome/"
-          target="_blank"
-          rel="noreferrer">
-          <h4>크롬 다운받기</h4>
-        </a>
-      </div>
-    );
-  }
-
-  if (isIE) {
-    return (
-      <div>
-        <h2>인터넷 익스플로러에서는 전시를 감상할 수 없어요ㅜ.ㅜ</h2>
-        <h2>보다 원활한 전시 감상을 위해 크롬 브라우저 사용을 권장합니다.</h2>
         <a
           href="https://www.google.com/chrome/"
           target="_blank"
