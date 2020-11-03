@@ -120,7 +120,7 @@ const App: React.FC<{
           rel="stylesheet"
         />
       </Head>
-      {process.env.NODE_ENV === 'production' ? (
+      {process.env.NEXT_PUBLIC_IS_PRODUCTION === 'production' ? (
         <Prepairing />
       ) : (
         <SWRConfig
