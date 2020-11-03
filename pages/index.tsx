@@ -414,7 +414,7 @@ const IndexPage: React.FC = () => {
               fontSize: '3rem',
               color: 'white',
             }}>
-            PREVIEW
+            PREVIEW (TEST)
           </h1>
         )}
         <VisibilitySensor onChange={offFireworks}>
