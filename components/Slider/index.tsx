@@ -100,7 +100,7 @@ const Slider: React.FC<props> = ({
   const handleGoTo = React.useCallback(
     (photoId: number) => {
       index.current = photoId - 1;
-      setIndex(photoId - 1);
+      setIndex(photoId);
       if (!withLayout) moveSprings();
     },
     [moveSprings, setIndex, withLayout],
