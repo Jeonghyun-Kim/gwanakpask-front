@@ -375,16 +375,16 @@ const Slider: React.FC<props> = ({
                   <ArtistInfo i={i} />
                   <MessageButton />
                   <ZoomInButton />
+                  <Profile
+                    open={profileOpen}
+                    previous={previousProfileOpen}
+                    close={() => setProfileOpen(false)}
+                    artist={getArtistWithPhotos(photos[i].artist.artistId)}
+                    handleGoTo={handleGoTo}
+                  />
                 </a.div>
               </a.div>
             ))}
-            <Profile
-              open={profileOpen}
-              previous={previousProfileOpen}
-              close={() => setProfileOpen(false)}
-              artist={getArtistWithPhotos(photos[pageIndex].artist.artistId)}
-              handleGoTo={handleGoTo}
-            />
           </>
         </MobileRoot>
       ) : (
