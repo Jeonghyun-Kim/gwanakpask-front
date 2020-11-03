@@ -403,6 +403,20 @@ const IndexPage: React.FC = () => {
     <Layout>
       <Header />
       <Root className={withLayout ? 'desktop' : ''}>
+        {process.env.NEXT_PUBLIC_IS_PRODUCTION === 'preview' && (
+          <h1
+            style={{
+              position: 'absolute',
+              top: '200px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              zIndex: 9999,
+              fontSize: '3rem',
+              color: 'white',
+            }}>
+            PREVIEW
+          </h1>
+        )}
         <VisibilitySensor onChange={offFireworks}>
           <section className="poster">
             <div className="image-container">
