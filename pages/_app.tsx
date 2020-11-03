@@ -13,6 +13,7 @@ import {
 } from 'react-device-detect';
 import smoothscroll from 'smoothscroll-polyfill';
 
+import Prepairing from '../components/Prepairing';
 import { GlobalCSS } from '../components/GlobalStyle';
 
 import fetcher from '../lib/fetcher';
@@ -119,24 +120,28 @@ const App: React.FC<{
           rel="stylesheet"
         />
       </Head>
-      <SWRConfig
-        value={{
-          refreshInterval: 5000,
-          fetcher,
-          onError: (err) => {
-            // eslint-disable-next-line no-console
-            console.error(err);
-          },
-        }}>
-        <AppContext.Provider
+      {process.env.NODE_ENV === 'production' ? (
+        <Prepairing />
+      ) : (
+        <SWRConfig
           value={{
-            index,
-            setIndex: saveAndSetIndex,
-            withLayout,
+            refreshInterval: 5000,
+            fetcher,
+            onError: (err) => {
+              // eslint-disable-next-line no-console
+              console.error(err);
+            },
           }}>
-          <Component {...pageProps} />
-        </AppContext.Provider>
-      </SWRConfig>
+          <AppContext.Provider
+            value={{
+              index,
+              setIndex: saveAndSetIndex,
+              withLayout,
+            }}>
+            <Component {...pageProps} />
+          </AppContext.Provider>
+        </SWRConfig>
+      )}
     </>
   );
 };
