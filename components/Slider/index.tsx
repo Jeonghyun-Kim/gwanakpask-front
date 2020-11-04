@@ -55,7 +55,7 @@ const Slider: React.FC<props> = ({
       display: 'block',
       config: { tension: 500, friction: 50 },
     }),
-    [],
+    [innerWidth],
   );
 
   const moveSprings = React.useCallback(() => {
