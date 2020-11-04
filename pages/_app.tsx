@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import { createGlobalStyle } from 'styled-components';
 import {
   isMobile,
-  isIE,
   isEdge,
   isEdgeChromium,
   browserName,
@@ -13,7 +12,7 @@ import {
 } from 'react-device-detect';
 import smoothscroll from 'smoothscroll-polyfill';
 
-import Prepairing from '../components/Prepairing';
+import Preparing from '../components/Preparing';
 import { GlobalCSS } from '../components/GlobalStyle';
 
 import fetcher from '../lib/fetcher';
@@ -46,7 +45,10 @@ const App: React.FC<{
   }, [setIndex]);
 
   React.useEffect(() => {
-    if (/Web/.test(browserName) && isAndroid) {
+    if (
+      isAndroid &&
+      (/Web/.test(browserName) || /Facebook/.test(browserName))
+    ) {
       window.location.href = `intent://${window.location.href.split('/')[2]}${
         router.asPath
       }#Intent;scheme=https;package=com.android.chrome;end`;
@@ -90,21 +92,6 @@ const App: React.FC<{
     );
   }
 
-  if (isIE) {
-    return (
-      <div>
-        <h2>인터넷 익스플로러에서는 전시를 감상할 수 없어요ㅜ.ㅜ</h2>
-        <h2>보다 원활한 전시 감상을 위해 크롬 브라우저 사용을 권장합니다.</h2>
-        <a
-          href="https://www.google.com/chrome/"
-          target="_blank"
-          rel="noreferrer">
-          <h4>크롬 다운받기</h4>
-        </a>
-      </div>
-    );
-  }
-
   return (
     <>
       <GlobalStyle />
@@ -121,7 +108,7 @@ const App: React.FC<{
         />
       </Head>
       {process.env.NEXT_PUBLIC_IS_PRODUCTION === 'production' ? (
-        <Prepairing />
+        <Preparing />
       ) : (
         <SWRConfig
           value={{
