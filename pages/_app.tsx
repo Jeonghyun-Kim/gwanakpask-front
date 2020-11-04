@@ -45,7 +45,10 @@ const App: React.FC<{
   }, [setIndex]);
 
   React.useEffect(() => {
-    if (/Web/.test(browserName) && isAndroid) {
+    if (
+      isAndroid &&
+      (/Web/.test(browserName) || /Facebook/.test(browserName))
+    ) {
       window.location.href = `intent://${window.location.href.split('/')[2]}${
         router.asPath
       }#Intent;scheme=https;package=com.android.chrome;end`;
