@@ -12,7 +12,7 @@ import {
 } from 'react-device-detect';
 import smoothscroll from 'smoothscroll-polyfill';
 
-import Prepairing from '../components/Prepairing';
+import Preparing from '../components/Preparing';
 import { GlobalCSS } from '../components/GlobalStyle';
 
 import fetcher from '../lib/fetcher';
@@ -108,7 +108,7 @@ const App: React.FC<{
         />
       </Head>
       {process.env.NEXT_PUBLIC_IS_PRODUCTION === 'production' ? (
-        <Prepairing />
+        <Preparing />
       ) : (
         <SWRConfig
           value={{
