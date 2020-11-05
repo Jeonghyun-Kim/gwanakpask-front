@@ -1,12 +1,12 @@
 import React from 'react';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 import Layout from '../components/Layout';
 import LoginForm from '../components/Form/Login';
 
-import useAdmin from '../lib/hooks/useAdmin';
+// import useAdmin from '../lib/hooks/useAdmin';
 
 import AppContext from '../AppContext';
 
@@ -21,11 +21,15 @@ const Root = styled.div`
 
 const LoginPage: React.FC = () => {
   const { withLayout } = React.useContext(AppContext);
-  const router = useRouter();
-  const { mutateAdmin } = useAdmin({
-    redirectTo: (router.query.from as string) ?? '/admin',
-    redirectIfFound: true,
-  });
+  // const router = useRouter();
+  // const { mutateAdmin } = useAdmin({
+  //   redirectTo: (router.query.from as string) ?? '/admin',
+  //   redirectIfFound: true,
+  // });
+
+  const saveToken = React.useCallback(() => {
+    sessionStorage.setItem('@token', process.env.NEXT_PUBLIC_TOKEN ?? '');
+  }, []);
 
   return (
     <Layout>
@@ -33,7 +37,7 @@ const LoginPage: React.FC = () => {
         <title>관악구 온라인 사진전 - 로그인</title>
       </Head>
       <Root className={withLayout ? 'desktop' : ''}>
-        <LoginForm mutate={mutateAdmin} />
+        <LoginForm onSuccess={() => saveToken()} />
       </Root>
     </Layout>
   );
