@@ -14,6 +14,12 @@ import { ModalRoot } from './styles';
 import AppContext from '../../AppContext';
 
 const Root = styled(ModalRoot)`
+  .blurBackground {
+    position: absolute;
+  }
+  .modalBox {
+    position: absolute;
+  }
   .bottom {
     .exit-button {
       background-color: #3f51b5;

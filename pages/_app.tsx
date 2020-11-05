@@ -76,7 +76,7 @@ const App: React.FC<{
 
   if (isEdge && !isEdgeChromium) {
     return (
-      <div>
+      <section>
         <h2>예전 엣지 브라우저에서는 전시를 감상할 수 없어요ㅜ.ㅜ</h2>
         <h2>
           보다 원활한 전시 감상을 위해 엣지를 업데이트 하시거나 크롬 브라우저
@@ -88,7 +88,7 @@ const App: React.FC<{
           rel="noreferrer">
           <h4>크롬 다운받기</h4>
         </a>
-      </div>
+      </section>
     );
   }
 
