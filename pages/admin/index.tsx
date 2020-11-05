@@ -64,7 +64,7 @@ const AdminPage: React.FC = () => {
       <Root>
         <div className="container">
           <div className="header">
-            <div>Welcome Admin!</div>
+            <div>방명록 총 {messages.length}개</div>
             <button
               type="button"
               onClick={() => {
