@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { NAVBAR_WIDTH } from '../../defines';
+
 export const MobileRoot = styled.div`
   position: fixed;
   overflow: hidden;
@@ -89,8 +91,11 @@ export const MobileRoot = styled.div`
 `;
 
 export const DesktopRoot = styled.div`
-  width: 100%;
+  position: fixed;
+  width: calc(100% - ${NAVBAR_WIDTH}px);
   height: 100%;
+  top: 0;
+  right: 0;
   .close-button {
     position: absolute;
     width: 51px;
@@ -102,8 +107,8 @@ export const DesktopRoot = styled.div`
     background-color: #515253 !important;
     transition: opacity 300ms ease;
     .MuiIconButton-label {
-      width: 51px;
-      height: 51px;
+      width: 41px !important;
+      height: 41px !important;
     }
     svg {
       font-size: 40px;
