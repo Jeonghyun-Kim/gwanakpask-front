@@ -2,6 +2,9 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { MongoClient, Db } from 'mongodb';
 import nextConnect, { NextHandler } from 'next-connect';
 import sha256 from 'sha256';
+import { session } from 'next-session';
+
+import connectMongoDB from './mongodb';
 
 interface RequestWithSession extends NextApiRequest {
   client: MongoClient;
@@ -41,6 +44,8 @@ const verifyToken = async (
 // Request handler using next-connect.js
 const handler = nextConnect<RequestWithSession, NextApiResponse>();
 
+handler.use(connectMongoDB);
+handler.use(session());
 handler.use(verifyToken);
 
 export default handler;
