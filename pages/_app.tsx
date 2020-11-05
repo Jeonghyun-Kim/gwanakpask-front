@@ -16,9 +16,14 @@ import Preparing from '../components/Preparing';
 import { GlobalCSS } from '../components/GlobalStyle';
 
 import fetcher from '../lib/fetcher';
-import { getIndex, saveIndex, pageCounter, photoCounter } from '../lib/utils';
+import {
+  getIndex,
+  saveIndex,
+  // pageCounter,
+  // photoCounter,
+} from '../lib/utils';
 import useLayout from '../lib/hooks/useLayout';
-import { initGA, logPageView } from '../lib/analytics';
+// import { initGA, logPageView } from '../lib/analytics';
 
 import AppContext from '../AppContext';
 
@@ -36,7 +41,7 @@ const App: React.FC<{
 
   React.useEffect(() => {
     smoothscroll.polyfill();
-    initGA();
+    // initGA();
   }, []);
 
   React.useEffect(() => {
@@ -53,8 +58,8 @@ const App: React.FC<{
         router.asPath
       }#Intent;scheme=https;package=com.android.chrome;end`;
     } else {
-      pageCounter();
-      logPageView();
+      // pageCounter();
+      // logPageView();
     }
   }, [router.asPath]);
 
@@ -69,7 +74,7 @@ const App: React.FC<{
   }, [router]);
 
   const saveAndSetIndex = React.useCallback((newIndex: number) => {
-    photoCounter(newIndex);
+    // photoCounter(newIndex);
     setIndex(newIndex);
     saveIndex(newIndex);
   }, []);

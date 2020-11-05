@@ -4,11 +4,8 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import useSWR from 'swr';
 
-import Loading from '../../components/Loading';
 import Layout from '../../components/Layout';
 import Paper from '../../components/Paper';
-
-import useAdmin from '../../lib/hooks/useAdmin';
 
 const Root = styled.div`
   width: 100%;
@@ -37,15 +34,25 @@ const PreviewPaper = styled(Paper)`
 
 const AdminPage: React.FC = () => {
   const router = useRouter();
-  const { username, loading, mutateAdmin } = useAdmin({
-    redirectTo: `/login?from=${router.pathname}`,
-  });
+  // const { username, loading, mutateAdmin } = useAdmin({
+  //   redirectTo: `/login?from=${router.pathname}`,
+  // });
   const { data } = useSWR('/api/admin/message');
   const [messages, setMessages] = React.useState<Message[]>([]);
+  const [token, setToken] = React.useState<string>('');
+
+  React.useEffect(() => {
+    const tokenStorage = sessionStorage.getItem('@token');
+    if (!tokenStorage || tokenStorage !== process.env.NEXT_PUBLIC_TOKEN) {
+      router.replace(`/login?from=${router.pathname}`);
+    } else {
+      setToken(tokenStorage);
+    }
+  }, [router, token]);
 
   React.useEffect(() => {
     if (data) {
-      setMessages(data.messages.reverse());
+      setMessages(data.messages);
     }
   }, [data]);
 
@@ -54,22 +61,20 @@ const AdminPage: React.FC = () => {
       <Head>
         <title>온라인 사진전 - 방명록 확인</title>
       </Head>
-      {loading ? (
-        <Loading />
-      ) : (
-        <Root>
-          <div className="container">
-            <div className="header">
-              <div>Welcome {username}!</div>
-              <button
-                type="button"
-                onClick={async () => {
-                  await fetch('/api/logout');
-                  mutateAdmin('/api/admin');
-                }}>
-                Logout
-              </button>
-            </div>
+      <Root>
+        <div className="container">
+          <div className="header">
+            <div>Welcome Admin!</div>
+            <button
+              type="button"
+              onClick={() => {
+                sessionStorage.removeItem('@token');
+                router.replace(`/login?from=${router.pathname}`);
+              }}>
+              Logout
+            </button>
+          </div>
+          {token && (
             <div className="list-container">
               {messages.map((message) => (
                 <PreviewPaper
@@ -80,9 +85,9 @@ const AdminPage: React.FC = () => {
                 />
               ))}
             </div>
-          </div>
-        </Root>
-      )}
+          )}
+        </div>
+      </Root>
     </Layout>
   );
 };

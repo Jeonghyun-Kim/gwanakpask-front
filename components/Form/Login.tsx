@@ -37,14 +37,11 @@ const defaultInputs = {
 };
 
 interface props {
-  mutate: (
-    data?: unknown,
-    shouldRevalidate?: boolean | undefined,
-  ) => Promise<unknown>;
+  onSuccess: () => void;
   redirectTo?: string;
 }
 const ArtworkForm: React.FC<props> = ({
-  mutate,
+  onSuccess,
   redirectTo = '/admin',
   ...props
 }) => {
@@ -72,11 +69,11 @@ const ArtworkForm: React.FC<props> = ({
       if (error) {
         setRes(error.message);
       } else {
-        mutate('/api/admin');
+        onSuccess();
         router.push(redirectTo);
       }
     }
-  }, [inputs, redirectTo, router, mutate]);
+  }, [inputs, redirectTo, router, onSuccess]);
 
   return (
     <Root {...props}>

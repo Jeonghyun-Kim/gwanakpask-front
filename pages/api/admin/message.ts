@@ -25,7 +25,9 @@ handler.use(verifyToken);
 
 handler.get(async (req, res) => {
   try {
-    const data = await req.db.collection('message').find({}).toArray();
+    const data = (
+      await req.db.collection('message').find({}).toArray()
+    ).reverse();
     return res.json({ messages: data });
   } catch (err) {
     return res.json({ error: JSON.stringify(err) });
