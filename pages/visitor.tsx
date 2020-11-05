@@ -164,10 +164,8 @@ const VisitorPage: React.FC = () => {
         }),
       });
       mutateCounter('/api/counter');
-      setLoading(false);
       return setResModalFlags({ open: true, success: true });
     } catch (err) {
-      setLoading(false);
       return setResModalFlags({ open: true, success: false });
     }
   }, [from, content, templateId, mutateCounter]);
@@ -217,6 +215,7 @@ const VisitorPage: React.FC = () => {
             setContent('');
           }
           setResModalFlags({ ...resModalFlags, open: false });
+          setLoading(false);
         }}
         success={resModalFlags.success}
       />
