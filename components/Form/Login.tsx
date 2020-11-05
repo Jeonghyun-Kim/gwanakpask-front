@@ -11,7 +11,7 @@ const Root = styled.form`
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  max-width: 800px;
+  max-width: min(800px, 90%);
 
   .MuiTextField-root {
     margin: 5px 0;
@@ -70,7 +70,7 @@ const ArtworkForm: React.FC<props> = ({
       });
       const { error } = response;
       if (error) {
-        setRes(error);
+        setRes(error.message);
       } else {
         mutate('/api/admin');
         router.push(redirectTo);
